@@ -19,7 +19,9 @@ app.get('/index', (request, response) => {
 app.get('/rejestracja', (request, response) => {
   response.sendFile(path.join(__dirname + '/rejestracja.html'));
 });
-
+app.post('/podsumowanie', (request, response) => {
+  response.sendFile(path.join(__dirname + '/podsumowanie.html'));
+});
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
