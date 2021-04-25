@@ -11,7 +11,7 @@ Dodawanie bazy
 
 Testowanie 
 
-- Przejdź do tego pliku gdzie go wrzucałes do nodejs
+- Przejdź do tego pliku z tym wszystkim
 - Odpal database.js najlepiej w Visual Studio Code 2019
 - Jak nie masz visual studio code to wejdź w cmd na tej karcie i wpisz node .\database.js
 - Jak masz to wejdź do terminalu
