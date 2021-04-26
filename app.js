@@ -6,21 +6,22 @@ const hostname = '127.0.0.1';
 const port = 3000;
 
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/views'));
 
 app.get('/', (request, response) => {
-  response.sendFile(path.join(__dirname + '/index.html'));
+  response.sendFile(path.join(__dirname + '/views/index.html'));
 });
 app.get('/logowanie', (request, response) => {
-  response.sendFile(path.join(__dirname + '/logowanie.html'));
+  response.sendFile(path.join(__dirname + '/views/logowanie.html'));
 });
 app.get('/index', (request, response) => {
-  response.sendFile(path.join(__dirname + '/index.html'));
+  response.sendFile(path.join(__dirname + '/views/index.html'));
 });
 app.get('/rejestracja', (request, response) => {
-  response.sendFile(path.join(__dirname + '/rejestracja.html'));
+  response.sendFile(path.join(__dirname + '/views/rejestracja.html'));
 });
 app.post('/podsumowanie', (request, response) => {
-  response.sendFile(path.join(__dirname + '/podsumowanie.html'));
+  response.sendFile(path.join(__dirname + '/views/podsumowanie.html'));
 
 });
 
@@ -37,5 +38,6 @@ const knex = require('knex')({
     password : '1234',
     database : 'language_school'
   }
+  
 });
 
