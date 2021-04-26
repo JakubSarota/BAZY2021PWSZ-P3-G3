@@ -1,7 +1,5 @@
 - Wrzuć cały plik tam gdzie masz zainstalowany nodejs, nazwij go jak chcesz
 
-Dodawanie bazy 
-
 - Otwórz postgre i dodaj baze o nazwie Language_school 
 - Przejdź do tej bazy -> Language_school, odnajdź schematy, oraz odnajdź tabele 
 - Kliknij prawym przyciskiem myszy na tabele i kliknij na "Narzędzie Zapytania"
