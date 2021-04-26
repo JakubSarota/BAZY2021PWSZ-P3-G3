@@ -27,7 +27,7 @@
         <br />
         <p>Nazwisko: <input type="text" id="nazwisko" size="65" name="nazwisko" /></p>
         <br />
-        <p>Wiek: <input type="number" id="Wiek" size="65" name="wiek" /></p>
+        <p>Wiek: <input type="number" id="wiek" size="65" name="wiek" /></p>
         <br />
         <p>Email: <input type="text" id="email" size="65" name="email" /></p>
         <br />
@@ -55,11 +55,16 @@
         
                 var imie= document.getElementById("imie").value;
                 var nazwisko= document.getElementById("nazwisko").value;
-                
+                var wiek= document.getElementById("wiek").value;
                 var email= document.getElementById("email").value;
                 var login= document.getElementById("login").value;
                 var haslo= document.getElementById("haslo").value;
                 console.log(imie);
+                console.log(nazwisko);
+                console.log(wiek);
+                console.log(email);
+                console.log(login);
+                console.log(haslo);
                 if(imie=='')
 		            {
                         alert('Uzupełnij swoje imie');
@@ -67,6 +72,10 @@
                 if(nazwisko=='')
 		            {
                         alert('Uzupełnij swoje nazwisko');
+		            }
+                if(wiek=='')
+		            {
+                        alert('Uzupełnij swój wiek');
 		            }
                 if(email=='')
 		            {
@@ -80,7 +89,7 @@
 		            {
                         alert('Uzupełnij swoje hasło');
 		            }
-
+            
 
             }
         
