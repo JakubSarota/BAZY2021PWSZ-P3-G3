@@ -21,9 +21,21 @@ app.get('/rejestracja', (request, response) => {
 });
 app.post('/podsumowanie', (request, response) => {
   response.sendFile(path.join(__dirname + '/podsumowanie.html'));
-});
 
+});
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+
+const knex = require('knex')({
+  client: 'pg',
+  version: '7.2',
+  connection: {
+    host : 'localhost',
+    user : 'postgres',
+    password : '1234',
+    database : 'language_school'
+  }
+});
+

@@ -22,7 +22,7 @@
         <br>
         <div class="row">
                                         <!-- Formularz-->
-            <form name="RegForm" action="http://localhost:3000/rejestracja" onsubmit="return regi()" method="post">
+            <form id="RegForm" name="RegForm" action="http://localhost:3000/podsumowanie" method="post">
         <p>Imie: <input type="text" id="imie" size="65" name="imie" /></p>
         <br />
         <p>Nazwisko: <input type="text" id="nazwisko" size="65" name="nazwisko" /></p>
@@ -37,11 +37,9 @@
         <br />
         </p>
  
-            <input type="submit" 
-                   value="Wyślij" name="Submit" onclick="registration()" />
+            <input type="submit" value="Wyślij" name="Submit" " />
                   
-            <input type="reset" 
-                   value="Reset" name="Reset" />
+            <input type="reset" value="Reset" name="Reset" />
         </p>
         <input type="button" value="dalej" onclick="registration()">
     </form>
@@ -94,6 +92,7 @@
             }
         
             
+
         </script>
     
 </body>
