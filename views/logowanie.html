@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="StyleSheet1.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a href="http://localhost:3000"><img src="img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+                    <li class="przyciskL"><a href="">Gramatyka</a></li>
+                    <li class="przyciskL"><a href="">Słownictwo</a></li>
+                    <li class="przyciskP"><a href="http://localhost:3000/logowanie">Zaloguj się</a></li>
+                    <li class="przyciskP"><a href="http://localhost:3000/rejestracja">Zarejestruj się</a></li>
+                </ul>
+            </nav>            
+        </div>
+        <br>
+        <div class="formularz">
+           
+            <form name="RegForm" action="http://localhost:3000/logowanie" method="post">
+
+        <p>Login: <input type="text" class="dane" size="65" name="Login" /></p>
+        <br />
+        <p>Haslo: <input type="password" class="dane" size="65" name="haslo" /></p>
+        <br />
+        <div class="przyciskForm">
+        <p> 
+            <input type="submit" 
+                   value="Wyślij" name="Submit" />
+            <input type="reset" 
+                   value="Reset" name="Reset" />
+        </p>
+        </div>
+    </form>
+
+        </div>
+    </div>
+    <a></a>
+
+    
+    
+</body>
+</html>

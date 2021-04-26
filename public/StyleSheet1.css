@@ -35,7 +35,7 @@ nav{
     text-align: right;
 }
 
-.gosc {
+.przyciskL {
     list-style: none;
     display: inline-block;     
     padding: 6px 30px;
@@ -46,13 +46,13 @@ nav{
     float: left;
 }
 
-.gosc a{
+.przyciskL a{
     text-decoration: none;
     color: #167bbd;
     font-size: 20px; 
 }
 
-.logowanie{
+.przyciskP{
     list-style: none;
     display: inline-block;
     margin-right: 30px;
@@ -65,7 +65,7 @@ nav{
     border-radius: 98px;    
 }
 
-.logowanie a{
+.przyciskP a{
     text-decoration: none;
     color: #fff;
     font-size: 14px;
@@ -142,4 +142,56 @@ button{
     background-image: url(img/angielski.jpg);
     background-position: center;
     background-size: cover;
+}
+
+.formularz {
+    height: 400px;
+    width: 600px;
+    padding: 4%;
+    background: #00000080;
+    border: 2px solid #167bbd;
+    border-radius: 25px;
+    font: 18px calibri;
+    -webkit-box-shadow: 0 0 2px silver;
+    -moz-box-shadow: 0 0 2px silver;
+    box-shadow: 0 0 2px silver;
+    color: #fff;
+    margin: auto;
+}
+
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.dane {
+    width: 500px;
+    height: 30px;
+    border-radius: 10px;
+    border: 2px solid #167bbd;
+    background: transparent;
+    float: right;
+    font-size: 18px;
+    color: #fff;
+}
+
+
+.przyciskForm{
+    margin: 20px auto;
+    height: 50px;
+    width: 373px;    
+}
+
+.przyciskForm input {
+    height: 33px;
+    width: 100px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    outline-style: none;
+    background-color: #167bbd;    
+    border: 3px solid #167bbd;
+    padding: 6px 30px;
+    color: #fff;
+    border-radius: 98px;   
+    margin: 10px;
 }
