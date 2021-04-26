@@ -21,34 +21,71 @@
         </div>
         <br>
         <div class="row">
-           
-            <form name="RegForm" action="http://localhost:3000/podsumowanie" method="post">
-        <p>Imie: <input type="text" size="65" name="Name" /></p>
+                                        <!-- Formularz-->
+            <form name="RegForm" action="http://localhost:3000/rejestracja" onsubmit="return regi()" method="post">
+        <p>Imie: <input type="text" id="imie" size="65" name="imie" /></p>
         <br />
-        <p>Nazwisko: <input type="text" size="65" name="Nazwisko" /></p>
+        <p>Nazwisko: <input type="text" id="nazwisko" size="65" name="nazwisko" /></p>
         <br />
-        <p>Wiek: <input type="number" size="65" name="Wiek" /></p>
+        <p>Wiek: <input type="number" id="Wiek" size="65" name="wiek" /></p>
         <br />
-        <p>Email: <input type="text" size="65" name="Email" /></p>
+        <p>Email: <input type="text" id="email" size="65" name="email" /></p>
         <br />
-        <p>Login: <input type="text" size="65" name="Login" /></p>
+        <p>Login: <input type="text" id="login" size="65" name="login" /></p>
         <br />
-        <p>Haslo: <input type="password" size="65" name="Haslo" /></p>
+        <p>Haslo: <input type="password" id="haslo" size="65" name="haslo" /></p>
         <br />
         </p>
  
             <input type="submit" 
-                   value="Wyślij" name="Submit" />
+                   value="Wyślij" name="Submit" onclick="registration()" />
+                  
             <input type="reset" 
                    value="Reset" name="Reset" />
         </p>
+        <input type="button" value="dalej" onclick="registration()">
     </form>
 
         </div>
     </div>
     <a></a>
+    <script>
+        function registration()
+            {
+        
+                var imie= document.getElementById("imie").value;
+                var nazwisko= document.getElementById("nazwisko").value;
+                
+                var email= document.getElementById("email").value;
+                var login= document.getElementById("login").value;
+                var haslo= document.getElementById("haslo").value;
+                console.log(imie);
+                if(imie=='')
+		            {
+                        alert('Uzupełnij swoje imie');
+		            }
+                if(nazwisko=='')
+		            {
+                        alert('Uzupełnij swoje nazwisko');
+		            }
+                if(email=='')
+		            {
+                        alert('Uzupełnij swój email');
+		            }
+                if(login=='')
+		            {
+                        alert('Uzupełnij swój Login');
+		            }
+                if(haslo=='')
+		            {
+                        alert('Uzupełnij swoje hasło');
+		            }
 
 
+            }
+        
+            
+        </script>
     
 </body>
 </html>
