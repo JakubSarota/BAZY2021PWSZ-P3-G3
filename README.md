@@ -1,13 +1,13 @@
-- Przydatne komendy
+Przydatne komendy
 
-npm init -y 
-npm i dev
-npm i -D nodemon 
-npm i express 
-npm i express bcrypt
-npm i ejs
+- npm init -y  
+- npm i dev
+- npm i -D nodemon 
+- npm i express 
+- npm i express bcrypt
+- npm i ejs
 
-- uruchamianie:
+uruchamianie:
 
-npm run dev   
-node .\nazwa_pliku.js 
+- npm run dev   
+- node .\nazwa_pliku.js 
