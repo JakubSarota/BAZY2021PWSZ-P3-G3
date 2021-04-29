@@ -6,6 +6,7 @@ Pakiety
 - npm i express 
 - npm i express bcrypt
 - npm i ejs
+- npm i dotenv pg 
 
 Uruchamianie:
 
