@@ -1,4 +1,4 @@
-Przydatne komendy
+Pakiety
 
 - npm init -y  
 - npm i dev
