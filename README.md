@@ -7,7 +7,7 @@ Przydatne komendy
 - npm i express bcrypt
 - npm i ejs
 
-uruchamianie:
+Uruchamianie:
 
 - npm run dev   
 - node .\nazwa_pliku.js 
