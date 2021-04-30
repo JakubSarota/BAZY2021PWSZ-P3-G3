@@ -7,7 +7,7 @@ Pakiety
 - npm i bcrypt
 - npm i ejs
 - npm i dotenv pg 
-- npm i express-session
+- npm i express-session express-flash
 
 Uruchamianie:
 
