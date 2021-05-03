@@ -1,96 +1,95 @@
 BEGIN;
 
-
 CREATE TABLE public."Uzytkownik"
 (
-    id integer,
-    nazwisko character varying(50),
-    imie character varying(50),
+    id serial  NOT NULL,
+    nazwisko character varying(255) NOT NULL,
+    imie character varying(255) NOT NULL,
     wiek integer,
-    "e-mail" character varying(50),
-    login character varying(50),
-    haslo character varying(50),
-    data_ostatniego_logowania integer,
+    email character varying(255) NOT NULL,
+    login character varying(255),
+    haslo character varying(255) NOT NULL,
+    data_ostatniego_logowania date,
     rola_id integer,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE public."Rola"
 (
-    id integer,
-    "typ " character varying(55),
+    id integer NOT NULL,
+    typ character varying(255) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE public."Uzytkownik_Jezyk"
 (
-    uzytkownik_id integer,
-    jezyk_id integer
+    uzytkownik_id integer NOT NULL,
+    jezyk_id integer NOT NULL
 );
 
 CREATE TABLE public."Jezyk"
 (
-    id integer,
-    nazwa character varying(50),
-    "poziom Enum" character varying(50),
+    id integer NOT NULL,
+    nazwa character varying(255) NOT NULL,
+    "poziom " character varying(255),
     opis character varying(255),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE public."Wynik_testu"
 (
-    uzytkownik_id integer,
-    test_id integer,
-    ilosc_pkt integer
+    uzytkownik_id integer NOT NULL,
+    test_id integer NOT NULL,
+    ilosc_pkt integer NOT NULL
 );
 
 CREATE TABLE public."Test"
 (
-    id integer,
-    nazwa character varying(50),
-    "typ " character varying(50),
-    jezyk_id integer,
-    material_id integer,
+    id integer NOT NULL,
+    nazwa character varying(255),
+    "typ " character varying(255),
+    jezyk_id integer NOT NULL,
+    material_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE public."Material"
 (
-    id integer,
+    id integer NOT NULL,
     tresc_opis character varying(255),
     sugerowany_nastepny_material_id integer,
-    jezyk_id integer,
+    jezyk_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE public."Pytania"
 (
-    id integer,
-    tresc character varying(50),
-    udzielona_odp "char",
-    poprawna_odp "char",
-    bledna_odp_1 "char",
-    bledna_odp_2 "char",
-    test_id integer,
+    id integer NOT NULL,
+    tresc character varying(255) NOT NULL,
+    udzielona_odp "char" NOT NULL,
+    poprawna_odp "char" NOT NULL,
+    bledna_odp_1 "char" NOT NULL,
+    bledna_odp_2 "char" NOT NULL,
+    test_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE public."Pytania_otwarte"
 (
-    id integer,
-    odpowiedz character varying(50),
-    poprawna_odpowiedz character varying(50),
-    ilosc_pkt integer,
-    test_id integer,
+    id integer NOT NULL,
+    odpowiedz character varying(255) NOT NULL,
+    poprawna_odpowiedz character varying(255) NOT NULL,
+    ilosc_pkt integer NOT NULL,
+    test_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE public."Slownictwo"
 (
-    id integer,
+    id integer NOT NULL,
     polski integer,
     tlumaczenie integer,
-    jezyk_id integer,
+    jezyk_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -141,12 +140,6 @@ ALTER TABLE public."Pytania_otwarte"
 ALTER TABLE public."Slownictwo"
     ADD FOREIGN KEY (jezyk_id)
     REFERENCES public."Jezyk" (id)
-    NOT VALID;
-
-
-ALTER TABLE public."Wynik_testu"
-    ADD FOREIGN KEY (test_id)
-    REFERENCES public."Test" (id)
     NOT VALID;
 
 
