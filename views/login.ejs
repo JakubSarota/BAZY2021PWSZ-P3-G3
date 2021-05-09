@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <title>Logowanie</title>
 </head>
 <body>
@@ -20,12 +21,13 @@
     <ul>
         <% if(messages.error) { %>
             <li>
-                <%=messages.error %>
+                <%=messages.error%>
             </li>
         <% } %>
     </ul>
 
-    <form actio="/Uzytkownik/login" method="POST">
+    <form action="/Uzytkownik/login" method="POST">
+    
         <div>
             <input type="text" id="email" name="email" placeholder="Email" required>
         </div>
@@ -36,6 +38,60 @@
             <input type="submit" value="Zaloguj się">
         </div>
         <a href="/Uzytkownik/rejestracja">Nie masz konta? Zarejestruj się</a>
+    
     </form>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" /> -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Logowanie</title>
+</head>
+
+<body>
+    
+    <form action="/Uzytkownik/login" method="POST">
+        <div class="container">
+            <div class="navbar">
+                <a href=""><img src="/public/img/logo.png" class="logo" href=""/></a>
+                <nav>
+                    <ul>
+                        <li class="przyciskL"><a href="">Gramatyka</a></li>
+                        <li class="przyciskL"><a href="">Słownictwo</a></li>
+                        <li class="przyciskP"><a href="/Uzytkownik/login">Zaloguj się</a></li>
+                        <li class="przyciskP"><a href="/Uzytkownik/rejestracja">Zarejestruj się</a></li>
+                    </ul>
+                </nav>            
+            </div>
+            <br>
+            <div class="formularz">
+            
+            <form name="RegForm" action="/Uzytkownik/login" method="post">
+
+                <p>Email: <input type="text" class="dane" size="65" name="email" id="email" required/></p>
+                <br />
+                <p>Hasło: <input type="password" class="dane" size="65" name="haslo" id="haslo" required/></p>
+                <br />
+                <div class="przyciskForm">
+                    <p> 
+                        <input type="submit" 
+                            value="Zaloguj" name="Submit" />
+                    </p>
+                
+                </div>
+                <a href="/Uzytkownik/rejestracja">Nie masz konta? Zarejestruj się</a>
+            </form>
+
+            </div>
+        </div>
+    </form>
+
+    
+    
 </body>
 </html>

@@ -195,3 +195,49 @@ input::-webkit-inner-spin-button {
     border-radius: 98px;   
     margin: 10px;
 }
+
+.tabela {
+    width: 950px;
+    height: 700px;
+    margin: 50px auto;
+    color: #fff;
+    background: #00000080; 
+}
+
+.table{
+    width: 900px;
+    margin: 0 auto;
+}
+
+
+.col1 {
+    width: 450px;
+    text-align: left;
+    padding: 15px 0 15px 0;
+    border-bottom: 1px solid #fff;
+}
+
+.gramatyka {
+    width: 1200px;
+    margin: 30px auto;
+    padding: 0;
+    color: #fff;
+    font-size: 18px;
+    line-height: 29px;
+    font-family: 'Open Sans', arial, sans-serif;
+    background: #00000080;
+}
+
+.gramatyka ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+article{
+    margin: 0 80px;
+}

@@ -12,7 +12,7 @@ initializePassport(passport);
 const PORT = process.env.PORT || 3000;
 
 //arkusz stylów
-// app.use(express.static(__dirname + 'public')); 
+app.use(express.static('public')); 
 app.use("/css", express.static(__dirname + "/public/css")); //działa tylko na index.ejs
 app.use("/img", express.static(__dirname + "/public/img"));
 //ustaw widok
@@ -49,7 +49,7 @@ app.get("/Uzytkownik/login", checkAuthenticated, (req, res) => {
 });
 
 app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res) => {
-    res.render("stronaGlowna.ejs", {Uzytkownik: "" });
+    res.render("stronaGlowna.ejs",  { user: req.user.imie });
 });
 
 app.get("/Uzytkownik/wyloguj", (req, res) => {
@@ -96,7 +96,7 @@ app.post("/Uzytkownik/rejestracja", async (req, res) => {
                 if (err) {
                     throw err;
                 } 
-                console.log(results.rows);
+                // console.log(results.rows);
                 if(results.rows.length > 0) {
                     errors.push({message: "Email już istnieje"});
                     res.render("rejestracja", {errors});
@@ -108,7 +108,7 @@ app.post("/Uzytkownik/rejestracja", async (req, res) => {
                             if(err) {
                                 throw err;
                             }
-                            console.log(results.rows);
+                            // console.log(results.rows);
                             req.flash("udane_zalogowanie", "Jestes zarejestrowany. Możesz się zalogować");
                             res.redirect('/Uzytkownik/login');
                         }
