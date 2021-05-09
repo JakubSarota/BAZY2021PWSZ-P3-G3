@@ -59,7 +59,7 @@ app.get("/Uzytkownik/wyloguj", (req, res) => {
 
 //rejestracja
 app.post("/Uzytkownik/rejestracja", async (req, res) => {
-    let {imie, nazwisko, email, haslo, haslo2} = req.body;
+    let {imie, nazwisko, email, haslo, haslo2, wiek} = req.body;
     //zmienna wyświetlająca błedy
     let errors = [];
     

@@ -1,0 +1,197 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+  }
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background: url(img/tlo.png);
+    background-position: center;
+    background-size: cover;
+    padding-left: 8%;
+    padding-right: 8%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.navbar{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.logo{
+    width: 140px;
+    height: 123px;
+    cursor: pointer;
+    margin-right: 50px;
+}
+
+
+nav{
+    flex: 1;
+    text-align: right;
+}
+
+.przyciskL {
+    list-style: none;
+    display: inline-block;     
+    padding: 6px 30px;
+    font-size: 12px;
+    line-height: 18px;
+    font-family: Poppins,Arial;
+    border-radius: 98px;
+    float: left;
+}
+
+.przyciskL a{
+    text-decoration: none;
+    color: #167bbd;
+    font-size: 20px; 
+}
+
+.przyciskP{
+    list-style: none;
+    display: inline-block;
+    margin-right: 30px;
+    background-color: #167bbd;    
+    border: 3px solid #167bbd;
+    padding: 6px 30px;
+    font-size: 12px;
+    line-height: 18px;
+    font-family: Poppins,Arial;
+    border-radius: 98px;    
+}
+
+.przyciskP a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+    background-color: #167bbd;
+}
+
+.row{
+    display:flex;
+    height: 88%;
+    align-items: center;
+    color: #fff;
+}
+
+.col{
+    flex-basis: 50%;
+    margin-top: 10%;
+}
+
+.col h1{
+    font-size: 40px;
+    line-height: 50px;
+}
+
+.col p{
+    font-size: 18px;
+    line-height: 28px;
+    color: #fff;
+}
+
+h5 {
+    font-size: 18px;
+    margin-bottom: 25px;
+    text-shadow: 2px 2px 0 grey;
+    color: #fff;
+} 
+
+button{
+    width: 200px;
+    color: #000;
+    font-size: 15px;
+    padding: 13px 0;
+    background: #fff;
+    border: 0;
+    border-radius: 20px;
+    outline: none;
+    margin-top: 30px;
+    font-weight: 600;    
+}
+
+.card1{
+    width: 240px;
+    height: 290px;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 15px 25px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 10px 15px;
+    background-image: url(public/img/niemiecki.png);    
+    background-position: center;
+    background-size: cover;
+}
+
+
+.card2{
+    width: 240px;
+    height: 290px;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 15px 25px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 10px 15px;
+    background-image: url(public/img/angielski.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.formularz {
+    height: 400px;
+    width: 600px;
+    padding: 4%;
+    background: #00000080;
+    border: 2px solid #167bbd;
+    border-radius: 25px;
+    font: 18px calibri;
+    -webkit-box-shadow: 0 0 2px silver;
+    -moz-box-shadow: 0 0 2px silver;
+    box-shadow: 0 0 2px silver;
+    color: #fff;
+    margin: auto;
+}
+
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.dane {
+    width: 500px;
+    height: 30px;
+    border-radius: 10px;
+    border: 2px solid #167bbd;
+    background: transparent;
+    float: right;
+    font-size: 18px;
+    color: #fff;
+}
+
+
+.przyciskForm{
+    margin: 20px auto;
+    height: 50px;
+    width: 373px;    
+}
+
+.przyciskForm input {
+    height: 33px;
+    width: 100px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    outline-style: none;
+    background-color: #167bbd;    
+    border: 3px solid #167bbd;
+    padding: 6px 30px;
+    color: #fff;
+    border-radius: 98px;   
+    margin: 10px;
+}

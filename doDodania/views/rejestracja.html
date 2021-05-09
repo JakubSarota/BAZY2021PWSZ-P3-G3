@@ -12,15 +12,15 @@
             <a href="http://localhost:3000"><img src="img/logo.png" class="logo" href=""/></a>
             <nav>
                 <ul>
-                    <li class="przyciskL"><a href="">Gramatyka</a></li>
-                    <li class="przyciskL"><a href="">Słownictwo</a></li>
+                    <li class="przyciskL"><a href="http://localhost:3000/gramatyka">Gramatyka</a></li>
+                    <li class="przyciskL"><a href="http://localhost:3000/slownictwo">Słownictwo</a></li>
                     <li class="przyciskP"><a href="http://localhost:3000/logowanie">Zaloguj się</a></li>
                     <li class="przyciskP"><a href="http://localhost:3000/rejestracja">Zarejestruj się</a></li>
                 </ul>
             </nav>            
         </div>
         <br>
-        <div class="formularz">
+        <div class="formularzRej">
                                         <!-- Formularz-->
             <form id="RegForm" name="RegForm" action="http://localhost:3000/podsumowanie" method="post">
         <p>Imie: <input type="text" class="dane" id="imie" size="65" name="imie" /></p>
@@ -38,9 +38,9 @@
 
         <div class="przyciskForm">            
                 
-                <input type="submit" value="Wyślij" name="Submit" />
+                <input type="submit" onclick="registration()" value="Zarejestruj" name="Submit" />
 
-                <input type="reset" value="Reset" name="Reset" />
+                <input type="reset" value="Wyczyść" name="Reset" />
 
                 <input type="button" value="Dalej" onclick="registration()">
             

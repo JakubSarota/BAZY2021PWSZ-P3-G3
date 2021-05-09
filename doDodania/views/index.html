@@ -1,23 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css"> 
-    <title>Strona Główna</title>
-    
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="StyleSheet1.css" />
 </head>
 <body>
     <div class="container">
         <div class="navbar">
-            <img src="/img/logo.png" class="logo" />
+            <a href="http://localhost:3000"><img src="img/logo.png" class="logo" href=""/></a>
             <nav>
                 <ul>
-                    <li class="przyciskL"><a href="">Gramatyka</a></li>
-                    <li class="przyciskL"><a href="">Słownictwo</a></li>
-                    <li class="przyciskP"><a href="Uzytkownik/login">Zaloguj się</a></li>
-                    <li class="przyciskP"><a href="Uzytkownik/rejestracja">Zarejestruj się</a></li>
+                    <li class="przyciskL"><a href="http://localhost:3000/gramatyka.html">Gramatyka</a></li>
+                    <li class="przyciskL"><a href="http://localhost:3000/slownictwo.html">Słownictwo</a></li>
+                    <li class="przyciskP"><a href="http://localhost:3000/logowanie">Zaloguj się</a></li>
+                    <li class="przyciskP"><a href="http://localhost:3000/rejestracja">Zarejestruj się</a></li>
                 </ul>
             </nav>            
         </div>
@@ -26,7 +24,7 @@
             <div class="col">
                 <h1>Ucz się szybko <br /> i zapamiętaj na zawsze.</h1>
                 <p>Wybierz język którego chcesz się uczyć.</p>
-                <button type="button">Załóż darmowe konto</button>
+                <button type="button"><a href="http://localhost:3000/rejestracja">Załóż darmowe konto</a></button>
             </div>
             <div class="col">
                 <a href="http://localhost:3000">
@@ -42,6 +40,8 @@
             </div>
         </div>
     </div>
+    <a></a>
+
 
 </body>
 </html>

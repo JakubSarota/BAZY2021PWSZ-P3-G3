@@ -6,20 +6,10 @@
     <title></title>
     <link rel="stylesheet" href="StyleSheet1.css" />
 </head>
-
-<script>
-
-
-
-    
-</script>
-
-
-
 <body>
     <div class="container">
         <div class="navbar">
-            <img src="img/logo.png" class="logo" />
+            <a href="http://localhost:3000"><img src="img/logo.png" class="logo" href=""/></a>
             <nav>
                 <ul>
                     <li class="przyciskL"><a href="">Gramatyka</a></li>
@@ -30,15 +20,29 @@
             </nav>            
         </div>
         <br>
-        <div class="row">
-         
+        <div class="formularzLog">
+           
+            <form name="RegForm" action="http://localhost:3000/logowanie" method="post">
 
-
+        <p>Login: <input type="text" class="dane" size="65" name="Login" /></p>
+        <br />
+        <p>Haslo: <input type="password" class="dane" size="65" name="haslo" /></p>
+        <br />
+        <div class="przyciskForm">
+        <p> 
+            <input type="submit" 
+                   value="Wyślij" name="Submit" />
+            <input type="reset" 
+                   value="Wyczyść" name="Reset" />
+        </p>
+        </div>
+    </form>
 
         </div>
     </div>
     <a></a>
 
-
+    
+    
 </body>
 </html>
