@@ -68,7 +68,8 @@ app.post("/Uzytkownik/rejestracja", async (req, res) => {
         nazwisko,
         email,
         haslo,
-        haslo2
+        haslo2,
+        wiek
     });
     //komunikaty o błedach
     if(!imie || !email || !haslo || !haslo2) {
@@ -102,13 +103,13 @@ app.post("/Uzytkownik/rejestracja", async (req, res) => {
                     res.render("rejestracja", {errors});
                 } else {
                     pool.query(
-                        `INSERT INTO public."Uzytkownik" (imie, nazwisko, email, haslo) VALUES($1, $2, $3, $4) RETURNING id, haslo`, 
-                        [imie, nazwisko, email, zaszyfrowaneHaslo], 
+                        `INSERT INTO public."Uzytkownik" (imie, nazwisko, email, haslo, wiek) VALUES($1, $2, $3, $4, $5) RETURNING id, haslo`, 
+                        [imie, nazwisko, email, zaszyfrowaneHaslo, wiek], 
                         (err, results) => {
                             if(err) {
                                 throw err;
                             }
-                            // console.log(results.rows);
+                            console.log(results.rows);
                             req.flash("udane_zalogowanie", "Jestes zarejestrowany. Możesz się zalogować");
                             res.redirect('/Uzytkownik/login');
                         }

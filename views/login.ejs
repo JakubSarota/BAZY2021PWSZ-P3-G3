@@ -45,7 +45,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" /> -->
@@ -58,7 +58,7 @@
     <form action="/Uzytkownik/login" method="POST">
         <div class="container">
             <div class="navbar">
-                <a href=""><img src="/public/img/logo.png" class="logo" href=""/></a>
+                <a href=""><img src="/img/logo.png" class="logo" href=""/></a>
                 <nav>
                     <ul>
                         <li class="przyciskL"><a href="">Gramatyka</a></li>
@@ -69,9 +69,9 @@
                 </nav>            
             </div>
             <br>
-            <div class="formularz">
+            <div class="formularzLog">
             
-            <form name="RegForm" action="/Uzytkownik/login" method="post">
+            <form name="RegForm">
 
                 <p>Email: <input type="text" class="dane" size="65" name="email" id="email" required/></p>
                 <br />
@@ -79,19 +79,30 @@
                 <br />
                 <div class="przyciskForm">
                     <p> 
-                        <input type="submit" 
-                            value="Zaloguj" name="Submit" />
+                        <input type="submit" value="Wyślij" name="Submit" />
                     </p>
                 
                 </div>
-                <a href="/Uzytkownik/rejestracja">Nie masz konta? Zarejestruj się</a>
+                <a style="color: aliceblue;" href="/Uzytkownik/rejestracja">Nie masz konta? Zarejestruj się</a>
             </form>
-
+            <ul>
+                <% if(messages.udane_zalogowanie) { %>
+                    <li>
+                        <%= messages.udane_zalogowanie %>
+                    </li>
+                <% } %>
+            </ul>
+        
+            <ul>
+                <% if(messages.error) { %>
+                    <li>
+                        <%=messages.error%>
+                    </li>
+                <% } %>
+            </ul>
             </div>
         </div>
     </form>
 
-    
-    
 </body>
 </html>
