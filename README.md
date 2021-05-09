@@ -8,6 +8,7 @@ Pakiety
 - npm i ejs
 - npm i dotenv pg 
 - npm i express-session express-flash
+- npm i passport passport-local
 
 Uruchamianie:
 
