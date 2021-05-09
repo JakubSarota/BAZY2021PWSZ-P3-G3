@@ -16,12 +16,21 @@
             </li>
         <% } %>
     </ul>
+
+    <ul>
+        <% if(messages.error) { %>
+            <li>
+                <%=messages.error %>
+            </li>
+        <% } %>
+    </ul>
+
     <form actio="/Uzytkownik/login" method="POST">
         <div>
             <input type="text" id="email" name="email" placeholder="Email" required>
         </div>
         <div>
-            <input type="text" id="haslo" name="haslo" placeholder="Haslo" required>
+            <input type="password" id="haslo" name="haslo" placeholder="Haslo" required>
         </div>
         <div>
             <input type="submit" value="Zaloguj się">

@@ -1,29 +1,36 @@
 const express = require('express');
 const app = express();
 const { pool } = require("./dbConfig");
-const bcrypt = require('bcrypt');
-const session = require('express-session');
-const flash = require('express-flash');
+const bcrypt = require("bcrypt");
+const session = require("express-session");
+const flash = require("express-flash");
+const passport = require("passport");
+
+const initializePassport = require("./passportConfig");
+initializePassport(passport);
 
 const PORT = process.env.PORT || 3000;
 
 //arkusz stylów
-app.use(express.static(__dirname + 'public')); 
-app.use('/css', express.static(__dirname + '/public/css')); //działa tylko na index.ejs
-app.use('/img', express.static(__dirname + '/public/img'));
+// app.use(express.static(__dirname + 'public')); 
+app.use("/css", express.static(__dirname + "/public/css")); //działa tylko na index.ejs
+app.use("/img", express.static(__dirname + "/public/img"));
 //ustaw widok
-app.set('views', './views');
+app.set("views", "./views");
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false}));
 app.use(
     session({
-        secret: 'secret',
+        secret: "secret",
         resave: false,
         saveUninitialized: false
 
     })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(flash());
 //strony 
@@ -32,17 +39,24 @@ app.get('/', (req, res) => {
 });
 
 //wszystko poniżej nie działa
-app.get("/Uzytkownik/rejestracja", (req, res) => {
-    res.render("rejestracja");
+app.get("/Uzytkownik/rejestracja", checkAuthenticated,  (req, res) => {
+    res.render("rejestracja.ejs");
 });
 
-app.get("/Uzytkownik/login", (req, res) => {
-    res.render("login");
+app.get("/Uzytkownik/login", checkAuthenticated, (req, res) => {
+    // console.log(req.session.flash.error);
+    res.render("login.ejs");
 });
 
-app.get("/Uzytkownik/stronaGlowna", (req, res) => {
-    res.render("stronaGlowna", {Uzytkownik: "Jakub"});
+app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res) => {
+    res.render("stronaGlowna.ejs", {Uzytkownik: "" });
 });
+
+app.get("/Uzytkownik/wyloguj", (req, res) => {
+    req.logout();
+    res.redirect("/Uzytkownik/login");
+});
+
 //rejestracja
 app.post("/Uzytkownik/rejestracja", async (req, res) => {
     let {imie, nazwisko, email, haslo, haslo2} = req.body;
@@ -98,12 +112,35 @@ app.post("/Uzytkownik/rejestracja", async (req, res) => {
                             req.flash("udane_zalogowanie", "Jestes zarejestrowany. Możesz się zalogować");
                             res.redirect('/Uzytkownik/login');
                         }
-                    )
+                    );
                 }
             }
         );
     }
 });
+
+app.post(
+    "/Uzytkownik/login",
+    passport.authenticate("local", {
+      successRedirect: "/Uzytkownik/stronaGlowna",
+      failureRedirect: "/Uzytkownik/login",
+      failureFlash: true
+    })
+);
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return res.redirect("/Uzytkownik/stronaGlowna");
+    }
+    next();
+}
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect("/Uzytkownik/login");
+}
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
