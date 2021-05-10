@@ -1,5 +1,6 @@
 Pakiety
 
+- npx create-react-app Language-school
 - npm init -y  
 - npm i dev
 - npm i -D nodemon 
