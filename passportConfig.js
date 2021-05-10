@@ -6,7 +6,7 @@ function initialize(passport) {
   console.log("Initialized");
 
   const authenticateUser = (email, haslo, done) => {
-    console.log(email, haslo);
+    // console.log(email, haslo);
     pool.query(
       `SELECT * FROM public."Uzytkownik" WHERE email = $1`,
       [email],
@@ -15,7 +15,7 @@ function initialize(passport) {
           throw err;
         }
         console.log(results.rows);
-
+        
         if (results.rows.length > 0) {
           const uzytkownik = results.rows[0];
 

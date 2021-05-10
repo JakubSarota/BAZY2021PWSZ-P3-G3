@@ -35,10 +35,9 @@ app.use(passport.session());
 app.use(flash());
 //strony 
 app.get('/', (req, res) => {
-    res.render("index");        //na ta strone działa css
+    res.render("index");        
 });
 
-//wszystko poniżej nie działa
 app.get("/Uzytkownik/rejestracja", checkAuthenticated,  (req, res) => {
     res.render("rejestracja.ejs");
 });
@@ -48,13 +47,31 @@ app.get("/Uzytkownik/login", checkAuthenticated, (req, res) => {
     res.render("login.ejs");
 });
 
-app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res) => {
+app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res, next) => {
     res.render("stronaGlowna.ejs",  { user: req.user.imie });
 });
 
 app.get("/Uzytkownik/wyloguj", (req, res) => {
     req.logout();
     res.redirect("/Uzytkownik/login");
+});
+
+//STRONA Z GRAMATYKA
+app.get("/Uzytkownik/gramatyka", (req, res)  => {
+    res.render("gramatyka.ejs");
+});
+
+app.get("/Uzytkownik/gramatykaZal", checkNotAuthenticated, (req, res, next)  => {
+    res.render("gramatykaZal.ejs", { user: req.user.imie });
+});
+
+//STRONA Z SLOWKAMI
+app.get("/Uzytkownik/slownictwo", (req, res)  => {
+    res.render("slownictwo.ejs");
+});
+
+app.get("/Uzytkownik/slownictwoZal", checkNotAuthenticated, (req, res, next)  => {
+    res.render("slownictwoZal.ejs", { user: req.user.imie });
 });
 
 //rejestracja
@@ -109,7 +126,7 @@ app.post("/Uzytkownik/rejestracja", async (req, res) => {
                             if(err) {
                                 throw err;
                             }
-                            console.log(results.rows);
+                            // console.log(results.rows);
                             req.flash("udane_zalogowanie", "Jestes zarejestrowany. Możesz się zalogować");
                             res.redirect('/Uzytkownik/login');
                         }
@@ -146,3 +163,4 @@ function checkNotAuthenticated(req, res, next) {
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
 });
+

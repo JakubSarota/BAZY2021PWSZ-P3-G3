@@ -1,48 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <title>Logowanie</title>
-</head>
-<body>
-    <h1>Logowanie</h1>
-    <ul>
-        <% if(messages.udane_zalogowanie) { %>
-            <li>
-                <%= messages.udane_zalogowanie %>
-            </li>
-        <% } %>
-    </ul>
-
-    <ul>
-        <% if(messages.error) { %>
-            <li>
-                <%=messages.error%>
-            </li>
-        <% } %>
-    </ul>
-
-    <form action="/Uzytkownik/login" method="POST">
-    
-        <div>
-            <input type="text" id="email" name="email" placeholder="Email" required>
-        </div>
-        <div>
-            <input type="password" id="haslo" name="haslo" placeholder="Haslo" required>
-        </div>
-        <div>
-            <input type="submit" value="Zaloguj się">
-        </div>
-        <a href="/Uzytkownik/rejestracja">Nie masz konta? Zarejestruj się</a>
-    
-    </form>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -61,8 +16,8 @@
                 <a href="http://localhost:3000/"><img src="/img/logo.png" class="logo" href=""/></a>
                 <nav>
                     <ul>
-                        <li class="przyciskL"><a href="">Gramatyka</a></li>
-                        <li class="przyciskL"><a href="">Słownictwo</a></li>
+                        <li class="przyciskL"><a href="/Uzytkownik/gramatyka">Gramatyka</a></li>
+                        <li class="przyciskL"><a href="/Uzytkownik/slownictwo">Słownictwo</a></li>
                         <li class="przyciskP"><a href="/Uzytkownik/login">Zaloguj się</a></li>
                         <li class="przyciskP"><a href="/Uzytkownik/rejestracja">Zarejestruj się</a></li>
                     </ul>

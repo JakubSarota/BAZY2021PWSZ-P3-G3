@@ -4,18 +4,19 @@
 <head>
     <meta charset="utf-8" />
     <title>Słownictwo</title>
-    <link rel="stylesheet" href="StyleSheet1.css" />
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
+<form action="/Uzytkownik/slownictwo">
     <div class="container">
         <div class="navbar">
-            <a href="http://localhost:3000"><img src="img/logo.png" class="logo" href=""/></a>
+            <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
             <nav>
                 <ul>
-                    <li class="przyciskL"><a href="http://localhost:3000/gramatyka.html">Gramatyka</a></li>
-                    <li class="przyciskL"><a href="http://localhost:3000/slownictwo.html">Słownictwo</a></li>
-                    <li class="przyciskP"><a href="http://localhost:3000/logowanie">Zaloguj się</a></li>
-                    <li class="przyciskP"><a href="http://localhost:3000/rejestracja">Zarejestruj się</a></li>
+                    <li class="przyciskL"><a href="/Uzytkownik/gramatykaZal">Gramatyka</a></li>
+                    <li class="przyciskL"><a href="/Uzytkownik/slownictwoZal">Słownictwo</a></li>
+                    <a style="color: beige;">Witaj <%= user  %>!</a>
+                    <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
                 </ul>
             </nav>
         </div>
@@ -96,8 +97,7 @@
         </div>
     </div>
     <a></a>
-
-
+</form>
 </body>
 </html>
 

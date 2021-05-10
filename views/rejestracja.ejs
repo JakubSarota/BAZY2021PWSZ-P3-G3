@@ -1,49 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css"
-    />
-    <link rel="stylesheet" href="css/style.css">
-    <title>Rejestracja</title>
-</head>
-<body>
-    <h1>Rejestracja</h1>
-    <ul>
-        <% if(typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
-            <li><%= error.message %></li>
-            <% }) %>
-        <% } %>
-    </ul>
-<form action="/Uzytkownik/rejestracja" method="POST">
-    <div>
-        <input type="text" id="imie" name="imie" placeholder="Imie" required>
-    </div>
-    <div>
-        <input type="text" id="nazwisko" name="nazwisko" placeholder="Nazwisko" required>
-    </div>
-    <div>
-        <input type="email" id="email" name="email" placeholder="Email" required>
-    </div>
-    <div>
-        <input type="password" id="haslo" name="haslo" placeholder="Haslo" required>
-    </div>
-    <div>
-        <input type="password" id="haslo2" name="haslo2" placeholder="Potwierdz haslo" required>
-    </div>
-    <div>
-        <input type="submit" value="rejestracja">
-    </div>
-    <a href="/Uzytkownik/login">Jesteś zarejestrowany? zaloguj się</a>
-</form>
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -59,8 +13,8 @@
                 <a href="http://localhost:3000/"><img src="/img/logo.png" class="logo" href=""/></a>
                 <nav>
                     <ul>
-                        <li class="przyciskL"><a href="">Gramatyka</a></li>
-                        <li class="przyciskL"><a href="">Słownictwo</a></li>
+                        <li class="przyciskL"><a href="/Uzytkownik/gramatyka">Gramatyka</a></li>
+                        <li class="przyciskL"><a href="/Uzytkonik/slownictwo">Słownictwo</a></li>
                         <li class="przyciskP"><a href="/Uzytkownik/login">Zaloguj się</a></li>
                         <li class="przyciskP"><a href="/Uzytkownik/rejestracja">Zarejestruj się</a></li>
                     </ul>
