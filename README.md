@@ -1,7 +1,10 @@
 Pakiety
 
+React
 - npx create-react-app Language-school
 - npm install mobx --save
+
+Express
 - npm init -y  
 - npm i dev
 - npm i -D nodemon 
