@@ -2,22 +2,14 @@ BEGIN;
 
 CREATE TABLE public."Uzytkownik"
 (
-    id serial  NOT NULL,
+    id serial NOT NULL,
     nazwisko character varying(255) NOT NULL,
     imie character varying(255) NOT NULL,
-    wiek integer,
+    wiek integer NOT NULL,
     email character varying(255) NOT NULL,
-    login character varying(255),
     haslo character varying(255) NOT NULL,
     data_ostatniego_logowania date,
-    rola_id integer,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE public."Rola"
-(
-    id integer NOT NULL,
-    typ character varying(255) NOT NULL,
+    rola integer NOT NULL DEFAULT 1,
     PRIMARY KEY (id)
 );
 
@@ -30,7 +22,7 @@ CREATE TABLE public."Uzytkownik_Jezyk"
 CREATE TABLE public."Jezyk"
 (
     id integer NOT NULL,
-    nazwa character varying(255) NOT NULL,
+    nazwa character varying(255),
     "poziom " character varying(255),
     opis character varying(255),
     PRIMARY KEY (id)
@@ -86,42 +78,36 @@ CREATE TABLE public."Pytania_otwarte"
 
 CREATE TABLE public."Slownictwo"
 (
-    id integer NOT NULL,
-    polski integer,
-    tlumaczenie integer,
+    id serial NOT NULL,
+    polski character varying(255),
+    tlumaczenie character varying(255),
     jezyk_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
-ALTER TABLE public."Uzytkownik"
-    ADD FOREIGN KEY (rola_id)
-    REFERENCES public."Rola" (id)
-    NOT VALID;
-
-
 ALTER TABLE public."Uzytkownik_Jezyk"
     ADD FOREIGN KEY (uzytkownik_id)
     REFERENCES public."Uzytkownik" (id)
-	ON DELETE CASCADE
     NOT VALID;
 
 
 ALTER TABLE public."Uzytkownik_Jezyk"
     ADD FOREIGN KEY (jezyk_id)
     REFERENCES public."Jezyk" (id)
+	ON DELETE CASCADE
     NOT VALID;
 
 
 ALTER TABLE public."Wynik_testu"
     ADD FOREIGN KEY (uzytkownik_id)
     REFERENCES public."Uzytkownik" (id)
-	ON DELETE CASCADE
     NOT VALID;
 
 
 ALTER TABLE public."Test"
     ADD FOREIGN KEY (jezyk_id)
     REFERENCES public."Jezyk" (id)
+	ON DELETE CASCADE
     NOT VALID;
 
 
