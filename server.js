@@ -56,23 +56,68 @@ app.get("/Uzytkownik/wyloguj", (req, res) => {
     res.redirect("/Uzytkownik/login");
 });
 
+
+
+
 //STRONA Z GRAMATYKA
-app.get("/Uzytkownik/gramatyka", (req, res)  => {
-    res.render("gramatyka.ejs");
+                            //angielski
+app.get("/angielski/gramatyka/gramatykaangielski", (req, res)  => {
+    res.render("gs/angielski/gramatyka/gramatykaangielski.ejs");
 });
+
 
 app.get("/Uzytkownik/gramatykaZal", checkNotAuthenticated, (req, res, next)  => {
     res.render("gramatykaZal.ejs", { user: req.user.imie });
 });
 
-//STRONA Z SLOWKAMI
-app.get("/Uzytkownik/slownictwo", (req, res)  => {
-    res.render("slownictwo.ejs");
-});
+                            //niemiecki
+
+
+
+
+
+
+
+
 
 app.get("/Uzytkownik/slownictwoZal", checkNotAuthenticated, (req, res, next)  => {
-    res.render("slownictwoZal.ejs", { user: req.user.imie });
+
+
+     
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'dom'`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("slownictwoZal.ejs",  { user: req.user.imie, slownictwo:results.rows});     
+                
+        } 
+    });
+
+
 });
+
+
+///angielski i niemiecki
+app.get("/angielski", (req, res)  => {
+    res.render("gs/angielski/angielski.ejs");
+});
+app.get("/niemiecki", (req, res)  => {
+    res.render("gs/niemiecki/niemiecki.ejs");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //rejestracja
 app.post("/Uzytkownik/rejestracja", async (req, res) => {
@@ -164,3 +209,191 @@ app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
 });
 
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//STRONA Z SLOWKAMI bez zalogowania jezyk angielski
+app.get("/angielski/slownictwo/slownictwoangielski", (req, res)  => {
+    res.render("gs/angielski/slownictwo/slownictwoangielski.ejs");
+});
+app.get("/angielski/slownictwo/slownictwoangielski/zwierzeta", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/dom", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'dom' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/dom.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/praca", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'praca' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/praca.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/zdrowie", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zdrowie' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/zdrowie.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/czlowiek", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czlowiek' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/czlowiek.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/zwierzeta", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/jedzenieizywienie", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'jedzenie i zywienie' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/jedzenieizywienie.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/podrozeiwakacje", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'podroze i wakacje' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/podrozeiwakacje.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/czasownikifrazowe", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czasowniki frazowe' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/czasownikifrazowe.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/edukacjaiszkola", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'edukacja i szkola' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/edukacjaiszkola.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/rosliny", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rosliny' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/rosliny.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/czasownikinieregularne", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czasowniki nieregularne' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/czasownikinieregularne.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/rodzina", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rodzina' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/rodzina.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/angielski/slownictwo/slownictwoangielski/sport", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'sport' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/angielski/slownictwo/sport.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+////////////////////////////
+////////////////////////////
+////////////////////////////
+app.get("/angielski/gramatyka/gramatykaangielski/presentcontinuous", (req, res)  => {
+    res.render("gs/angielski/gramatyka/presentcontinuous.ejs");
+});
