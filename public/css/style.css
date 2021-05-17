@@ -157,6 +157,19 @@ button a{
     background-position: center;
     background-size: cover;
 }
+.cards{
+    width: 240px;
+    height: 290px;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 15px 25px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 10px 15px;
+    background-image: url(/img/angielski.jpg);
+    background-position: center;
+    background-size: cover;
+}
 
 .formularzRej {
     height: 400px;
@@ -227,7 +240,7 @@ input::-webkit-inner-spin-button {
 
 .tabela {
     width: 950px;
-    height: 700px;
+    
     margin: 50px auto;
     color: #fff;
     background: #00000080; 
