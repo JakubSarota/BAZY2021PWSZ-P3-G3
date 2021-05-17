@@ -10,7 +10,6 @@ const initializePassport = require("./passportConfig");
 initializePassport(passport);
 
 const PORT = process.env.PORT || 3000;
-
 //arkusz stylów
 app.use(express.static('public')); 
 app.use("/css", express.static(__dirname + "/public/css")); //działa tylko na index.ejs
@@ -28,15 +27,17 @@ app.use(
 
     })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(flash());
+
+
 //strony 
 app.get('/', (req, res) => {
     res.render("index");        
 });
+
+
 
 app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res, next) => {
 
@@ -50,31 +51,39 @@ app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res, next) => {
         res.render("admin/stronaGlownaAdmin.ejs",  { user: req.user.imie });
         console.log("to jest admin");
     }
-
-    
 });
 
+/////panel administratora wyswietlenie uzytkownikow
 app.get("/admin/uzytkownicy", checkNotAuthenticated, (req, res, next) => {
 
-
-
+    var idu=req.query.idu;
+    console.log(idu);
+    
     if(req.user.rola==0)
     {
+        if(idu>0)
+        {
+            pool.query( `DELETE FROM public."Uzytkownik"` + "WHERE id= '"+idu+"' " );
+        }
+
+        
 
         pool.query(`SELECT * FROM public."Uzytkownik" WHERE rola = 1`, (err, results) => {
             if (err) {
                 throw err;
             }
             if(results.rows.length > 0) {
-                res.render("admin/uzytkownicy.ejs",  { uzytkownik:results.rows, user: req.user.imie });     
-                    
+                res.render("admin/uzytkownicy.ejs",  { uzytkownik:results.rows, user: req.user.imie });           
             } 
         });
 
         
+
     }
 
-    
+
+
+
 });
 app.get("/Uzytkownik/rejestracja", checkAuthenticated,  (req, res) => {
     res.render("rejestracja.ejs");
@@ -94,17 +103,10 @@ app.get("/admin/ustawienia", checkNotAuthenticated, (req, res, next) => {
     res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie, nazwisko: req.user.nazwisko, wiek: req.user.wiek, email: req.user.email});
 });
 
-
 app.get("/Uzytkownik/wyloguj", (req, res) => {
     req.logout();
     res.redirect("/");
 });
-////////logowanie
-
-
-
-
-
 //rejestracja
 app.post("/Uzytkownik/rejestracja", async (req, res) => {
     let {imie, nazwisko, email, haslo, haslo2, wiek} = req.body;
@@ -199,11 +201,11 @@ app.listen(PORT, () => {
 
 
 
-
-
-
-
-
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 //STRONA Z SLOWKAMI bez zalogowania jezyk angielski
 

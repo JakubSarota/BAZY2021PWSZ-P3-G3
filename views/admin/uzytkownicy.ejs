@@ -21,6 +21,7 @@
         </div>
         <div class="tabela">
         <table class="table">
+            <a class = "przycisks" href="/admin/uzytkownicy">Lista Użytkowników</a>
             <thead class="thead">
                 <tr>
                     <th class="col1" colspan="1">
@@ -40,6 +41,10 @@
                         <b>email</b>
                       
                     </th>
+                    <th class="col1" colspan="1">
+                        <b>Opcje</b>
+                      
+                    </th>
                 </tr>
             </thead>
 
@@ -48,12 +53,10 @@
                 
 
             <% for(var i=0; i<uzytkownik.length; i++) {%>
-
                 <tr>
                     <td class="col1">
                         <div class="text"><a> <%= uzytkownik[i].imie%></a></div>
                     </td>
-
                     <td class="col1">
                         <div class="text"><a> <%= uzytkownik[i].nazwisko%></a></div>
                     </td>
@@ -63,10 +66,13 @@
                     <td class="col1">
                         <div class="text"><a> <%= uzytkownik[i].email%></a></div>
                     </td>
-                </tr>
+                    <td class="col1">
+                        <div class="text"><a href="/admin/uzytkownicy?idu=<%= uzytkownik[i].id%>"  ><button>Skasuj</button></a></div>
+                        <div class="text"><a><button>Wyświetl informacje o postępach</button></a></div>
+                    </td>
 
+                </tr>
                  <% } %>
-              
 
 
 
