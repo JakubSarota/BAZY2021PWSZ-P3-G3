@@ -64,7 +64,8 @@ nav{
     font-size: 12px;
     line-height: 18px;
     font-family: Poppins,Arial;
-    border-radius: 98px;    
+    border-radius: 98px;  
+    text-decoration: none;
 }
 
 .przyciskP a{
@@ -72,6 +73,20 @@ nav{
     color: #fff;
     font-size: 14px;
     background-color: #167bbd;
+}
+
+.przycisks{
+    list-style: none;
+    display: inline-block;
+    margin-right: 10px;
+    background-color: #167bbd;    
+    border: 3px solid #167bbd;
+    padding: 2px 10px;
+    font-size: 12px;
+    line-height: 18px;
+    font-family: Poppins,Arial;
+    border-radius: 38px;  
+    text-decoration: none;
 }
 
 .row{

@@ -854,7 +854,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/zwierzeta", checkN
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
