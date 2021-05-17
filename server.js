@@ -51,28 +51,14 @@ app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res, next) => {
     res.render("stronaGlowna.ejs",  { user: req.user.imie });
 });
 
+app.get("/Uzytkownik/ustawienia", checkNotAuthenticated, (req, res, next) => {
+    res.render("ustawienia.ejs",  { user: req.user.imie, nazwisko: req.user.nazwisko, wiek: req.user.wiek, email: req.user.email});
+});
+
 app.get("/Uzytkownik/wyloguj", (req, res) => {
     req.logout();
-    res.redirect("/Uzytkownik/login");
+    res.redirect("/");
 });
-
-
-
-
-//STRONA Z GRAMATYKA
-                            //angielski
-app.get("/angielski/gramatyka/gramatykaangielski", (req, res)  => {
-    res.render("gs/angielski/gramatyka/gramatykaangielski.ejs");
-});
-
-
-app.get("/Uzytkownik/gramatykaZal", checkNotAuthenticated, (req, res, next)  => {
-    res.render("gramatykaZal.ejs", { user: req.user.imie });
-});
-
-                            //niemiecki
-
-
 
 
 
@@ -96,24 +82,6 @@ app.get("/Uzytkownik/slownictwoZal", checkNotAuthenticated, (req, res, next)  =>
 
 
 });
-
-
-///angielski i niemiecki
-app.get("/angielski", (req, res)  => {
-    res.render("gs/angielski/angielski.ejs");
-});
-app.get("/niemiecki", (req, res)  => {
-    res.render("gs/niemiecki/niemiecki.ejs");
-});
-
-
-
-
-
-
-
-
-
 
 
 
@@ -220,9 +188,20 @@ app.listen(PORT, () => {
 
 ///////////////////////////////////////////////////////////////////////////
 //STRONA Z SLOWKAMI bez zalogowania jezyk angielski
+
+
+///angielski i niemiecki
+app.get("/angielski", (req, res)  => {
+    res.render("gs/angielski/angielski.ejs");
+});
+app.get("/niemiecki", (req, res)  => {
+    res.render("gs/niemiecki/niemiecki.ejs");
+});
+
 app.get("/angielski/slownictwo/slownictwoangielski", (req, res)  => {
     res.render("gs/angielski/slownictwo/slownictwoangielski.ejs");
 });
+
 app.get("/angielski/slownictwo/slownictwoangielski/zwierzeta", (req, res)  => {
 
     pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=1`, (err, results) => {
@@ -343,6 +322,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/edukacjaiszkola", (req, res) 
         } 
     });
 });
+
 app.get("/angielski/slownictwo/slownictwoangielski/rosliny", (req, res)  => {
 
     pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rosliny' AND jezyk_id=1`, (err, results) => {
@@ -394,6 +374,634 @@ app.get("/angielski/slownictwo/slownictwoangielski/sport", (req, res)  => {
 ////////////////////////////
 ////////////////////////////
 ////////////////////////////
+
+app.get("/angielski/gramatyka/gramatykaangielski", (req, res)  => {
+res.render("gs/angielski/gramatyka/gramatykaangielski.ejs");
+});
+                            
 app.get("/angielski/gramatyka/gramatykaangielski/presentcontinuous", (req, res)  => {
     res.render("gs/angielski/gramatyka/presentcontinuous.ejs");
 });
+app.get("/angielski/gramatyka/gramatykaangielski/presentsimple", (req, res)  => {
+    res.render("gs/angielski/gramatyka/presentsimple.ejs");
+});
+app.get("/angielski/gramatyka/gramatykaangielski/presentperfect", (req, res)  => {
+    res.render("gs/angielski/gramatyka/presentperfect.ejs");
+});
+app.get("/angielski/gramatyka/gramatykaangielski/presentperfectcontinuous", (req, res)  => {
+    res.render("gs/angielski/gramatyka/presentperfectcontinuous.ejs");
+});
+app.get("/angielski/gramatyka/gramatykaangielski/futuresimple", (req, res)  => {
+    res.render("gs/angielski/gramatyka/futuresimple.ejs");
+});
+app.get("/angielski/gramatyka/gramatykaangielski/futurecontinuous", (req, res)  => {
+    res.render("gs/angielski/gramatyka/futurecontinuous.ejs");
+});
+app.get("/angielski/gramatyka/gramatykaangielski/futureperfect", (req, res)  => {
+    res.render("gs/angielski/gramatyka/futureperfect.ejs");
+});
+app.get("/angielski/gramatyka/gramatykaangielski/futureperfectcontinuous", (req, res)  => {
+    res.render("gs/angielski/gramatyka/futureperfectcontinuous.ejs");
+});
+app.get("/angielski/gramatyka/gramatykaangielski/pastsimple", (req, res)  => {
+    res.render("gs/angielski/gramatyka/pastsimple.ejs");
+});
+app.get("/angielski/gramatyka/gramatykaangielski/pastcontinuous", (req, res)  => {
+    res.render("gs/angielski/gramatyka/pastcontinuous.ejs");
+});
+app.get("/angielski/gramatyka/gramatykaangielski/pastperfect", (req, res)  => {
+    res.render("gs/angielski/gramatyka/pastperfect.ejs");
+});
+app.get("/angielski/gramatyka/gramatykaangielski/pastperfectcontinuous", (req, res)  => {
+    res.render("gs/angielski/gramatyka/pastperfectcontinuous.ejs");
+});
+////////////////////////////
+////////////////////////////
+////////////////////////////
+//STRONA Z GRAMATYKA
+                            //angielski
+app.get("/angielski/gramatyka/gramatykaangielski", (req, res)  => {
+    res.render("gs/angielski/gramatyka/gramatykaangielski.ejs");
+});
+
+
+app.get("/niemiecki/slownictwo/slownictwoniemiecki", (req, res)  => {
+    res.render("gs/niemiecki/slownictwo/slownictwoniemiecki.ejs");
+});
+app.get("/niemiecki/gramatyka/gramatykaniemiecki", (req, res)  => {
+    res.render("gs/niemiecki/gramatyka/gramatykaniemiecki.ejs");
+});
+
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/zwierzeta", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/dom", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'dom' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/dom.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/praca", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'praca' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/praca.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/zdrowie", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zdrowie' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/zdrowie.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/czlowiek", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czlowiek' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/czlowiek.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/jedzenieizywienie", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'jedzenie i zywienie' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/jedzenieizywienie.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/podrozeiwakacje", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'podroze i wakacje' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/podrozeiwakacje.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/edukacjaiszkola", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'edukacja i szkola' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/edukacjaiszkola.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/rosliny", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rosliny' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/rosliny.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/rodzina", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rodzina' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/rodzina.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+app.get("/niemiecki/slownictwo/slownictwoniemiecki/sport", (req, res)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'sport' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("gs/niemiecki/slownictwo/sport.ejs",  {slownictwo:results.rows});     
+                
+        } 
+    });
+});
+
+app.get("/niemiecki/gramatyka/gramatykaniemiecki/czasprzeszlyperfekt", (req, res)  => {
+    res.render("gs/niemiecki/gramatyka/czasprzeszlyperfekt.ejs");
+});
+
+app.get("/niemiecki/gramatyka/gramatykaniemiecki/czasprzeszlyprosty", (req, res)  => {
+    res.render("gs/niemiecki/gramatyka/czasprzeszlyprosty.ejs");
+});
+
+app.get("/niemiecki/gramatyka/gramatykaniemiecki/czasprzyszlyfuturi", (req, res)  => {
+    res.render("gs/niemiecki/gramatyka/czasprzyszlyfuturi.ejs");
+});
+
+app.get("/niemiecki/gramatyka/gramatykaniemiecki/czasprzyszlyfuturii", (req, res)  => {
+    res.render("gs/niemiecki/gramatyka/czasprzyszlyfuturii.ejs");
+});
+
+app.get("/niemiecki/gramatyka/gramatykaniemiecki/czaszaprzeszlyplusquamperfekt", (req, res)  => {
+    res.render("gs/niemiecki/gramatyka/czaszaprzeszlyplusquamperfekt.ejs");
+});
+
+
+
+
+
+
+
+
+
+///////////////////////////
+/////////////////////////////////////////////////////////////
+//////////////////////////////////
+////////////////////////////////
+////////////////////////////
+//////////zalogowany//////////////
+///////////////////////////
+/////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+//////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+///angielski i niemiecki
+app.get("/uzytkownik/angielski", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/angielski.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/niemiecki", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/niemiecki/niemiecki.ejs",  { user: req.user.imie });
+});
+
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/slownictwo/slownictwoangielski.ejs",  { user: req.user.imie });
+});
+
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/zwierzeta", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/dom", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'dom' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/dom.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/praca", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'praca' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/praca.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/zdrowie", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zdrowie' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/zdrowie.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/czlowiek", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czlowiek' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/czlowiek.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/zwierzeta", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/jedzenieizywienie", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'jedzenie i zywienie' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/jedzenieizywienie.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/podrozeiwakacje", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'podroze i wakacje' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/podrozeiwakacje.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/czasownikifrazowe", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czasowniki frazowe' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/czasownikifrazowe.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/edukacjaiszkola", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'edukacja i szkola' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/edukacjaiszkola.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/rosliny", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rosliny' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/rosliny.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/czasownikinieregularne", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czasowniki nieregularne' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/czasownikinieregularne.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/rodzina", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rodzina' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/rodzina.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/sport", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'sport' AND jezyk_id=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/sport.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+////////////////////////////
+////////////////////////////
+////////////////////////////
+
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski", checkNotAuthenticated, (req, res, next)  => {
+res.render("ugs/angielski/gramatyka/gramatykaangielski.ejs",  { user: req.user.imie });
+});
+                            
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/presentcontinuous", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/presentcontinuous.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/presentsimple", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/presentsimple.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/presentperfect", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/presentperfect.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/presentperfectcontinuous", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/presentperfectcontinuous.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/futuresimple", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/futuresimple.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/futurecontinuous", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/futurecontinuous.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/futureperfect", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/futureperfect.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/futureperfectcontinuous", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/futureperfectcontinuous.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/pastsimple", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/pastsimple.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/pastcontinuous", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/pastcontinuous.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/pastperfect", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/pastperfect.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski/pastperfectcontinuous", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/pastperfectcontinuous.ejs",  { user: req.user.imie });
+});
+////////////////////////////
+////////////////////////////
+////////////////////////////
+//STRONA Z GRAMATYKA
+                            //angielski
+app.get("/uzytkownik/angielski/gramatyka/gramatykaangielski", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/gramatyka/gramatykaangielski.ejs",  { user: req.user.imie });
+});
+
+
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/niemiecki/slownictwo/slownictwoniemiecki.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/niemiecki/gramatyka/gramatykaniemiecki.ejs",  { user: req.user.imie });
+});
+
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/zwierzeta", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/dom", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'dom' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/dom.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/praca", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'praca' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/praca.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/zdrowie", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zdrowie' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/zdrowie.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/czlowiek", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czlowiek' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/czlowiek.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/jedzenieizywienie", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'jedzenie i zywienie' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/jedzenieizywienie.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/podrozeiwakacje", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'podroze i wakacje' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/podrozeiwakacje.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/edukacjaiszkola", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'edukacja i szkola' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/edukacjaiszkola.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/rosliny", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rosliny' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/rosliny.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/rodzina", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rodzina' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/rodzina.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/sport", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'sport' AND jezyk_id=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/sport.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czasprzeszlyperfekt", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/niemiecki/gramatyka/czasprzeszlyperfekt.ejs",  { user: req.user.imie });
+});
+
+app.get("/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czasprzeszlyprosty", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/niemiecki/gramatyka/czasprzeszlyprosty.ejs",  { user: req.user.imie });
+});
+
+app.get("/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czasprzyszlyfuturi", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/niemiecki/gramatyka/czasprzyszlyfuturi.ejs",  { user: req.user.imie });
+});
+
+app.get("/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czasprzyszlyfuturii", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/niemiecki/gramatyka/czasprzyszlyfuturii.ejs",  { user: req.user.imie });
+});
+
+app.get("/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czaszaprzeszlyplusquamperfekt", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/niemiecki/gramatyka/czaszaprzeszlyplusquamperfekt.ejs",  { user: req.user.imie });
+});
+
+
+
+
+
+
