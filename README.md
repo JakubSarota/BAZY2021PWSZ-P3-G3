@@ -1,8 +1,6 @@
 Pakiety
 
-React
-- npx create-react-app Language-school
-- npm install mobx --save
+
 
 Express
 - npm init -y  
@@ -14,6 +12,9 @@ Express
 - npm i dotenv pg 
 - npm i express-session express-flash
 - npm i passport passport-local
+
+React
+- npx create-react-app app
 
 Uruchamianie:
 
