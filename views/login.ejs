@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" /> -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Logowanie</title>
+</head>
+
+<body>
+    
+    <form action="/Uzytkownik/login" method="POST">
+        <div class="container">
+            <div class="navbar">
+                <a href="http://localhost:3000/"><img src="/img/logo.png" class="logo" href=""/></a>
+                <nav>
+                    <ul>
+                        <li class="przyciskP"><a href="/Uzytkownik/login">Zaloguj się</a></li>
+                        <li class="przyciskP"><a href="/Uzytkownik/rejestracja">Zarejestruj się</a></li>
+                    </ul>
+                </nav>            
+            </div>
+            <br>
+            <div class="formularzLog">
+            
+            <form name="RegForm">
+
+                <p>Email: <input type="text" class="dane" size="65" name="email" id="email" required/></p>
+                <br />
+                <p>Hasło: <input type="password" class="dane" size="65" name="haslo" id="haslo" required/></p>
+                <br />
+                <div class="przyciskForm">
+                    <p> 
+                        <input type="submit" value="Wyślij" name="Submit" />
+                    </p>
+                
+                </div>
+                <a style="color: aliceblue;" href="/Uzytkownik/rejestracja">Nie masz konta? Zarejestruj się</a>
+            </form>
+            <ul>
+                <% if(messages.udane_zalogowanie) { %>
+                    <li>
+                        <%= messages.udane_zalogowanie %>
+                    </li>
+                <% } %>
+            </ul>
+        
+            <ul>
+                <% if(messages.error) { %>
+                    <li>
+                        <%=messages.error%>
+                    </li>
+                <% } %>
+            </ul>
+            </div>
+        </div>
+    </form>
+
+</body>
+</html>

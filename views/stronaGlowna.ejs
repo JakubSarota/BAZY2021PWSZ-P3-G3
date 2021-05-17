@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Strona Główna</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+
+                    <a style="color: beige;">Witaj <%= user %>!</a>
+                    <li class="przyciskP"><a href="/Uzytkownik/ustawienia">Ustawienia</a></li>
+                    <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
+                </ul>
+            </nav>            
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <h1>Ucz się szybko <br /> i zapamiętaj na zawsze.</h1>
+            </div>
+            <div class="col">
+                <a href="/uzytkownik/niemiecki">
+                <div class="card1">
+                    <h5>Język niemiecki</h5>
+                    <p>Wypróbuj kurs online i ucz się niemieckiego z przyjemnością.</p>
+                </div></a>
+                <a href="/uzytkownik/angielski">
+                <div class="card2">
+                    <h5>Język angielski</h5>
+                    <p>Wypróbuj kurs online i ucz się angielskiego z przyjemnością.</p>
+                </div></a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

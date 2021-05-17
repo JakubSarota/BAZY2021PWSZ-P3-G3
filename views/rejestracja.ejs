@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Rejestracja</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <form action="/Uzytkownik/rejestracja" method="POST">
+        <div class="container">
+            <div class="navbar">
+                <a href="http://localhost:3000/"><img src="/img/logo.png" class="logo" href=""/></a>
+                <nav>
+                    <ul>
+               
+                        <li class="przyciskP"><a href="/Uzytkownik/login">Zaloguj się</a></li>
+                        <li class="przyciskP"><a href="/Uzytkownik/rejestracja">Zarejestruj się</a></li>
+                    </ul>
+                </nav>            
+            </div>
+            <br>
+            <div class="formularzRej">
+                <form id="RegForm" name="RegForm">
+                    <p>Imie: <input type="text" class="dane" id="imie" size="65" name="imie" required/></p>
+                    <br />
+                    <p>Nazwisko: <input type="text" class="dane" id="nazwisko" size="65" name="nazwisko" required/></p>
+                    <br />
+                    <p>Wiek: <input type="number" class="dane" id="wiek" size="65" name="wiek" required/></p>
+                    <br />
+                    <p>Email: <input type="email" class="dane" id="email" size="65" name="email" required/></p>
+                    <br />
+                    <p>Haslo: <input type="password" class="dane" id="haslo" size="65" name="haslo" required/></p>
+                    <br />
+                    <p>Potwierdź: <input type="password" class="dane" id="haslo2" size="65" name="haslo2" required/></p>
+                    <div class="przyciskForm">            
+                        <input type="submit" value="Zarejestruj" name="Submit" />
+                    </div>
+                </form>
+                <a style="color:aliceblue;" href="/Uzytkownik/login">Jesteś zarejestrowany? zaloguj się</a>
+                <ul>
+                    <% if(typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
+                        <li><%= error.message %></li>
+                        <% }) %>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
