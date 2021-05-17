@@ -38,6 +38,44 @@ app.get('/', (req, res) => {
     res.render("index");        
 });
 
+app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res, next) => {
+
+    if(req.user.rola==1)
+    {
+        res.render("stronaGlowna.ejs",  { user: req.user.imie });
+        console.log("to jest user");
+    }
+    if(req.user.rola==0)
+    {
+        res.render("admin/stronaGlownaAdmin.ejs",  { user: req.user.imie });
+        console.log("to jest admin");
+    }
+
+    
+});
+
+app.get("/admin/uzytkownicy", checkNotAuthenticated, (req, res, next) => {
+
+
+
+    if(req.user.rola==0)
+    {
+
+        pool.query(`SELECT * FROM public."Uzytkownik" WHERE rola = 1`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/uzytkownicy.ejs",  { uzytkownik:results.rows, user: req.user.imie });     
+                    
+            } 
+        });
+
+        
+    }
+
+    
+});
 app.get("/Uzytkownik/rejestracja", checkAuthenticated,  (req, res) => {
     res.render("rejestracja.ejs");
 });
@@ -47,41 +85,21 @@ app.get("/Uzytkownik/login", checkAuthenticated, (req, res) => {
     res.render("login.ejs");
 });
 
-app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res, next) => {
-    res.render("stronaGlowna.ejs",  { user: req.user.imie });
-});
 
 app.get("/Uzytkownik/ustawienia", checkNotAuthenticated, (req, res, next) => {
     res.render("ustawienia.ejs",  { user: req.user.imie, nazwisko: req.user.nazwisko, wiek: req.user.wiek, email: req.user.email});
 });
 
+app.get("/admin/ustawienia", checkNotAuthenticated, (req, res, next) => {
+    res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie, nazwisko: req.user.nazwisko, wiek: req.user.wiek, email: req.user.email});
+});
+
+
 app.get("/Uzytkownik/wyloguj", (req, res) => {
     req.logout();
     res.redirect("/");
 });
-
-
-
-
-
-
-
-app.get("/Uzytkownik/slownictwoZal", checkNotAuthenticated, (req, res, next)  => {
-
-
-     
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'dom'`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("slownictwoZal.ejs",  { user: req.user.imie, slownictwo:results.rows});     
-                
-        } 
-    });
-
-
-});
+////////logowanie
 
 
 

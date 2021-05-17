@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Strona Główna</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+
+                    <a style="color: beige;">Witaj <%= user %>!</a>
+                    <li class="przyciskP"><a href="/admin/ustawienia">Ustawienia</a></li>
+                    <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
+                </ul>
+            </nav>            
+        </div>
+        <div class="tabela">
+        <table class="table">
+            <thead class="thead">
+                <tr>
+                    <th class="col1" colspan="1">
+                        <b>Imie:</b>
+                       
+                    </th>
+                    <th class="col1" colspan="1">
+                        <b>Nazwisko</b>
+                      
+                    </th>
+                    <th class="col1" colspan="1">
+                        <b>Wiek</b>
+                      
+                    </th>
+
+                    <th class="col1" colspan="1">
+                        <b>email</b>
+                      
+                    </th>
+                </tr>
+            </thead>
+
+           <tbody>
+                
+                
+
+            <% for(var i=0; i<uzytkownik.length; i++) {%>
+
+                <tr>
+                    <td class="col1">
+                        <div class="text"><a> <%= uzytkownik[i].imie%></a></div>
+                    </td>
+
+                    <td class="col1">
+                        <div class="text"><a> <%= uzytkownik[i].nazwisko%></a></div>
+                    </td>
+                    <td class="col1">
+                        <div class="text"><a> <%= uzytkownik[i].wiek%></a></div>
+                    </td>
+                    <td class="col1">
+                        <div class="text"><a> <%= uzytkownik[i].email%></a></div>
+                    </td>
+                </tr>
+
+                 <% } %>
+              
+
+
+
+
+
+
+              
+            </div>
+            
+
+            </tbody>
+        </table>
+</div>
+        
+  
+
+</body>
+</html>
