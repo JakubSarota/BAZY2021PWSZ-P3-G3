@@ -209,7 +209,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/zwierzeta", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -221,7 +221,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/dom", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/dom.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -233,7 +233,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/praca", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/praca.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -245,7 +245,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/zdrowie", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/zdrowie.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -257,7 +257,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/czlowiek", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/czlowiek.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -269,7 +269,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/zwierzeta", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -281,7 +281,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/jedzenieizywienie", (req, res
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/jedzenieizywienie.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -293,7 +293,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/podrozeiwakacje", (req, res) 
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/podrozeiwakacje.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -305,7 +305,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/czasownikifrazowe", (req, res
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/czasownikifrazowe.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -317,7 +317,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/edukacjaiszkola", (req, res) 
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/edukacjaiszkola.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -330,7 +330,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/rosliny", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/rosliny.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -342,7 +342,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/czasownikinieregularne", (req
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/czasownikinieregularne.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -354,7 +354,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/rodzina", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/rodzina.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -366,7 +366,7 @@ app.get("/angielski/slownictwo/slownictwoangielski/sport", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/angielski/slownictwo/sport.ejs",  {slownictwo:results.rows});     
+            res.render("gs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -439,7 +439,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/zwierzeta", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -451,7 +451,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/dom", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/dom.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -463,7 +463,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/praca", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/praca.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -475,7 +475,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/zdrowie", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/zdrowie.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -487,7 +487,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/czlowiek", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/czlowiek.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -499,7 +499,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/jedzenieizywienie", (req, res
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/jedzenieizywienie.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -511,7 +511,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/podrozeiwakacje", (req, res) 
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/podrozeiwakacje.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -523,7 +523,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/edukacjaiszkola", (req, res) 
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/edukacjaiszkola.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -535,7 +535,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/rosliny", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/rosliny.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -547,7 +547,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/rodzina", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/rodzina.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -559,7 +559,7 @@ app.get("/niemiecki/slownictwo/slownictwoniemiecki/sport", (req, res)  => {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("gs/niemiecki/slownictwo/sport.ejs",  {slownictwo:results.rows});     
+            res.render("gs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows});     
                 
         } 
     });
@@ -624,7 +624,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/zwierzeta", checkN
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -636,7 +636,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/dom", checkNotAuth
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/dom.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -648,7 +648,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/praca", checkNotAu
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/praca.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -660,7 +660,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/zdrowie", checkNot
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/zdrowie.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -672,7 +672,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/czlowiek", checkNo
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/czlowiek.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -684,7 +684,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/zwierzeta", checkN
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/zwierzeta.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -696,7 +696,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/jedzenieizywienie"
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/jedzenieizywienie.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -708,7 +708,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/podrozeiwakacje", 
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/podrozeiwakacje.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -720,7 +720,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/czasownikifrazowe"
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/czasownikifrazowe.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -732,7 +732,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/edukacjaiszkola", 
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/edukacjaiszkola.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -745,7 +745,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/rosliny", checkNot
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/rosliny.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -757,7 +757,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/czasownikinieregul
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/czasownikinieregularne.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -769,7 +769,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/rodzina", checkNot
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/rodzina.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -781,7 +781,7 @@ app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/sport", checkNotAu
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/sport.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -866,7 +866,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/dom", checkNotAuth
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/dom.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -878,7 +878,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/praca", checkNotAu
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/praca.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -890,7 +890,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/zdrowie", checkNot
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/zdrowie.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -902,7 +902,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/czlowiek", checkNo
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/czlowiek.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -914,7 +914,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/jedzenieizywienie"
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/jedzenieizywienie.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -926,7 +926,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/podrozeiwakacje", 
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/podrozeiwakacje.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -938,7 +938,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/edukacjaiszkola", 
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/edukacjaiszkola.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -950,7 +950,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/rosliny", checkNot
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/rosliny.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -962,7 +962,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/rodzina", checkNot
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/rodzina.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
@@ -974,7 +974,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/sport", checkNotAu
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/sport.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
                 
         } 
     });
