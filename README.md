@@ -18,5 +18,5 @@ React
 
 Uruchamianie:
 
-- npm run dev   
+- npm start
 - node .\nazwa_pliku.js 
