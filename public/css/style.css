@@ -57,7 +57,7 @@ nav{
 .przyciskP{
     list-style: none;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 30px;
     background-color: #167bbd;    
     border: 3px solid #167bbd;
     padding: 6px 30px;
@@ -87,6 +87,7 @@ nav{
     font-family: Poppins,Arial;
     border-radius: 38px;  
     text-decoration: none;
+    color: white;
 }
 
 .row{
@@ -117,6 +118,11 @@ h5 {
     margin-bottom: 25px;
     text-shadow: 2px 2px 0 grey;
     color: #fff;
+}
+
+h2{
+    font-size: 1.5rem;
+    margin: 30px 0  20px 0;
 }
 
 h1 {
@@ -277,7 +283,7 @@ input::-webkit-inner-spin-button {
 .gramatyka {
     width: 1200px;
     margin: 30px auto;
-    padding: 0;
+    padding: 30px;
     color: #fff;
     font-size: 18px;
     line-height: 29px;
@@ -299,3 +305,23 @@ article{
     margin: 0 80px;
 }
 
+.budowa{
+    margin: 20px auto;
+    padding: 10px;
+    border: 3px solid #167bbd;
+    width: 900px;
+    text-align: left;    
+}
+
+.ang{
+    padding: 0 0 0 15px;
+}
+
+.pol{
+    padding: 0 0 0 20px;
+}
+
+.dist{
+    color:red;
+    font-weight:bolder;
+}
