@@ -260,8 +260,7 @@ input::-webkit-inner-spin-button {
 }
 
 .tabela {
-    width: 950px;
-    
+    width: 950px;    
     margin: 50px auto;
     color: #fff;
     background: #00000080; 
@@ -325,3 +324,26 @@ article{
     color:red;
     font-weight:bolder;
 }
+
+.t-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-width: 1px 0 0 1px;
+    margin-bottom: 24px;
+    width: 40%;
+}
+
+.t-table, .t-table th, .t-table td {
+    border: 1px solid white;
+}
+
+.t-table th, .t-table td {
+    text-align: center;
+    padding: 5px 0;
+    vertical-align: middle;
+}
+
+.t-table td {
+    border-width: 0 1px 1px 0;
+}
+
