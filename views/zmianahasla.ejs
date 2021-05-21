@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Strona Główna</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+
+                    <a style="color: beige;">Witaj <%= user %>!</a>
+                    <li class="przyciskP"><a href="/Uzytkownik/ustawienia">Ustawienia</a></li>
+                    <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
+                </ul>
+            </nav>            
+        </div>
+        <div class="tabela">
+        <table class="table">
+            <thead class="thead">
+                <tr>
+                    <th class="col1" colspan="1">
+                        <b>Zmiana hasla:</b>
+                       
+                    </th>
+                    <th class="col1" colspan="1">
+                        <b></b>
+
+                    </th>
+                    
+                </tr>
+            </thead>
+
+           <tbody>
+                
+                <tr>
+                    <td class="col1">
+                        <div class="text"><a> Podaj nowe haslo</a></div>
+                    </td>
+
+                    <td class="col1">
+                        <div class="text"><a> </a></div>
+                        <form id="RegForm" name="RegForm">
+                            <p>Haslo: <input type="password" class="dane" id="haslo" size="65" name="haslo" required/></p>
+                            <br />
+                            <p>Potwierdź hasło: <input type="password" class="dane" id="haslo2" size="65" name="haslo2" required/></p>
+                            <div class="przyciskForm">            
+                                <input type="submit" value="Zmień hasło" name="Submit" />
+                            </div>
+                        </form>
+
+
+                    </td>
+                </tr>
+
+              
+              
+            </div>
+            
+
+            </tbody>
+        </table>
+</div>
+        
+  
+
+</body>
+</html>

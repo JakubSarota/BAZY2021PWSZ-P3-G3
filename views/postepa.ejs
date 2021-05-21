@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Strona Główna</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+
+                    <a style="color: beige;">Witaj <%= user %>!</a>
+                    <li class="przyciskP"><a href="/Uzytkownik/ustawienia">Ustawienia</a></li>
+                    <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
+                </ul>
+            </nav>            
+        </div>
+        <div class="tabela">
+        <table class="table">
+            <thead class="thead">
+                <tr>
+                    <th class="col1" colspan="1">
+                        <b>Jezyk Angielski:</b>
+                       
+                    </th>
+                    </tr>
+                <tr>
+                    <th class="col1" colspan="1">
+                        <b>Nazwa:</b>
+                       
+                    </th>
+                    <th class="col1" colspan="1">
+                        <b>Typ testu</b>
+                      
+                    </th>
+                    <th class="col1" colspan="1">
+                        <b>Ilosc pkt</b>
+                      
+                    </th>
+                </tr>
+                <% for(var i=0; i<postepa.length; i++) {%>
+                <tr>
+                    <th class="col1" colspan="1">
+                        <b><%= postepa[i].nazwaa%></b>
+                       
+                    </th>
+                    <th class="col1" colspan="1">
+                        <b><%= postepa[i].typa%></b>
+                      
+                    </th>
+                    <th class="col1" colspan="1">
+                        <b><%= postepa[i].wynika%></b>
+                      
+                    </th>
+                </tr>
+                <% } %>
+
+            </thead>
+
+           <tbody>
+   
+        </table>
+</div>
+        
+  
+
+</body>
+</html>

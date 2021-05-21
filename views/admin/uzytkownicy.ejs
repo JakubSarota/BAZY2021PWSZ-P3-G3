@@ -49,9 +49,6 @@
             </thead>
 
            <tbody>
-                
-                
-
             <% for(var i=0; i<uzytkownik.length; i++) {%>
                 <tr>
                     <td class="col1">
@@ -68,21 +65,14 @@
                     </td>
                     <td class="col1">
                         <div class="text"><a href="/admin/uzytkownicy?idu=<%= uzytkownik[i].id%>"  ><button>Skasuj</button></a></div>
-                        <div class="text"><a><button>Wyświetl informacje o postępach</button></a></div>
+                        <div class="text"><a href="/admin/uzytkownicy/postepa?idu=<%= uzytkownik[i].id%>"><button>Wyświetl informacje o postępach angielskiego</button></a></div>
+                        <div class="text"><a href="/admin/uzytkownicy/postepn?idu=<%= uzytkownik[i].id%>"><button>Wyświetl informacje o postępach niemieckiego</button></a></div>
                     </td>
-
                 </tr>
                  <% } %>
 
-
-
-
-
-
-              
             </div>
             
-
             </tbody>
         </table>
 </div>

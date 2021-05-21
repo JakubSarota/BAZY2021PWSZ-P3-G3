@@ -38,6 +38,139 @@ app.get('/', (req, res) => {
 });
 
 
+app.get("/admin/uzytkownicy/postepa", checkNotAuthenticated, (req, res, next) => {
+
+var idu=req.query.idu;
+console.log(idu);
+
+if(req.user.rola==0)
+    {
+        
+        pool.query(`select test.nazwa as nazwaa,test.typ_testu as typa, wynik_testu.ilosc_pkt as wynika from public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu on test.id=wynik_testu.test_id WHERE test.jezyk_id=1 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/postepa.ejs",  { postepa:results.rows, user: req.user.imie });           
+            }
+            else
+            {
+                res.render("admin/brakpostepow.ejs",  { user: req.user.imie });      
+            }
+
+        });
+
+
+
+    
+    }
+    if(req.user.rola==1)
+    {
+        res.render("stronaGlowna.ejs",  { user: req.user.imie });
+    }
+
+});
+
+
+app.get("/admin/uzytkownicy/postepn", checkNotAuthenticated, (req, res, next) => {
+
+    var idu=req.query.idu;
+    console.log(idu);
+    
+    if(req.user.rola==0)
+        {
+            
+            pool.query(`select test.nazwa as nazwan,test.typ_testu as typn, wynik_testu.ilosc_pkt as wynikn from public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu on test.id=wynik_testu.test_id WHERE test.jezyk_id=2 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
+                if (err) {
+                    throw err;
+                }
+                if(results.rows.length > 0) {
+                    res.render("admin/postepn.ejs",  { postepn:results.rows, user: req.user.imie });           
+                }
+                else
+                {
+                    res.render("admin/brakpostepow.ejs",  { user: req.user.imie });      
+                }
+    
+            });
+    
+    
+    
+        
+        }
+        if(req.user.rola==1)
+        {
+            res.render("stronaGlowna.ejs",  { user: req.user.imie });
+        }
+    
+    });
+
+    
+app.get("/Uzytkownik/ustawienia/postepn", checkNotAuthenticated, (req, res, next) => {
+
+    var idu=req.query.idu;
+    console.log(idu);
+    
+    if(req.user.id==idu)
+        {
+            
+            pool.query(`select test.nazwa as nazwan,test.typ_testu as typn, wynik_testu.ilosc_pkt as wynikn from public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu on test.id=wynik_testu.test_id WHERE test.jezyk_id=2 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
+                if (err) {
+                    throw err;
+                }
+                if(results.rows.length > 0) {
+                    res.render("postepn.ejs",  { postepn:results.rows, user: req.user.imie });           
+                }
+                else
+                {
+                    res.render("brakpostepow.ejs",  { user: req.user.imie });      
+                }
+    
+            });
+    
+    
+    
+        
+        }
+        else
+        {
+            res.render("stronaGlowna.ejs",  { user: req.user.imie });
+        }
+    
+    });
+    app.get("/Uzytkownik/ustawienia/postepa", checkNotAuthenticated, (req, res, next) => {
+
+        var idu=req.query.idu;
+        console.log(idu);
+        
+        if(req.user.id==idu)
+            {
+                
+                pool.query(`select test.nazwa as nazwaa,test.typ_testu as typa, wynik_testu.ilosc_pkt as wynika from public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu on test.id=wynik_testu.test_id WHERE test.jezyk_id=1 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
+                    if (err) {
+                        throw err;
+                    }
+                    if(results.rows.length > 0) {
+                        res.render("postepa.ejs",  { postepa:results.rows, user: req.user.imie });           
+                    }
+                    else
+                    {
+                        res.render("brakpostepow.ejs",  { user: req.user.imie });      
+                    }
+        
+                });
+        
+        
+        
+            
+            }
+            else
+            {
+                res.render("stronaGlowna.ejs",  { user: req.user.imie });
+            }
+        
+        });
+
 
 app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res, next) => {
 
@@ -68,7 +201,7 @@ app.get("/admin/uzytkownicy", checkNotAuthenticated, (req, res, next) => {
 
         
 
-        pool.query(`SELECT * FROM public."Uzytkownik" WHERE rola = 1`, (err, results) => {
+        pool.query(`SELECT * FROM public."Uzytkownik" WHERE rola = 1 ORDER BY ID ASC`, (err, results) => {
             if (err) {
                 throw err;
             }
@@ -76,14 +209,30 @@ app.get("/admin/uzytkownicy", checkNotAuthenticated, (req, res, next) => {
                 res.render("admin/uzytkownicy.ejs",  { uzytkownik:results.rows, user: req.user.imie });           
             } 
         });
+}
+});
 
+app.get("/koniec", checkNotAuthenticated, (req, res, next) => {
+
+    var idu=req.query.idu;
+    console.log(idu);
+    console.log(req.user.id);
+
+    if(idu==req.user.id)
+    {
         
 
+        pool.query( `DELETE FROM public."Uzytkownik"` + "WHERE id= '"+idu+"' " );
+        req.logout();
+        res.render("koniec.ejs");
+        
     }
 
+});
 
 
-
+app.get("/Uzytkownik/ustawienia/zmianahasla", checkNotAuthenticated,  (req, res, next) => {
+    res.render("zmianahasla.ejs", { user: req.user.imie});
 });
 app.get("/Uzytkownik/rejestracja", checkAuthenticated,  (req, res) => {
     res.render("rejestracja.ejs");
@@ -96,11 +245,24 @@ app.get("/Uzytkownik/login", checkAuthenticated, (req, res) => {
 
 
 app.get("/Uzytkownik/ustawienia", checkNotAuthenticated, (req, res, next) => {
-    res.render("ustawienia.ejs",  { user: req.user.imie, nazwisko: req.user.nazwisko, wiek: req.user.wiek, email: req.user.email});
+    res.render("ustawienia.ejs",  { id: req.user.id, user: req.user.imie, nazwisko: req.user.nazwisko, wiek: req.user.wiek, email: req.user.email});
 });
 
+
+
+
+
+
 app.get("/admin/ustawienia", checkNotAuthenticated, (req, res, next) => {
+    if(req.user.rola==0)
+    {
     res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie, nazwisko: req.user.nazwisko, wiek: req.user.wiek, email: req.user.email});
+    }
+    if(req.user.rola==1)
+    {
+        res.render("stronaGlowna.ejs",  { user: req.user.imie });
+    }
+    
 });
 
 app.get("/Uzytkownik/wyloguj", (req, res) => {
@@ -160,7 +322,7 @@ app.post("/Uzytkownik/rejestracja", async (req, res) => {
                                 throw err;
                             }
                             // console.log(results.rows);
-                            req.flash("udane_zalogowanie", "Jestes zarejestrowany. Możesz się zalogować");
+                            req.flash("udane_zalogowanie", "Zostałeś zarejestrowany. Możesz się zalogować");
                             res.redirect('/Uzytkownik/login');
                         }
                     );

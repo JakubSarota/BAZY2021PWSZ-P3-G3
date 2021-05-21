@@ -27,10 +27,7 @@
                         <b>Moje dane:</b>
                        
                     </th>
-                    <th class="col1" colspan="1">
-                        <b></b>
-                      
-                    </th>
+                    
                 </tr>
             </thead>
 
@@ -75,12 +72,54 @@
                         <div class="text"><a> <%= email %></a></div>
                     </td>
                 </tr>
-              
-            </div>
-            
+                <tr>
+                    <td class="col1">
+                        <div class="text"><a> Hasło</a></div>
+                    </td>
+
+                    <td class="col1">
+                        <div class="text"><a href="/Uzytkownik/ustawienia/zmianahasla"><button>Zmień swoje hasło</button></a></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <div class="text"><a> Konto</a></div>
+                    </td>
+
+                    <td class="col1">
+                        <div class="text"><a href="/koniec?idu=<%= id %>"><button>Skasuj moje konto</button></a></div>
+                    </td>
+                </tr>
+                
+                </thead>
+            <thead class="thead">
+                    <tr>
+                        <th class="col1" colspan="1">
+                            <b>Moje postępy:</b>
+                           
+                        </th>
+                        
+                    </tr>
+                    <tbody>
+                
+                        <tr>
+                            <td class="col1">
+                                <div class="text"><a href="/Uzytkownik/ustawienia/postepa?idu=<%= id %>"><button>Wyświetl informacje o postępach angielskiego</button></a></div>
+                            </td>
+        
+                            <td class="col1">
+                                <div class="text"><a href="/Uzytkownik/ustawienia/postepn?idu=<%= id %>"><button>Wyświetl informacje o postępach niemieckiego</button></a></div>
+                            </td>
+                        </tr>
+</tbody>
+           
 
             </tbody>
+
         </table>
+</div>
+
+
 </div>
         
   
