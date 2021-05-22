@@ -347,3 +347,74 @@ article{
     border-width: 0 1px 1px 0;
 }
 
+
+/* quizy */
+
+.quiz{
+    padding: 30px;
+}
+
+:root {
+    --hue-neutral: 200;
+    --hue-wrong: 0;
+    --hue-correct: 145;
+  }
+
+.btn-grid {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 20px;
+    margin: 20px ;
+  }
+  
+  .btn {
+    --hue: var(--hue-neutral);
+    border: 1px solid hsl(var(--hue), 100%, 30%);
+    background-color: hsl(var(--hue), 100%, 50%);
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    outline: none;
+    height: 50px;
+    margin: 0 auto;
+  }
+  
+  .btn:hover {
+    border-color: black;
+  }
+  
+  .btn.correct {
+    --hue: var(--hue-correct);
+    color: black;
+  }
+  
+  .btn.wrong {
+    --hue: var(--hue-wrong);
+  }
+  
+  .start-btn, .next-btn {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 20px;    
+  }
+  
+  .controls {
+    display: flex;
+    justify-content: center;
+    
+  }
+  
+  .hide {
+    display: none;
+  }
+
+  .quiz a{
+      font-size: 22px;
+      height: 23px;
+      margin: 0 auto;
+  }
+
+  #question{
+      font-size: 23px;
+  }
+
