@@ -14,7 +14,7 @@
                 <ul>
 
                     <a style="color: beige;">Witaj <%= user %>!</a>
-                    <li class="przyciskP"><a href="/Uzytkownik/ustawienia">Ustawienia</a></li>
+                    <li class="przyciskP"><a href="/admin/ustawienia">Ustawienia</a></li>
                     <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
                 </ul>
             </nav>            
@@ -44,7 +44,7 @@
 
                     <td class="col1">
                         <div class="text"><a> </a></div>
-                        <form id="RegForm" name="RegForm" action="zmianahasla" method="POST">
+                        <form id="RegForm" name="RegForm" action="zmianahaslaadmin" method="POST">
                             <p>Obecne haslo: <input type="password" class="dane" id="obecne" size="65" name="obecne" required/></p>
                             <br />
                             <p>Haslo: <input type="password" class="dane" id="haslo" size="65" name="haslo" required/></p>

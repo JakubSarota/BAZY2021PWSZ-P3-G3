@@ -44,9 +44,7 @@
 
                     <td class="col1">
                         <div class="text"><a> </a></div>
-                        <form id="RegForm" name="RegForm" action="zmianahasla" method="POST">
-                            <p>Obecne haslo: <input type="password" class="dane" id="obecne" size="65" name="obecne" required/></p>
-                            <br />
+                        <form id="RegForm" name="RegForm" action="elo.ejs" method="POST">
                             <p>Haslo: <input type="password" class="dane" id="haslo" size="65" name="haslo" required/></p>
                             <br />
                             <p>Potwierdź hasło: <input type="password" class="dane" id="haslo2" size="65" name="haslo2" required/></p>
@@ -57,16 +55,15 @@
 
 
                     </td>
-                    
-                </tr>
-                <tr>
-
+                    <ul>
                         <% if(typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
                             <li><%= error.message %></li>
                             <% }) %>
                         <% } %>
-                    
-            </tr>
+                    </ul>
+                </tr>
+
+            
             </div>
             
 
