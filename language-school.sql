@@ -39,7 +39,7 @@ CREATE TABLE public."Test"
 (
     id serial NOT NULL,
     nazwa character varying(255),
-    typ character varying(255),
+    typ_testu character varying(255),
     jezyk_id integer NOT NULL,
     material_id integer NOT NULL,
     PRIMARY KEY (id)
