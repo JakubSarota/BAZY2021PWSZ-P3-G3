@@ -1187,19 +1187,350 @@ app.get("/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czaszaprzeszlyplusqu
 //////quizy///////////////////////
 //////////////////////////////////
 
-
-
-
-
 app.get("/uzytkownik/angielski/quizy/quizyangielski", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/quizy/quizyangielski.ejs",  { user: req.user.imie });
+});
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/niemiecki/quizy/quizyniemiecki.ejs",  { user: req.user.imie });
+});
+
+
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/wszystkie", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/zwierzeta", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/dom", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'dom' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/praca", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'praca' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/quizy/quizyangielski/zdrowie", checkNotAuthenticated, (req, res, next)  => {
 
     pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'zdrowie' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
         if (err) {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/quizy/quizyangielski.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
                 
         } 
     });
 });
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/czlowiek", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'czlowiek' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/jedzenieizywienie", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'jedzenie i zywienie' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/podrozeiwakacje", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'podroze i wakacje' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/czasownikifrazowe", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'czasowniki frazowe' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/edukacjaiszkola", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'edukacja i szkola' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/rosliny", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'rosliny' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/czasownikinieregularne", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'czasowniki nieregularne' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/angielski/quizy/quizyangielski/rodzina", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'rodzina' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+app.get("/uzytkownik/angielski/quizy/quizyangielski/sport", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'sport' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+///////////////////////////////////////////////
+/////////////////////niemiecki///////////////////
+//////////////////////////////////////////
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/wszystkie", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/zwierzeta", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/dom", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'dom' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/praca", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'praca' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/zdrowie", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'zdrowie' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/czlowiek", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'czlowiek' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/jedzenieizywienie", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'jedzenie i zywienie' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/podrozeiwakacje", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'podroze i wakacje' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/edukacjaiszkola", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'edukacja i szkola' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/rosliny", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'rosliny' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/rodzina", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'rodzina' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/sport", checkNotAuthenticated, (req, res, next)  => {
+
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'sport' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
+                
+        } 
+    });
+});
+
