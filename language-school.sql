@@ -82,6 +82,7 @@ CREATE TABLE public."Slownictwo"
     polski character varying(255),
     tlumaczenie character varying(255),
     jezyk_id integer NOT NULL,
+	kategoria character varying(255),
     PRIMARY KEY (id)
 );
 
