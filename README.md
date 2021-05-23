@@ -1,7 +1,5 @@
 Pakiety
 
-
-
 Express
 - npm init -y  
 - npm i dev
@@ -12,9 +10,6 @@ Express
 - npm i dotenv pg 
 - npm i express-session express-flash
 - npm i passport passport-local
-
-React
-- npx create-react-app app
 
 Uruchamianie:
 
