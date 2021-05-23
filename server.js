@@ -1189,21 +1189,17 @@ app.get("/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czaszaprzeszlyplusqu
 
 
 
-app.get("/uzytkownik/angielski/quizy/quizyangielski", checkNotAuthenticated, (req, res, next)  => {
-    res.render("ugs/angielski/quizy/quizyangielski.ejs",  { user: req.user.imie });
-});
 
 
 app.get("/uzytkownik/angielski/quizy/quizyangielski", checkNotAuthenticated, (req, res, next)  => {
 
-    pool.query(`SELECT id, polski FROM "Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=1 ORDER BY random() LIMIT 1;`, (err, results) => {
+    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'zdrowie' AND jezyk_id=1 ORDER BY random();`, (err, results) => {
         if (err) {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/angielski/quizy/quizyangielski.ejs",  {slownictwo:results.rows, user: req.user.imie });     
+            res.render("ugs/angielski/quizy/quizyangielski.ejs",  {slowkaquiz:results.rows, user: req.user.imie });     
                 
         } 
     });
 });
-
