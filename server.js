@@ -41,6 +41,7 @@ app.get('/', (req, res) => {
 app.get("/admin/uzytkownicy/postepa", checkNotAuthenticated, (req, res, next) => {
 
 var idu=req.query.idu;
+
 console.log(idu);
 
 if(req.user.rola==0)
@@ -207,6 +208,10 @@ app.get("/admin/uzytkownicy", checkNotAuthenticated, (req, res, next) => {
             }
             if(results.rows.length > 0) {
                 res.render("admin/uzytkownicy.ejs",  { uzytkownik:results.rows, user: req.user.imie });           
+            }
+            else
+            {
+                res.render("admin/uzytkownicy.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
             } 
         });
 }
@@ -352,12 +357,17 @@ app.post("/Uzytkownik/ustawienia/zmianahasla",checkNotAuthenticated, async (req,
     if(haslo.length < 6 || haslo2.length < 6 || obecne.length < 6){
         errors.push({message: "Za krótkie hasło, musi być minimum 7 znaków!"});
         console.log("krotkie");
+        
     }
 
     if(haslo != haslo2) {
         errors.push({message: "hasła się nie zgadzają!"})
     }
-    if(haslo=haslo2)
+
+    if(errors.length > 0) {
+        res.render("zmianahasla.ejs", { user: req.user.imie, errors });
+    }
+    else
     {
         pool.query(
             `SELECT * FROM public."Uzytkownik" WHERE id =`+"'"+req.user.id+"'",
@@ -371,50 +381,41 @@ app.post("/Uzytkownik/ustawienia/zmianahasla",checkNotAuthenticated, async (req,
               if (results.rows.length > 0) {
                 const uzytkownik = results.rows[0];
                     console.log(results.rows[0]);
-
-
                     bcrypt.compare(obecne, uzytkownik.haslo, (err, isMatch) => {
                         if (err) {
                           console.log(err);
                         }
                         if (isMatch) {
-                            
                             let nowehaslo =  bcrypt.hashSync(haslo, 10);
                             console.log(nowehaslo);
                             pool.query(`UPDATE public."Uzytkownik"`+"SET haslo='"+nowehaslo+"' WHERE id='"+req.user.id+"'");
                             errors.push({message: "Twoje haslo zostalo zmienione"})
                             res.render("zmianahasla.ejs", { user: req.user.imie, errors });
                             
-                        } else {
+                        } 
+                        else {
                             console.log("zle haselko");
                             errors.push({message: "Obecne haslo jest niepoprawne"})
-
-                            if(errors.length > 0) {
-                                res.render("zmianahasla.ejs", { user: req.user.imie, errors });
-                            }
-
-
+                            res.render("zmianahasla.ejs", { user: req.user.imie, errors });
                         }
                       });
-    
-               
               } 
             }
           );
-
-         
-
     }
-
-    if(errors.length > 0) {
-        res.render("zmianahasla.ejs", { user: req.user.imie, errors });
-    }
-    
-
 });
-
+///////////////////////////////
+///////////////////////////////////////
+////////zmiana hasla admin/////////////////////
+//////////////////////////////////
+//////////////////////////////////
 
 app.post("/admin/zmianahaslaadmin",checkNotAuthenticated, async (req, res,next) => {
+
+    
+    if(req.user.rola==0)
+    {
+
     let { obecne, haslo, haslo2} = req.body;
     let errors = [];
     console.log({
@@ -432,12 +433,17 @@ app.post("/admin/zmianahaslaadmin",checkNotAuthenticated, async (req, res,next) 
     if(haslo.length < 6 || haslo2.length < 6 || obecne.length < 6){
         errors.push({message: "Za krótkie hasło, musi być minimum 7 znaków!"});
         console.log("krotkie");
+        
     }
 
     if(haslo != haslo2) {
         errors.push({message: "hasła się nie zgadzają!"})
     }
-    if(haslo=haslo2)
+
+    if(errors.length > 0) {
+        res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
+    }
+    else
     {
         pool.query(
             `SELECT * FROM public."Uzytkownik" WHERE id =`+"'"+req.user.id+"'",
@@ -451,42 +457,34 @@ app.post("/admin/zmianahaslaadmin",checkNotAuthenticated, async (req, res,next) 
               if (results.rows.length > 0) {
                 const uzytkownik = results.rows[0];
                     console.log(results.rows[0]);
-
-
                     bcrypt.compare(obecne, uzytkownik.haslo, (err, isMatch) => {
                         if (err) {
                           console.log(err);
                         }
                         if (isMatch) {
-                            
                             let nowehaslo =  bcrypt.hashSync(haslo, 10);
                             console.log(nowehaslo);
                             pool.query(`UPDATE public."Uzytkownik"`+"SET haslo='"+nowehaslo+"' WHERE id='"+req.user.id+"'");
                             errors.push({message: "Twoje haslo zostalo zmienione"})
                             res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
                             
-                        } else {
+                        } 
+                        else {
                             console.log("zle haselko");
                             errors.push({message: "Obecne haslo jest niepoprawne"})
-
-                            if(errors.length > 0) {
-                                res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
-                            }
-
-
+                            res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
                         }
                       });
-    
-               
               } 
             }
           );
     }
-    if(errors.length > 0) {
-        res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
-    }
-    
+}
 
+if(req.user.rola==1)
+    {
+        res.render("stronaGlowna.ejs",  { user: req.user.imie });
+    }
 });
 
 app.get("/Uzytkownik/ustawienia/zmianahasla", checkNotAuthenticated,  (req, res, next) => {
