@@ -4,11 +4,16 @@
 <head>
     <meta charset="utf-8" />
     <title>Strona Główna</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/style3.css" />
+    <script
+    src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"
+    src="/javascripts/main.js"
+></script>
 </head>
 <body>
     <div class="container">
         <div class="navbar">
+            
             <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
             <nav>
                 <ul>
@@ -19,6 +24,7 @@
                 </ul>
             </nav>            
         </div>
+         
         <div class="tabela">
         <table class="table">
             <thead class="thead">
@@ -52,7 +58,7 @@
                         <div class="text"><a> <%= nazwisko %></a></div>
                     </td>
                 </tr>
-
+                    
                 <tr>
                     <td class="col1">
                         <div class="text"><a> Wiek</a></div>
@@ -87,16 +93,20 @@
                     </td>
 
                     <td class="col1">
-                        <div class="text"><a href="/koniec?idu=<%= id %>"><button>Skasuj moje konto</button></a></div>
+                        <div class="start_btn" ><button>Skasuj moje konto</button></a></div>
+                        
+                    </div>
+
+                        </td>
                     </td>
                 </tr>
                 
                 </thead>
+                
             <thead class="thead">
                     <tr>
                         <th class="col1" colspan="1">
-                            <b>Moje postępy:</b>
-                           
+                            <b>Moje postępy:</b>  
                         </th>
                         
                     </tr>
@@ -111,18 +121,39 @@
                                 <div class="text"><a href="/Uzytkownik/ustawienia/postepn?idu=<%= id %>"><button>Wyświetl informacje o postępach niemieckiego</button></a></div>
                             </td>
                         </tr>
-</tbody>
+            </tbody>
            
 
             </tbody>
 
         </table>
-</div>
-
-
-</div>
-        
-  
+        <div class="info_box">
+            <div class="info-list">
+                <div class="info">Czy napewno chcesz skasować konto?</div>
+                <div> Jeśli klikniesz "Tak" stracisz cały postęp </div>
+            </div>
+            <div class="buttons">
+                <button class="quit">Nie</button>
+                <button class="text"><a href="/koniec?idu=<%= id %>">Tak</a></button>
+            </div>
+        </div>
+</div>  
 
 </body>
+<script>
+    
+
+    const start_btn = document.querySelector(".start_btn button");
+    const info_box = document.querySelector(".info_box");
+    const exit_btn = info_box.querySelector(".buttons .quit");
+
+    start_btn.onclick = () => {
+        info_box.classList.add("activeInfo"); 
+    }
+    
+    exit_btn.onclick = ()=>{
+        info_box.classList.remove("activeInfo"); 
+    }
+    
+</script>
 </html>

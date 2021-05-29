@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Strona Główna</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+
+                    <a style="color: beige;">Witaj <%= user %>!</a>
+                    <li class="przyciskP"><a href="/admin/ustawienia">Ustawienia</a></li>
+                    <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
+                </ul>
+            </nav>            
+        </div>
+        <div class="gramatyka">
+        <table class="table">
+            <thead class="thead">
+                <tr>
+                    <a class = "przycisks" href="/admin/uzytkownicy">Lista Użytkowników</a>
+                    <a class = "przycisks" href="/admin/zmianahaslaadmin">Zmiana hasła admina</a>
+                    <a class = "przycisks" href="/admin/dodajslownictwoangielski">Dodaj słownictwo angielski</a>
+                    <a class = "przycisks" href="/admin/dodajslownictwoniemiecki">Dodaj słownictwo niemiecki</a>
+                    <a class = "przycisks" href="/admin/skasujslownictwoangielskidzial">Skasuj słownictwo angielski</a>
+                    <a class = "przycisks" href="/admin/skasujslownictwoniemieckidzial">Skasuj słownictwo niemiecki</a>
+                    <a class = "przycisks" href="/admin/dodajpytanieangielski">Dodaj pytanie angielski</a>
+                    <a class = "przycisks" href="/admin/dodajpytanieniemiecki">Dodaj pytanie niemeicki</a>
+                    <a class = "przycisks" href="/admin/dodajtestangielski">Dodaj test angielski</a>
+                    <a class = "przycisks" href="/admin/dodajtestniemiecki">Dodaj test niemiecki</a>
+                    </th>
+                    
+                </tr>
+            </thead>
+
+           <tbody>
+                
+                <tr>
+                    <td class="col1">
+                        <div class="text"><a> Dodaj nowy test do bazy - jezyk angielski</a></div>
+                    </td>
+
+                    <td class="col1">
+                        <div class="text"><a> </a></div>
+                        <form id="RegForm" name="RegForm" action="" method="POST">
+                            <p>Nazwa testu: <input type="text" class="dane" id="polski" size="65" name="nazwa" required/></p>
+                            <br />
+                            <p>Wybierz test: 
+                                <select class="dane" name="test" id="test">
+
+                                   
+                                    <option style="color:black;" value="łatwy">Łatwy</option>
+                                    <option style="color:black;" value="średni">Średni</option>
+                                    <option style="color:black;" value="Trudny">Trudny</option>
+                                </select></p>
+                         
+
+                            <div class="przyciskForm">            
+                                <input type="submit" value="Dodaj" name="Submit" />
+                            </div>
+                        </form>
+
+
+                    </td>
+                    
+                </tr>
+                <tr>
+
+                       
+                    
+            </tr>
+            </div>
+            
+
+            </tbody>
+        </table>
+</div>
+        
+  
+
+</body>
+</html>
