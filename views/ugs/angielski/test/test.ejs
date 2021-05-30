@@ -57,7 +57,7 @@
             <footer>
                 <div class="total_que">
                 </div>
-                <button class="next_btn">Następne pytanie</button>
+                <button class="next_btn">Dalej</button>
             </footer>
         </div>
     
@@ -69,14 +69,18 @@
             <div class="score_text">
             </div>
             <div class="buttons">
-                <button class="quit">Wyjdź z testu</button>
+                <a href="wynik" onclick="location.href=this.href+'?test=<%= testangielski[0].test_id%>&wynik='+Math.round((userScore*100)/questions.length);return false;">  <button class="quit">Wyjdź z testu</button> </a>
             </div>
         </div>
 
     </div>
 </body>
 
+
+
 <script>
+
+        
         let dodaj;
 
         function shuffleArray(array) {

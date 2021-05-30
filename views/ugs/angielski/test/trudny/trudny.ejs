@@ -27,27 +27,17 @@
                 <h1>Ucz się szybko <br /> i zapamiętaj na zawsze.</h1>
             </div>
             <div class="col">
-                <a href="/uzytkownik/angielski/slownictwo/slownictwoangielski">
+            <% for(var i=0; i<testy.length; i++) {%>
+           
+                <a href="/uzytkownik/angielski/testangielski/wybortestu/trudny/test?id=<%= testy[i].id%>">
                 <div class="card2">
-                    <h5>Słownictwo</h5>
-                    <p>Lista słówek</p>
-                </div></a>
-                <a href="/uzytkownik/angielski/gramatyka/gramatykaangielski">
-                <div class="card2">
-                    <h5>Gramatyka</h5>
-                    <p>Nauka gramatyki</p>
-                </div></a>
-                <a href="/uzytkownik/angielski/quizy/quizyangielski">
-                    <div class="card2">
-                        <h5>Quizy</h5>
-                        <p>Sprawdź swoją wiedzę</p>
-                </div></a>
-                <a href="/uzytkownik/angielski/testangielski/wybortestu">
-                    <div class="card2">
-                        <h5>Testy</h5>
-                        <p>Sprawdź swoją wiedzę<p>
-                </div></a>
-            </div>
+                    <h5><%= testy[i].nazwa%></h5>
+            </div></a>
+        <% } %>
+
+    
+
+
         </div>
     </div>
 
