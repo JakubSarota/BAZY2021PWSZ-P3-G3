@@ -133,7 +133,7 @@ h1 {
 }
 
 button {
-    width: 200px;
+    width: 50%;
     color: #000;
     font-size: 15px;
     padding: 13px 0;
@@ -194,7 +194,7 @@ button a{
 
 .formularzRej {
     height: 400px;
-    width: 600px;
+    width: 40%;
     padding: 4%;
     background: #00000080;
     border: 2px solid #167bbd;
@@ -209,7 +209,7 @@ button a{
 
 .formularzLog {
     height: 200px;
-    width: 600px;
+    width: 40%;
     padding: 4%;
     background: #00000080;
     border: 2px solid #167bbd;
@@ -227,7 +227,7 @@ input::-webkit-inner-spin-button {
 }
 
 .dane {
-    width: 500px;
+    width: 100%;
     height: 30px;
     border-radius: 10px;
     border: 2px solid #167bbd;
@@ -260,27 +260,26 @@ input::-webkit-inner-spin-button {
 }
 
 .tabela {
-    width: 950px;    
+    width: 70%;    
     margin: 50px auto;
     color: #fff;
     background: #00000080; 
 }
 
 .table{
-    width: 900px;
+    width: 90%;
     margin: 0 auto;
 }
 
 
 .col1 {
-    width: 450px;
     text-align: left;
     padding: 15px 0 15px 0;
     border-bottom: 1px solid #fff;
 }
 
 .gramatyka {
-    width: 1200px;
+    width: 90%;
     margin: 30px auto;
     padding: 30px;
     color: #fff;
@@ -308,7 +307,7 @@ article{
     margin: 20px auto;
     padding: 10px;
     border: 3px solid #167bbd;
-    width: 900px;
+    width: 78%;
     text-align: left;    
 }
 
@@ -347,6 +346,14 @@ article{
     border-width: 0 1px 1px 0;
 }
 
+.angl{
+    margin: 15px 0 15px 0;
+}
+
+.niem{
+    margin-bottom: 15px;
+}
+
 
 /* quizy */
 
@@ -377,6 +384,7 @@ article{
     outline: none;
     height: 50px;
     margin: 0 auto;
+    width: 80%;
   }
   
   .btn:hover {
@@ -401,7 +409,8 @@ article{
   .controls {
     display: flex;
     justify-content: center;
-    
+    margin: 0 auto;
+    width: 60%;    
   }
   
   .hide {
