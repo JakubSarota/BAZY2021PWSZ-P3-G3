@@ -80,7 +80,6 @@ app.get("/admin/uzytkownicy/postepn", checkNotAuthenticated, (req, res, next) =>
     
     if(req.user.rola==0)
         {
-            
             pool.query(`select test.nazwa as nazwan,test.typ_testu as typn, wynik_testu.ilosc_pkt as wynikn from public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu on test.id=wynik_testu.test_id WHERE test.jezyk_id=2 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
                 if (err) {
                     throw err;
@@ -774,11 +773,8 @@ app.post("/admin/skasujslownictwoniemieckislowka", checkNotAuthenticated, (req, 
 ///////////////////////////////////////
 /////////////////////////////////////
 app.get("/admin/dodajpytanieangielski", checkNotAuthenticated, (req, res, next) => {
-
-    
     if(req.user.rola==0)
     {
-    
         pool.query(`SELECT id, nazwa, typ_testu from public."Test" where jezyk_id=1;`, (err, results) => {
             if (err) {
                 throw err;
@@ -979,34 +975,23 @@ app.post("/admin/dodajtestniemiecki", checkNotAuthenticated, (req, res, next) =>
 
 //////////////////////////////////////////
 //////////////////////////////////////////
-///////////wypełnianie testów
+///////////wypełnianie testów ANGIELSKI
 ////////////////////////////////////////
 //////////////////////////////////////
 
 app.get("/uzytkownik/angielski/testangielski/wybortestu", checkNotAuthenticated, (req, res, next) => {
-
-
-    
-            res.render("ugs/angielski/test/wybortestu.ejs",  { user: req.user.imie });           
-
-    
-   
+    res.render("ugs/angielski/test/wybortestu.ejs",  { user: req.user.imie });           
 });
 
 
 app.get("/uzytkownik/angielski/testangielski/wybortestu/latwy", checkNotAuthenticated, (req, res, next) => {
-
     pool.query(`SELECT * from public."Test" where jezyk_id=1 AND typ_testu='łatwy'`, (err, results) => {
         if (err) {
             throw err;
         }
         if(results.rows.length > 0) {
-            
             res.render("ugs/angielski/test/latwy/latwy.ejs",  { testy:results.rows, user: req.user.imie });           
-        }
-        else
-        {
-            
+        } else {
             res.render("ugs/angielski/test/wybortestu.ejs",  { user: req.user.imie }); 
         } 
     });
@@ -1021,9 +1006,7 @@ app.get("/uzytkownik/angielski/testangielski/wybortestu/sredni", checkNotAuthent
         if(results.rows.length > 0) {
             
             res.render("ugs/angielski/test/sredni/sredni.ejs",  { testy:results.rows, user: req.user.imie });           
-        }
-        else
-        {
+        } else {
             
             res.render("ugs/angielski/test/wybortestu.ejs",  { user: req.user.imie }); 
         } 
@@ -1158,10 +1141,9 @@ app.get("/uzytkownik/angielski/testangielski/wybortestu/trudny/wynik", checkNotA
         }
         if(results.rows.length > 0) {
 
-            if(results.rows[0].ilosc_pkt < wynik)
-{
-        pool.query(`UPDATE public."Wynik_testu" `+ "SET ilosc_pkt = '"+wynik+"';" );
-}
+            if(results.rows[0].ilosc_pkt < wynik) {
+                pool.query(`UPDATE public."Wynik_testu" `+ "SET ilosc_pkt = '"+wynik+"';" );
+            }
             res.render("ugs/angielski/test/wybortestu.ejs",  { user: req.user.imie }); 
         }
         else
@@ -1180,6 +1162,199 @@ app.get("/uzytkownik/angielski/testangielski/wybortestu/trudny/wynik", checkNotA
 ///////////koniec wypełniania testów
 ////////////////////////////////////////
 //////////////////////////////////////
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+/////////NIEMIECKI WYPEŁNIANIE TESTÓW//////////////////////////
+///////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+
+app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu", checkNotAuthenticated, (req, res, next) => {
+    res.render("ugs/niemiecki/test/wybortestu.ejs",  { user: req.user.imie });           
+});
+
+app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu/latwy", checkNotAuthenticated, (req, res, next) => {
+    pool.query(`SELECT * from public."Test" where jezyk_id=2 AND typ_testu='łatwy'`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/test/latwy/latwy.ejs",  { testy: results.rows, user: req.user.imie });           
+        } else {
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  { user: req.user.imie }); 
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu/sredni", checkNotAuthenticated, (req, res, next) => {
+
+    pool.query(`SELECT * from public."Test" where jezyk_id=2 AND typ_testu='średni'`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            
+            res.render("ugs/niemiecki/test/sredni/sredni.ejs",  { testy:results.rows, user: req.user.imie });           
+        } else {
+            
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  { user: req.user.imie }); 
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu/trudny", checkNotAuthenticated, (req, res, next) => {
+
+    pool.query(`SELECT * from public."Test" where jezyk_id=2 AND typ_testu='Trudny'`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            
+            res.render("ugs/niemiecki/test/trudny/trudny.ejs",  { testy: results.rows, user: req.user.imie });           
+        }
+        else
+        {
+            
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  { user: req.user.imie }); 
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu/latwy/test", checkNotAuthenticated, (req, res, next) => {
+    var id=req.query.id;
+
+    pool.query(`SELECT * FROM public."Pytania" where`+" test_id= '"+id+"' ;" , (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/test/test.ejs",  { testniemiecki:results.rows, user: req.user.imie });           
+        }
+        else
+        {
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  {  user: req.user.imie }); 
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu/sredni/test", checkNotAuthenticated, (req, res, next) => {
+    var id=req.query.id;
+
+    pool.query(`SELECT * FROM public."Pytania" where`+" test_id= '"+id+"' ;" , (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/test/test.ejs",  { testniemiecki:results.rows, user: req.user.imie });           
+        }
+        else
+        {
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  {  user: req.user.imie }); 
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu/trudny/test", checkNotAuthenticated, (req, res, next) => {
+    var id=req.query.id;
+
+    pool.query(`SELECT * FROM public."Pytania" where`+" test_id= '"+id+"' ;" , (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/test/test.ejs",  { testniemiecki:results.rows, user: req.user.imie });           
+        }
+        else
+        {
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  {  user: req.user.imie }); 
+        } 
+    });
+});
+
+
+app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu/latwy/wynik", checkNotAuthenticated, (req, res, next) => {
+    var wynik=req.query.wynik;
+    var test=req.query.test;
+
+    pool.query(`SELECT * from public."Wynik_testu"`+" where test_id= '"+test+"' ;"  , (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+
+            if(results.rows[0].ilosc_pkt < wynik)
+{
+        pool.query(`UPDATE public."Wynik_testu" `+ "SET ilosc_pkt = '"+wynik+"';" );
+}
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  { user: req.user.imie }); 
+        }
+        else
+        {
+            pool.query(`INSERT INTO public."Wynik_testu"(uzytkownik_id, test_id, ilosc_pkt) VALUES (`+" '"+req.user.id+"', '"+test+"', '"+wynik+"');");
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  { user: req.user.imie });   
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu/sredni/wynik", checkNotAuthenticated, (req, res, next) => {
+    var wynik=req.query.wynik;
+    var test=req.query.test;
+
+    pool.query(`SELECT * from public."Wynik_testu"`+" where test_id= '"+test+"' ;"  , (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+
+            if(results.rows[0].ilosc_pkt < wynik)
+{
+        pool.query(`UPDATE public."Wynik_testu" `+ "SET ilosc_pkt = '"+wynik+"';" );
+}
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  { user: req.user.imie }); 
+        }
+        else
+        {
+            pool.query(`INSERT INTO public."Wynik_testu"(uzytkownik_id, test_id, ilosc_pkt) VALUES (`+" '"+req.user.id+"', '"+test+"', '"+wynik+"');");
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  { user: req.user.imie });   
+        } 
+    });
+});
+
+app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu/trudny/wynik", checkNotAuthenticated, (req, res, next) => {
+    var wynik=req.query.wynik;
+    var test=req.query.test;
+
+    pool.query(`SELECT * from public."Wynik_testu"`+" where test_id= '"+test+"' ;"  , (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+
+            if(results.rows[0].ilosc_pkt < wynik)
+{
+        pool.query(`UPDATE public."Wynik_testu" `+ "SET ilosc_pkt = '"+wynik+"';" );
+}
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  { user: req.user.imie }); 
+        }
+        else
+        {
+            pool.query(`INSERT INTO public."Wynik_testu"(uzytkownik_id, test_id, ilosc_pkt) VALUES (`+" '"+req.user.id+"', '"+test+"', '"+wynik+"');");
+            res.render("ugs/niemiecki/test/wybortestu.ejs",  { user: req.user.imie });   
+        } 
+    });
+});
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+
+
 app.get("/koniec", checkNotAuthenticated, (req, res, next) => {
 
     var idu=req.query.idu;
@@ -2277,8 +2452,7 @@ app.get("/uzytkownik/niemiecki/slownictwo/slownictwoniemiecki/rodzina", checkNot
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
-                
+            res.render("ugs/niemiecki/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });            
         } 
     });
 });
@@ -2316,9 +2490,9 @@ app.get("/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czaszaprzeszlyplusqu
 });
 
 
-//////////////////////////////////
-//////quizy///////////////////////
-//////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////quizy/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.get("/uzytkownik/angielski/quizy/quizyangielski", checkNotAuthenticated, (req, res, next)  => {
     res.render("ugs/angielski/quizy/quizyangielski.ejs",  { user: req.user.imie });
@@ -2508,9 +2682,14 @@ app.get("/uzytkownik/angielski/quizy/quizyangielski/sport", checkNotAuthenticate
         } 
     });
 });
-///////////////////////////////////////////////
-/////////////////////niemiecki///////////////////
-//////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////niemiecki/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/wszystkie", checkNotAuthenticated, (req, res, next)  => {
 
     pool.query(`SELECT * FROM "Slownictwo" WHERE jezyk_id=2 ORDER BY random();`, (err, results) => {

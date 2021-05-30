@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css"> 
+    <title>Strona Główna</title>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+
+                    <a style="color: beige;">Witaj <%= user %>!</a>
+                    <li class="przyciskP"><a href="/Uzytkownik/ustawienia">Ustawienia</a></li>
+                    <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
+                </ul>
+            </nav>            
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <h1>Ucz się szybko <br /> i zapamiętaj na zawsze.</h1>
+            </div>
+            <div class="col">
+            <% for(var i=0; i< testy.length; i++) {%>
+           
+                <a href="/uzytkownik/niemiecki/testniemiecki/wybortestu/latwy/test?id=<%= testy[i].id%>">
+                <div class="card1">
+                    <h5><%= testy[i].nazwa%></h5>
+                 </div></a>
+            <% } %>
+
+        </div>
+    </div>
+
+</body>
+</html>
