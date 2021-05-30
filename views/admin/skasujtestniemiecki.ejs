@@ -30,14 +30,11 @@
                     <a class = "przycisks" href="/admin/skasujslownictwoangielskidzial">Skasuj słownictwo angielski</a>
                     <a class = "przycisks" href="/admin/skasujslownictwoniemieckidzial">Skasuj słownictwo niemiecki</a>
                     <a class = "przycisks" href="/admin/dodajpytanieangielski">Dodaj pytanie angielski</a>
-                    <a class = "przycisks" href="/admin/dodajpytanieniemiecki">Dodaj pytanie niemeicki</a>
+                    <a class = "przycisks" href="/admin/dodajpytanieniemiecki">Dodaj pytanie niemiecki</a>
                     <a class = "przycisks" href="/admin/dodajtestangielski">Dodaj test angielski</a>
                     <a class = "przycisks" href="/admin/dodajtestniemiecki">Dodaj test niemiecki</a>
-                    
 
-                    
                     </th>
-                    
                 </tr>
             </thead>
 
@@ -45,23 +42,22 @@
                 
                 <tr>
                     <td class="col1">
-                        <div class="text"><a> Wybierz dział</a></div>
+                        <div class="text"><a> Wybierz test z niemieckiego do skasowania</a></div>
                     </td>
                     <td class="col1">
                         <div class="text"><a> </a></div>
-                        <form id="RegForm" name="RegForm" action="/admin/skasujslownictwoangielskislowka" method="POST">
-                            <p>Wybierz kategorie: 
-                                <select class="dane" name="kategoria" id="kategoria">
+                        <form id="RegForm" name="RegForm" action="/admin/skasujtestniemiecki" method="POST">
+                            <p>Wybierz test: 
+                                <select class="dane" name="test" id="test">
 
-                                    <% for(var i=0; i<kategoria.length; i++) {%>
-                                        <option style="color:black;" value="<%= kategoria[i].kategoria%>"><%= kategoria[i].kategoria%></option>
+                                    <% for(var i=0; i<test.length; i++) {%>
+                                        <option style="color:black;" value="<%= test[i].id%>"><%= test[i].nazwa%>, <%= test[i].typ_testu%></option>
                                     <% } %>
 
                               </select></p>
 
-                              
                             <div class="przyciskForm">            
-                                <input type="submit" value="Wybierz" name="Submit" />
+                                <input type="submit" value="Skasuj" name="Submit" />
                             </div>
                         </form>
 
@@ -70,9 +66,7 @@
                     
                 </tr>
                 <tr>
-
-                       
-                    
+    
             </tr>
             </div>
             

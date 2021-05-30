@@ -345,6 +345,30 @@ app.get("/admin/skasujpytanieangielskidzial", checkNotAuthenticated, (req, res, 
 }
 });
 
+app.get("/admin/skasujpytanieniemieckidzial", checkNotAuthenticated, (req, res, next) => {
+
+    
+    if(req.user.rola==0)
+    {
+    
+        pool.query(`SELECT * from public."Test" where jezyk_id=2;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                
+
+                res.render("admin/skasujpytanieniemieckidzial.ejs",  {test:results.rows, user: req.user.imie });
+                    
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
+            } 
+        });
+}
+});
+
 
 
 
@@ -359,9 +383,10 @@ app.post("/admin/skasujpytanieangielskislowka", checkNotAuthenticated, (req, res
     {
         if(id>0)
             {
-        //pool.query( `DELETE FROM public."Slownictwo" WHERE `+"id= '"+id+"';");
+        pool.query( `DELETE FROM public."Pytania" WHERE `+"id= '"+id+"';");
             }
-    
+     if(test>0)
+     {
         pool.query(`SELECT * from public."Pytania" where `+"test_id = '"+test+"' ", (err, results) => {
             if (err) {
                 throw err;
@@ -374,11 +399,227 @@ app.post("/admin/skasujpytanieangielskislowka", checkNotAuthenticated, (req, res
                 res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie });
             } 
         });
+    }
+    else
+    {
+        pool.query(`SELECT * from public."Test" where jezyk_id=1;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                
+
+                res.render("admin/skasujpytanieangielskidzial.ejs",  {test:results.rows, user: req.user.imie });
+                    
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  {user: req.user.imie }); 
+            } 
+        });
+    }
 }
 });
 
 
+app.post("/admin/skasujpytanieniemieckislowka", checkNotAuthenticated, (req, res, next) => {
+    let { test, id} = req.body;
+    console.log({
+        test,
+        id,
+    });
 
+    if(req.user.rola==0)
+    {
+        if(id>0)
+            {
+        pool.query( `DELETE FROM public."Pytania" WHERE `+"id= '"+id+"';");
+            }
+     if(test>0)
+     {
+        pool.query(`SELECT * from public."Pytania" where `+"test_id = '"+test+"' ", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/skasujpytanieniemieckislowka.ejs",  { pytanie:results.rows, user: req.user.imie });           
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie });
+            } 
+        });
+    }
+    else
+    {
+        pool.query(`SELECT * from public."Test" where jezyk_id=2;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                
+
+                res.render("admin/skasujpytanieniemieckidzial.ejs",  {test:results.rows, user: req.user.imie });
+                    
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  {user: req.user.imie }); 
+            } 
+        });
+    }
+}
+});
+
+app.get("/admin/skasujtestangielski", checkNotAuthenticated, (req, res, next) => {
+
+    
+    if(req.user.rola==0)
+    {
+    
+        pool.query(`SELECT * from public."Test" where jezyk_id=1;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                
+
+                res.render("admin/skasujtestangielski.ejs",  {test:results.rows, user: req.user.imie });
+                    
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
+            } 
+        });
+}
+});
+
+app.get("/admin/skasujtestniemiecki", checkNotAuthenticated, (req, res, next) => {
+
+    
+    if(req.user.rola==0)
+    {
+    
+        pool.query(`SELECT * from public."Test" where jezyk_id=2;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                
+
+                res.render("admin/skasujtestniemiecki.ejs",  {test:results.rows, user: req.user.imie });
+                    
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
+            } 
+        });
+}
+});
+
+app.post("/admin/skasujtestangielski", checkNotAuthenticated, (req, res, next) => {
+    let { test} = req.body;
+    console.log({
+        test,
+    });
+
+    if(req.user.rola==0)
+    {
+        if(test>0)
+        {
+        pool.query(`DELETE from public."Pytania" where`+" test_id='"+test+"';");
+        pool.query(`DELETE from public."Test" where`+" id='"+test+"';");
+        
+        }
+    
+     if(test>0)
+     {
+        
+        pool.query(`SELECT * from public."Test" where jezyk_id=1;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/skasujtestangielski.ejs",  { test:results.rows, user: req.user.imie });           
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie });
+            } 
+        });
+    }
+    else
+    {
+        pool.query(`SELECT * from public."Test" where jezyk_id=1;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                
+
+                res.render("admin/skasujtestangielski.ejs",  {test:results.rows, user: req.user.imie });
+                    
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  {user: req.user.imie }); 
+            } 
+        });
+    }
+}
+});
+
+app.post("/admin/skasujtestniemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { test} = req.body;
+    console.log({
+        test,
+    });
+
+    if(req.user.rola==0)
+    {
+         if(test>0)
+     {
+        pool.query(`DELETE from public."Pytania" where`+" test_id='"+test+"';");
+        pool.query(`DELETE from public."Test" where`+" id='"+test+"';");
+     }
+     if(test>0)
+     {
+       
+        pool.query(`SELECT * from public."Test" where jezyk_id=2;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/skasujtestniemiecki.ejs",  { test:results.rows, user: req.user.imie });           
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie });
+            } 
+        });
+    }
+    else
+    {
+        pool.query(`SELECT * from public."Test" where jezyk_id=2;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                
+
+                res.render("admin/skasujtestniemiecki.ejs",  {test:results.rows, user: req.user.imie });
+                    
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  {user: req.user.imie }); 
+            } 
+        });
+    }
+}
+});
 
 //////////////////////////////////////////
 //////////////////////////////////////////
@@ -411,11 +652,12 @@ app.get("/admin/skasujslownictwoangielskidzial", checkNotAuthenticated, (req, re
             }
             else
             {
-                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
+                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie }); 
             } 
         });
 }
 });
+
 app.post("/admin/skasujslownictwoangielskislowka", checkNotAuthenticated, (req, res, next) => {
     let { kategoria, id} = req.body;
     console.log({
@@ -451,7 +693,7 @@ app.post("/admin/skasujslownictwoangielskislowka", checkNotAuthenticated, (req, 
                     }
                     else
                     {
-                        res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
+                        res.render("admin/ustawieniaAdmin.ejs",  {  user: req.user.imie }); 
                     } 
                 });
             } 
@@ -477,7 +719,7 @@ app.get("/admin/skasujslownictwoniemieckidzial", checkNotAuthenticated, (req, re
             }
             else
             {
-                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
+                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie }); 
             } 
         });
 }
@@ -517,15 +759,13 @@ app.post("/admin/skasujslownictwoniemieckislowka", checkNotAuthenticated, (req, 
                     }
                     else
                     {
-                        res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
+                        res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie }); 
                     } 
                 });
             } 
         });
 }
 });
-
-
 
 
 ////////////////////////////////
@@ -548,7 +788,7 @@ app.get("/admin/dodajpytanieangielski", checkNotAuthenticated, (req, res, next) 
             }
             else
             {
-                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
+                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie }); 
             } 
         });
 }

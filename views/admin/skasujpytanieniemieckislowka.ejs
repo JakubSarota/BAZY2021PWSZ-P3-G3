@@ -34,7 +34,6 @@
                     <a class = "przycisks" href="/admin/dodajtestangielski">Dodaj test angielski</a>
                     <a class = "przycisks" href="/admin/dodajtestniemiecki">Dodaj test niemiecki</a>
                     
-
                     
                     </th>
                     
@@ -45,23 +44,22 @@
                 
                 <tr>
                     <td class="col1">
-                        <div class="text"><a> Wybierz dział</a></div>
+                        <div class="text"><a> Wybierz pytanie do skasowania z niemieckiego</a></div>
                     </td>
+
                     <td class="col1">
                         <div class="text"><a> </a></div>
-                        <form id="RegForm" name="RegForm" action="/admin/skasujslownictwoangielskislowka" method="POST">
-                            <p>Wybierz kategorie: 
-                                <select class="dane" name="kategoria" id="kategoria">
+                        <form id="RegForm" name="RegForm" action="" method="POST">
+                            <p>Wybierz pytanie: 
+                                <select class="dane" name="id" id="id">
 
-                                    <% for(var i=0; i<kategoria.length; i++) {%>
-                                        <option style="color:black;" value="<%= kategoria[i].kategoria%>"><%= kategoria[i].kategoria%></option>
+                                    <% for(var i=0; i<pytanie.length; i++) {%>
+                                        <option style="color:black;" value="<%= pytanie[i].id%>"><%= pytanie[i].tresc%></option>
                                     <% } %>
 
                               </select></p>
-
-                              
                             <div class="przyciskForm">            
-                                <input type="submit" value="Wybierz" name="Submit" />
+                                <input type="submit" value="Skasuj" name="Submit" />
                             </div>
                         </form>
 
