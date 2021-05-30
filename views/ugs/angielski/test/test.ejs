@@ -69,7 +69,6 @@
             <div class="score_text">
             </div>
             <div class="buttons">
-                <button class="restart">Powtórz test</button>
                 <button class="quit">Wyjdź z testu</button>
             </div>
         </div>
@@ -78,7 +77,19 @@
 </body>
 
 <script>
-    
+        let dodaj;
+
+        function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
+
+
+        
     const start_btn = document.querySelector(".start_btn button");
     const info_box = document.querySelector(".info_box");
     const exit_btn = info_box.querySelector(".buttons .quit");
@@ -109,33 +120,14 @@
     
     let timeValue =  15;
     let que_count = 0;
-    let que_numb;
+    let que_numb = 1;
     let userScore = 0;
-    let counter;
+    let counter = 1;
     let counterLine;
     let widthValue = 0;
     
-    const restart_quiz = result_box.querySelector(".buttons .restart");
     const quit_quiz = result_box.querySelector(".buttons .quit");
     
-
-    restart_quiz.onclick = ()=>{
-        quiz_box.classList.add("activeQuiz");
-        result_box.classList.remove("activeResult"); 
-        timeValue = 15; 
-        que_numb = 1;
-        userScore = 0;
-        widthValue = 0;
-        var data = "<%= testangielski[1] %>";
-        showQuetions(data);
-        queCounter(que_numb); 
-        clearInterval(counter); 
-        clearInterval(counterLine);
-        startTimer(timeValue);
-        startTimerLine(widthValue); 
-        timeText.textContent = "Time Left"; 
-        next_btn.classList.remove("show"); 
-    }
     
     quit_quiz.onclick = ()=>{
         window.location.reload(); 
@@ -278,6 +270,24 @@
         let totalQueCounTag = '<span><p>'+ index +'</p> z <p>'+ questions.length +'</p> pytań</span>';
         bottom_ques_counter.innerHTML = totalQueCounTag;  
     }
+    
+
+    const questions = [
+            {
+                numb: 0,
+                question: "<%= testangielski[0].tresc %>",
+
+                answer: "<%= testangielski[0].poprawna_odp %>",
+                options: [
+                "<%= testangielski[0].bledna_odp_3 %>",
+                "<%= testangielski[0].bledna_odp_1 %>",
+                "<%= testangielski[0].bledna_odp_2 %>",
+                "<%= testangielski[0].poprawna_odp %>"
+                ]
+            },
+
+        ]
+
 
 
 
@@ -285,4 +295,49 @@
 
 
 
+<% for (var i=1; i<testangielski.length; i++) {%>
+    <script>
+        var liczba=1;
+        
+        //console.log("<%=testangielski.length %>");
+        var dlugosc="<%=testangielski.length %>";
+        
+/*
+    var id = "<%= testangielski[i].id %>";
+    var q = "<%= testangielski[i].tresc %>";
+    var a = "<%= testangielski[i].poprawna_odp %>";
+    var o1 = "<%= testangielski[i].bledna_odp_1 %>";
+    var o2 = "<%= testangielski[i].bledna_odp_2 %>";
+    var o3 = "<%= testangielski[i].bledna_odp_3 %>";
+*/
+     dodaj = 
+     
+            {
+                numb: liczba,
+                question: q = "<%= testangielski[i].tresc %>",
+
+                answer: a = "<%= testangielski[i].poprawna_odp %>",
+                options: [
+                o3 = "<%= testangielski[i].bledna_odp_3 %>",
+                o1 = "<%= testangielski[i].bledna_odp_1 %>",
+                o2 = "<%= testangielski[i].bledna_odp_2 %>",
+                a = "<%= testangielski[i].poprawna_odp %>"
+                ]
+            }
+        
+
+        shuffleArray(dodaj.options);
+        questions.push(dodaj);
+
+    
+  
+        
+        
+    
+    
+
+       
+    </script>
+
+<%  } %>
 </html>

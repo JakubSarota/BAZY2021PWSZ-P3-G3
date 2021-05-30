@@ -314,6 +314,78 @@ app.post("/admin/dodajslownictwoniemiecki", checkNotAuthenticated, (req, res, ne
         });
 }
 });
+//////////////////////////////////////////
+//////////////////////////////////////////
+///////////kasowanie pytan 
+////////////////////////////////////////
+//////////////////////////////////////
+
+
+app.get("/admin/skasujpytanieangielskidzial", checkNotAuthenticated, (req, res, next) => {
+
+    
+    if(req.user.rola==0)
+    {
+    
+        pool.query(`SELECT * from public."Test" where jezyk_id=1;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                
+
+                res.render("admin/skasujpytanieangielskidzial.ejs",  {test:results.rows, user: req.user.imie });
+                    
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
+            } 
+        });
+}
+});
+
+
+
+
+app.post("/admin/skasujpytanieangielskislowka", checkNotAuthenticated, (req, res, next) => {
+    let { test, id} = req.body;
+    console.log({
+        test,
+        id,
+    });
+
+    if(req.user.rola==0)
+    {
+        if(id>0)
+            {
+        //pool.query( `DELETE FROM public."Slownictwo" WHERE `+"id= '"+id+"';");
+            }
+    
+        pool.query(`SELECT * from public."Pytania" where `+"test_id = '"+test+"' ", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/skasujpytanieangielskislowka.ejs",  { pytanie:results.rows, user: req.user.imie });           
+            }
+            else
+            {
+                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie });
+            } 
+        });
+}
+});
+
+
+
+
+//////////////////////////////////////////
+//////////////////////////////////////////
+///////////koniec kasowania pytan 
+////////////////////////////////////////
+//////////////////////////////////////
+
 
 //////////////////////////////////////////
 //////////////////////////////////////////
@@ -355,7 +427,7 @@ app.post("/admin/skasujslownictwoangielskislowka", checkNotAuthenticated, (req, 
     {
         if(id>0)
             {
-        pool.query( `DELETE FROM public."Slownictwo" WHERE `+"id= '"+id+"';");
+        //pool.query( `DELETE FROM public."Slownictwo" WHERE `+"id= '"+id+"';");
             }
     
         pool.query(`SELECT * from public."Slownictwo" where jezyk_id=1 AND `+"kategoria = '"+kategoria+"' ", (err, results) => {
