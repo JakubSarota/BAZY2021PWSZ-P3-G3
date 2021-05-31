@@ -155,6 +155,7 @@
         }else{
             clearInterval(counter); 
             clearInterval(counterLine); 
+            zapis();
             showResult(); 
         }
     }
@@ -228,6 +229,20 @@
             
         }
     }
+
+      
+    function zapis()
+
+    {
+    var wynik = Math.round((userScore*100)/questions.length);
+    var test= "<%= testniemiecki[0].test_id%>";
+    console.log(wynik);
+    console.log(test);
+    fetch(`/zapiszwynik?wynik=${wynik}&test=${test}`);
+       
+}
+
+
     
     function startTimer(time){
         counter = setInterval(timer, 1000);

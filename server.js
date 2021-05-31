@@ -526,48 +526,29 @@ app.post("/admin/skasujtestangielski", checkNotAuthenticated, (req, res, next) =
 
     if(req.user.rola==0)
     {
-        if(test>0)
-        {
-        pool.query(`DELETE from public."Pytania" where`+" test_id='"+test+"';");
-        pool.query(`DELETE from public."Test" where`+" id='"+test+"';");
-        
-        }
-    
-     if(test>0)
+         if(test>0)
      {
+        pool.query(`DELETE from public."Pytania" where`+" test_id='"+test+"';", (err, re) => {
+            if(err) throw err;
+            pool.query(`DELETE from public."Test" where`+" id='"+test+"';", (e, r) => {
+                if(e) throw e;
+                pool.query(`SELECT * from public."Test" where jezyk_id=1;`, (error, results) => {
+                    if (error) {
+                        throw error;
+                    }
+                    if(results.rows.length > 0) {
+                        res.render("admin/skasujtestangielski.ejs",  { test:results.rows, user: req.user.imie });           
+                    }
+                    else
+                    {
+                        res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie });
+                    } 
+                });
+            });
+        });
         
-        pool.query(`SELECT * from public."Test" where jezyk_id=1;`, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/skasujtestangielski.ejs",  { test:results.rows, user: req.user.imie });           
-            }
-            else
-            {
-                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie });
-            } 
-        });
+     }
     }
-    else
-    {
-        pool.query(`SELECT * from public."Test" where jezyk_id=1;`, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                
-
-                res.render("admin/skasujtestangielski.ejs",  {test:results.rows, user: req.user.imie });
-                    
-            }
-            else
-            {
-                res.render("admin/ustawieniaAdmin.ejs",  {user: req.user.imie }); 
-            } 
-        });
-    }
-}
 });
 
 app.post("/admin/skasujtestniemiecki", checkNotAuthenticated, (req, res, next) => {
@@ -580,44 +561,27 @@ app.post("/admin/skasujtestniemiecki", checkNotAuthenticated, (req, res, next) =
     {
          if(test>0)
      {
-        pool.query(`DELETE from public."Pytania" where`+" test_id='"+test+"';");
-        pool.query(`DELETE from public."Test" where`+" id='"+test+"';");
+        pool.query(`DELETE from public."Pytania" where`+" test_id='"+test+"';", (err, re) => {
+            if(err) throw err;
+            pool.query(`DELETE from public."Test" where`+" id='"+test+"';", (e, r) => {
+                if(e) throw e;
+                pool.query(`SELECT * from public."Test" where jezyk_id=2;`, (error, results) => {
+                    if (error) {
+                        throw error;
+                    }
+                    if(results.rows.length > 0) {
+                        res.render("admin/skasujtestniemiecki.ejs",  { test:results.rows, user: req.user.imie });           
+                    }
+                    else
+                    {
+                        res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie });
+                    } 
+                });
+            });
+        });
+        
      }
-     if(test>0)
-     {
-       
-        pool.query(`SELECT * from public."Test" where jezyk_id=2;`, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/skasujtestniemiecki.ejs",  { test:results.rows, user: req.user.imie });           
-            }
-            else
-            {
-                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie });
-            } 
-        });
     }
-    else
-    {
-        pool.query(`SELECT * from public."Test" where jezyk_id=2;`, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                
-
-                res.render("admin/skasujtestniemiecki.ejs",  {test:results.rows, user: req.user.imie });
-                    
-            }
-            else
-            {
-                res.render("admin/ustawieniaAdmin.ejs",  {user: req.user.imie }); 
-            } 
-        });
-    }
-}
 });
 
 //////////////////////////////////////////
@@ -1154,6 +1118,39 @@ app.get("/uzytkownik/angielski/testangielski/wybortestu/trudny/wynik", checkNotA
     });
 });
 
+
+
+
+app.get("/zapiszwynik", checkNotAuthenticated, (req, res, next) => {
+    
+    var wynik= req.query.wynik;
+    console.log(wynik);
+    var test= req.query.test;
+    console.log(test);
+
+    pool.query(`SELECT * from public."Wynik_testu"`+" where test_id= '"+test+"' and uzytkownik_id= '"+req.user.id+"' ;"  , (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+
+            if(results.rows[0].ilosc_pkt < wynik)
+{
+        pool.query(`UPDATE public."Wynik_testu" `+ "SET ilosc_pkt = '"+wynik+"' where uzytkownik_id= '"+req.user.id+"';" );
+}
+        }
+        else
+        {
+            pool.query(`INSERT INTO public."Wynik_testu"(uzytkownik_id, test_id, ilosc_pkt) VALUES (`+" '"+req.user.id+"', '"+test+"', '"+wynik+"');");
+        } 
+    });
+
+
+
+
+
+    
+});
 
 
 

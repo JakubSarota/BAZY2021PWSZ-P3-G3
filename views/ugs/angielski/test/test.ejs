@@ -69,11 +69,12 @@
             <div class="score_text">
             </div>
             <div class="buttons">
-                <a href="wynik" onclick="location.href=this.href+'?test=<%= testangielski[0].test_id%>&wynik='+Math.round((userScore*100)/questions.length);return false;">  <button class="quit">Wyjdź z testu</button> </a>
+            <button class="quit">Wyjdź z testu</button>
             </div>
         </div>
 
     </div>
+    <a href="wynik" onclick="location.href=this.href+'?test=<%= testangielski[0].test_id%>&wynik='+Math.round((userScore*100)/questions.length);return false;">  <button class="quit">Wyjdź z testu</button> </a>
 </body>
 
 
@@ -154,7 +155,8 @@
             next_btn.classList.remove("show"); 
         }else{
             clearInterval(counter); 
-            clearInterval(counterLine); 
+            clearInterval(counterLine);
+            zapis();
             showResult(); 
         }
     }
@@ -230,6 +232,24 @@
             
         }
     }
+
+    
+    function zapis()
+
+    {
+        
+    var wynik = Math.round((userScore*100)/questions.length);
+    var test= "<%= testangielski[0].test_id%>";
+    console.log(wynik);
+    console.log(test);
+    fetch(`/zapiszwynik?wynik=${wynik}&test=${test}`);
+       
+
+}
+
+
+
+    
     
     function startTimer(time){
         counter = setInterval(timer, 1000);
