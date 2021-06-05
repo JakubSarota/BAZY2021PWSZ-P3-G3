@@ -126,6 +126,9 @@ ALTER TABLE public."Pytania"
     REFERENCES public."Test" (id)
     NOT VALID;
 	
+  
+END;
+
 CREATE OR REPLACE FUNCTION ustaw_czas_stworzenia()
   RETURNS TRIGGER 
   LANGUAGE PLPGSQL
@@ -143,5 +146,3 @@ CREATE TRIGGER update_audit
   ON public."Uzytkownik"
   FOR EACH ROW
   EXECUTE PROCEDURE ustaw_czas_stworzenia();
-  
-END;
