@@ -49,7 +49,6 @@ CREATE TABLE public."Material"
 (
     id serial NOT NULL,
     tresc_opis character varying(255),
-    sugerowany_nastepny_material_id integer,
     jezyk_id integer NOT NULL,
     PRIMARY KEY (id)
 );
@@ -66,16 +65,6 @@ CREATE TABLE public."Pytania"
     PRIMARY KEY (id)
 );
 
-CREATE TABLE public."Pytania_otwarte"
-(
-    id serial NOT NULL,
-    odpowiedz character varying(255),
-    poprawna_odpowiedz character varying(255),
-    ilosc_pkt integer,
-    test_id integer NOT NULL,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE public."Slownictwo"
 (
     id serial NOT NULL,
@@ -85,6 +74,16 @@ CREATE TABLE public."Slownictwo"
 	kategoria character varying(255),
     PRIMARY KEY (id)
 );
+
+CREATE TABLE public."Uzytkownik_audit"
+(
+    imie integer,
+    nazwisko character varying(255),
+    wiek integer,
+    rola integer,
+	czas_stworzenia timestamp without time zone
+);
+
 
 ALTER TABLE public."Uzytkownik_Jezyk"
     ADD FOREIGN KEY (uzytkownik_id)
@@ -116,13 +115,6 @@ ALTER TABLE public."Material"
     REFERENCES public."Jezyk" (id)
     NOT VALID;
 
-
-ALTER TABLE public."Pytania_otwarte"
-    ADD FOREIGN KEY (test_id)
-    REFERENCES public."Test" (id)
-    NOT VALID;
-
-
 ALTER TABLE public."Slownictwo"
     ADD FOREIGN KEY (jezyk_id)
     REFERENCES public."Jezyk" (id)
@@ -133,5 +125,23 @@ ALTER TABLE public."Pytania"
     ADD FOREIGN KEY (test_id)
     REFERENCES public."Test" (id)
     NOT VALID;
+	
+CREATE OR REPLACE FUNCTION ustaw_czas_stworzenia()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+  	INSERT INTO public."Uzytkownik_audit"(imie, nazwisko, wiek, rola, id, czas_stworzenia)
+  	VALUES(NEW.imie, NEW.nazwisko, NEW.wiek, NEW.rola, NEW.id, now());
+  	RETURN NEW;
+END;
+$$	
 
+CREATE TRIGGER update_audit
+  AFTER UPDATE
+  ON public."Uzytkownik"
+  FOR EACH ROW
+  EXECUTE PROCEDURE ustaw_czas_stworzenia();
+  
 END;
