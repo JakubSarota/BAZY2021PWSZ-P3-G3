@@ -77,10 +77,11 @@ CREATE TABLE public."Slownictwo"
 
 CREATE TABLE public."Uzytkownik_audit"
 (
-    imie integer,
+    imie character varying(255),
     nazwisko character varying(255),
     wiek integer,
     rola integer,
+	id integer,
 	czas_stworzenia timestamp without time zone
 );
 
