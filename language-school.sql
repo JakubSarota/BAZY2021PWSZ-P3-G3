@@ -8,7 +8,7 @@ CREATE TABLE public."Uzytkownik"
     wiek integer NOT NULL,
     email character varying(255) NOT NULL,
     haslo character varying(255) NOT NULL,
-    data_ostatniego_logowania date,
+    data_ostatniego_logowania character varying(255),
     rola integer NOT NULL DEFAULT 1,
     PRIMARY KEY (id)
 );

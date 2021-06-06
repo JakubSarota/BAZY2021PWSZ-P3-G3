@@ -173,7 +173,18 @@ app.get("/Uzytkownik/stronaGlowna", checkNotAuthenticated, (req, res, next) => {
 
     if(req.user.rola==1)
     {
+        var d = (Date().toString()).slice(4, 21);
         res.render("stronaGlowna.ejs",  { user: req.user.imie });
+        var ide = req.user.id;
+        
+        pool.query(`UPDATE public."Uzytkownik"` + "SET data_ostatniego_logowania = '" + d + "' WHERE id = '" + ide + "' ; " ), (err, results) => {
+            if(err) {
+                throw err;
+            }         
+        }
+        
+        console.log(d);
+        //console.log("id uzytkownika = " + ide);
         console.log("to jest user");
     }
     if(req.user.rola==0)

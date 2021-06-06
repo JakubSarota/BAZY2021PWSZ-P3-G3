@@ -49,20 +49,23 @@
                        
                     </th>
                     <th class="col1" colspan="1">
-                        <b>Nazwisko</b>
+                        <center><b>Nazwisko:</b></center>
                       
                     </th>
                     <th class="col1" colspan="1">
-                        <b>Wiek</b>
+                        <center><b>Wiek:</b></center>
                       
                     </th>
 
                     <th class="col1" colspan="1">
-                        <b>email</b>
-                      
+                        <center><b>email:</b></center>
+                    </th> 
+                    <th class="col1" colspan="1">
+                        <b>Ost. logowanie:</b>
+                    </th>
                     </th>
                     <th class="col1" colspan="1">
-                        <b>Opcje</b>
+                        <b>Opcje:</b>
                       
                     </th>
                 </tr>
@@ -82,6 +85,9 @@
                     </td>
                     <td class="col1">
                         <div class="text"><a> <%= uzytkownik[i].email%></a></div>
+                    </td>
+                    <td class="col1">
+                        <div class="text"><a> <%= uzytkownik[i].data_ostatniego_logowania%></a></div>
                     </td>
                     <td class="col1">
                         <div class="text"><a href="/admin/uzytkownicy?idu=<%= uzytkownik[i].id%>"  ><button>Skasuj</button></a></div>
