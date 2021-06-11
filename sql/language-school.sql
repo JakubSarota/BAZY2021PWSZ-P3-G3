@@ -23,8 +23,6 @@ CREATE TABLE public."Jezyk"
 (
     id serial NOT NULL,
     nazwa character varying(255),
-    poziom character varying(255),
-    opis character varying(255),
     PRIMARY KEY (id)
 );
 
@@ -40,8 +38,8 @@ CREATE TABLE public."Test"
     id serial NOT NULL,
     nazwa character varying(255),
     typ_testu character varying(255),
-    jezyk_id integer NOT NULL,
-    material_id integer NOT NULL,
+    jezyk_id integer,
+    material_id integer,
     PRIMARY KEY (id)
 );
 
