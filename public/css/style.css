@@ -427,3 +427,8 @@ article{
       font-size: 23px;
   }
 
+  li {
+      list-style-type: none;
+      padding-top: 10px;
+      padding-bottom: 20px;
+  }

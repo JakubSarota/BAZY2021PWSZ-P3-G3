@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gramatyka</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="ckeditor/ckeditor.js"></script>
+</head>
+<body>
+<form action="/Uzytkownik/gramatyka">
+    <div class="container">
+        <div class="navbar">
+            <a href="http://localhost:3000/"><img src="/img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+                    
+                    <li class="przyciskP"><a href="/Uzytkownik/login">Zaloguj się</a></li>
+                    <li class="przyciskP"><a href="/Uzytkownik/rejestracja">Zarejestruj się</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="gramatyka">
+            <a class = "przycisks" href="javascript:history.back(">Powrót</a>
+            
+            <br><br><br>
+
+            <% for(var i=0;i< gramatyka.length; i++) { %>
+                <a><%= gramatyka[i].zawartosc%></a>
+            <% } %>
+            <a></a>
+            
+        </div>
+        
+    </div>
+</form>
+</body>
+<script>
+    function htmlDecode(value){
+        return $('<a/>').html(value).text();
+    }
+</script>
+</html>
+

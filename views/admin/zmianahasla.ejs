@@ -9,12 +9,11 @@
 <body>
     <div class="container">
         <div class="navbar">
-            <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
+            <a><img style="cursor: context-menu;" src="/img/logo.png" class="logo" href=""/></a>
             <nav>
                 <ul>
 
                     <a style="color: beige;">Witaj <%= user %>!</a>
-                    <li class="przyciskP"><a href="/admin/ustawienia">Ustawienia</a></li>
                     <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
                 </ul>
             </nav>            
@@ -22,36 +21,12 @@
         <div class="gramatyka">
         <table class="table">
             <thead class="thead">
-                <a class = "przycisks" href="/admin/uzytkownicy">Lista Użytkowników</a>
-                    <a class = "przycisks" href="/admin/zmianahaslaadmin">Zmiana hasła admina</a>
-        
-                    <div class="angl">
-                    <a class = "przycisks" href="/admin/dodajslownictwoangielski">Dodaj słownictwo angielski</a>
-                    <a class = "przycisks" href="/admin/skasujslownictwoangielskidzial">Skasuj słownictwo angielski</a>
-                    <a class = "przycisks" href="/admin/dodajpytanieangielski">Dodaj pytanie angielski</a>
-                    <a class = "przycisks" href="/admin/skasujpytanieangielskidzial">Skasuj pytanie angielski</a>
-                    <a class = "przycisks" href="/admin/dodajtestangielski">Dodaj test angielski</a>
-                    <a class = "przycisks" href="/admin/skasujtestangielski">Skasuj test angielski</a>
-                    </div>
-                    <div class="niem">
-                    <a class = "przycisks" href="/admin/dodajslownictwoniemiecki">Dodaj słownictwo niemiecki</a>
-                    <a class = "przycisks" href="/admin/skasujslownictwoniemieckidzial">Skasuj słownictwo niemiecki</a>
-                    <a class = "przycisks" href="/admin/dodajpytanieniemiecki">Dodaj pytanie niemeicki</a>
-                    <a class = "przycisks" href="/admin/skasujpytanieniemieckidzial">Skasuj pytanie niemeicki</a>
-                    <a class = "przycisks" href="/admin/dodajtestniemiecki">Dodaj test niemiecki</a>
-                    <a class = "przycisks" href="/admin/skasujtestniemiecki">Skasuj test niemiecki</a>
-                    </div>
-                
-                    
+                <a class = "przycisks" href="javascript:history.back()">Powrót</a>     
             </thead>
 
            <tbody>
-                
                 <tr>
-                    <td class="col1">
-                        <div class="text"><a> Podaj nowe haslo</a></div>
-                    </td>
-
+                        <div style="margin-left: 50px; margin-top: 30px;"><a> Podaj nowe haslo</a></div>
                     <td class="col1">
                         <div class="text"><a> </a></div>
                         <form id="RegForm" name="RegForm" action="zmianahaslaadmin" method="POST">
@@ -61,30 +36,22 @@
                             <br />
                             <p>Potwierdź hasło: <input type="password" class="dane" id="haslo2" size="65" name="haslo2" required/></p>
                             <div class="przyciskForm">            
-                                <input type="submit" value="Zmień hasło" name="Submit" />
+                                <input style="cursor: pointer;" type="submit" value="Zmień hasło" name="Submit" />
                             </div>
                         </form>
-
-
                     </td>
-                    
                 </tr>
                 <tr>
-
-                        <% if(typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
-                            <li><%= error.message %></li>
-                            <% }) %>
-                        <% } %>
-                    
+                    <% if(typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
+                        <li><%= error.message %></li>
+                        <% }) %>
+                    <% } %>
             </tr>
             </div>
             
-
             </tbody>
         </table>
 </div>
         
-  
-
 </body>
 </html>
