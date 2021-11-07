@@ -12,6 +12,7 @@
             <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
             <nav>
                 <ul>
+
                     <a style="color: beige;">Witaj <%= user %>!</a>
                     <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
                 </ul>
@@ -21,16 +22,21 @@
         <table class="table">
             <thead class="thead">
                 <tr>
-                    <a class = "przycisks" href="/admin/slownictwoAngielski">Powrót</a>        
+                    <a class = "przycisks" href="/admin/slownictwoAngielski/dodajSlownictwoAngielski">Powrót</a>  
                 </tr>
+             </th>
             </thead>
-           <tbody>
+           <tbody>       
                 <tr>
                     <td class="col1">
-                        <div class="text"><a> </a></div>
                         <form id="RegForm" name="RegForm" action="" method="POST">
-                            <p>Wprowadź dział jaki chcesz dodać</p><br/>
-                            <p>Temat: <input type="text" class="dane" id="nazwa_materialu" size="65" name="nazwa_materialu" required/></p>
+                            <p>Wprowadź słówko</p><br/>
+                            <td class="col1">
+                                <p>Polski: <input type="text" class="dane" id="polski" size="5" name="polski" required/></p>                       
+                            </td>
+                            <td class="col1">
+                                <p>Angielski: <input type="text" class="dane" id="tlumaczenie" size="5" name="tlumaczenie" required/></p>
+                            </td>
                             <br />
                             <div class="przyciskForm">            
                                 <input style="cursor: pointer;" type="submit" value="Dodaj" name="Submit" />
@@ -42,10 +48,24 @@
                                 <% } %>
                             </ul>
                         </form>
-                    </td> 
+
+
+                    </td>
+                    
                 </tr>
+                <tr>
+
+                       
+                    
+            </tr>
+            </div>
+            
+
             </tbody>
         </table>
-    </div>
+</div>
+        
+  
+
 </body>
 </html>

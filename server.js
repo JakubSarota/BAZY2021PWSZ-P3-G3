@@ -335,7 +335,7 @@ app.get("/Uzytkownik/ustawienia/postepn", checkNotAuthenticated, (req, res, next
     console.log(idu);
     
     if(req.user.id==idu) { 
-            pool.query(`select test.nazwa as nazwan,test.typ_testu as typn, wynik_testu.ilosc_pkt as wynikn from public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu on test.id=wynik_testu.test_id WHERE test.jezyk_id=2 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
+            pool.query(`SELECT test.nazwa AS nazwan, test.typ_testu AS typn, wynik_testu.ilosc_pkt AS wynikn FROM public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu ON test.id=wynik_testu.test_id WHERE test.jezyk_id=2 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
                 if (err) {
                     throw err;
                 }
@@ -406,7 +406,7 @@ app.get("/admin/uzytkownicy/postepa", checkNotAuthenticated, (req, res, next) =>
     console.log(idu);
     
     if(req.user.rola==0) {   
-        pool.query(`select test.nazwa as nazwaa,test.typ_testu as typa, wynik_testu.ilosc_pkt as wynika from public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu on test.id=wynik_testu.test_id WHERE test.jezyk_id=1 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
+        pool.query(`SELECT test.nazwa AS nazwaa,test.typ_testu AS typa, wynik_testu.ilosc_pkt AS wynika FROM public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu on test.id=wynik_testu.test_id WHERE test.jezyk_id=1 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
             if (err) {
                 throw err;
             }
@@ -426,7 +426,7 @@ app.get("/admin/uzytkownicy/postepn", checkNotAuthenticated, (req, res, next) =>
     var idu=req.query.idu;
     console.log(idu);
     if(req.user.rola==0) {
-            pool.query(`select test.nazwa as nazwan,test.typ_testu as typn, wynik_testu.ilosc_pkt as wynikn from public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu on test.id=wynik_testu.test_id WHERE test.jezyk_id=2 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
+            pool.query(`SELECT test.nazwa AS nazwan,test.typ_testu AS typn, wynik_testu.ilosc_pkt AS wynikn FROM public."Test" AS test LEFT JOIN public."Wynik_testu" AS wynik_testu ON test.id=wynik_testu.test_id WHERE test.jezyk_id=2 AND`+" wynik_testu.uzytkownik_id='"+idu+"'", (err, results) => {
                 if (err) {
                     throw err;
                 }
@@ -445,8 +445,15 @@ app.get("/admin/uzytkownicy/postepn", checkNotAuthenticated, (req, res, next) =>
 /////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DZIAŁ SŁOWNICTWO 
 
 app.get("/admin/slownictwoAngielski", checkNotAuthenticated, (req, res, next) => {
+    var idM = req.query.idM
+
     if(req.user.rola==0) {
-        pool.query(`SELECT DISTINCT nazwa_materialu from public."Material" where id_jezyk=1;`, (err, results) => {
+
+        if(idM>0) {
+            pool.query(`DELETE FROM public."Material"`+"WHERE id= '"+idM+"' ")
+        }
+
+        pool.query(`SELECT * FROM public."Material" WHERE typ_materialu=1 AND id_jezyk=1 ORDER BY id ASC;`, (err, results) => {
             if (err) {
                 throw err;
             }
@@ -458,6 +465,8 @@ app.get("/admin/slownictwoAngielski", checkNotAuthenticated, (req, res, next) =>
         });
     }
 });
+
+/////////////////////////////////////////////////////////////////////////////////////////////////DODAWANIE MATERIAŁU ANGIELSKI 
 
 app.get("/admin/slownictwoAngielski/dodajMaterialAngielski", checkNotAuthenticated, (req, res, next) => {
     if(req.user.rola==0) {
@@ -477,13 +486,13 @@ app.get("/admin/slownictwoAngielski/dodajMaterialAngielski", checkNotAuthenticat
 app.post("/admin/slownictwoAngielski/dodajMaterialAngielski", checkNotAuthenticated, (req, res, next) => {
     let { nazwa_materialu } = req.body;
     let errors = []
-    console.log(nazwa_materialu)
+    console.log("Dodano " + nazwa_materialu)
     if(req.user.rola==0) {
         pool.query(`SELECT DISTINCT nazwa_materialu FROM public."Material" WHERE id_jezyk=1;`, (err, results) => {
             if (err) {
                 throw err;
             }
-            pool.query(`SELECT FROM public."Material" WHERE nazwa_materialu = $1`, [nazwa_materialu], (err, results) => {
+            pool.query(`SELECT FROM public."Material" WHERE typ_materialu=1 AND id_jezyk=1 AND nazwa_materialu = $1`, [nazwa_materialu], (err, results) => {
                 if(results.rows.length > 0) {
                     errors.push({message: "W bazie istnieje słówko"})
                     res.render("admin/dodajMaterialAngielski.ejs",  { nazwa_materialu: results.rows, user: req.user.imie, errors });
@@ -500,6 +509,52 @@ app.post("/admin/slownictwoAngielski/dodajMaterialAngielski", checkNotAuthentica
     }
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////////DODAWANIE SŁÓWEK DO MATERIAŁU ANGIELSKI 
+
+app.get("/admin/slownictwoAngielski/dodajSlownictwoAngielski/dodajSlowkoAngielski", checkNotAuthenticated, (req, res, next) => {
+
+    var idM = req.query.idM
+
+    let { tlumaczenie } = req.body;
+    let errors = []
+    console.log("Dodano słówko" + tlumaczenie)
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT tlumaczenie AND polski FROM public."Slownictwo"`+ "WHERE id= '"+idM+"'; ", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            pool.query(`SELECT FROM public."Slownictwo"` + "WHERE id= '"+idM+"';", [nazwa_materialu], (err, results) => {
+                if(results.rows.length > 0) {
+                    errors.push({message: "W bazie istnieje słówko"})
+                    res.render("admin/dodajMaterialAngielski.ejs",  { nazwa_materialu: results.rows, user: req.user.imie, errors });
+                } else {
+                    pool.query( `INSERT INTO public."Material" (id_jezyk, nazwa_materialu, typ_materialu)`+" VALUES (1, '"+nazwa_materialu+"', 1);",(err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        res.redirect("/admin/slownictwoAngielski")
+                    });  
+                } 
+            });
+        });
+    }
+});
+
+app.get("/admin/slownictwoAngielski/dodajSlownictwoAngielski/dodajSlowkoAngielski", checkNotAuthenticated, (req, res, next) => {
+
+    var idM=req.query.idM
+
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE`+" id_material = '"+idM+"';" , (err, results) => {
+        if (err) {
+            throw err;
+        }
+        else if(results.rows.length > 0) {
+            res.render("admin/dodajSlownictwoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie});   
+        } else {
+            res.render("admin/dodajSlownictwoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie});
+        } 
+    });
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -542,27 +597,6 @@ app.get("/admin/dodajslownictwoniemiecki", checkNotAuthenticated, (req, res, nex
 });
 
 
-app.post("/admin/dodajslownictwoangielski", checkNotAuthenticated, (req, res, next) => {
-    let { polski, tlumaczenie, kategoria} = req.body;
-    console.log({
-        polski,
-        tlumaczenie,
-        kategoria,
-    });
-    if(req.user.rola==0) {
-        pool.query( `INSERT INTO public."Slownictwo" (polski, tlumaczenie, jezyk_id, kategoria)`+" VALUES ('"+polski+"','"+tlumaczenie+"',1, '"+kategoria+"' )");
-        pool.query(`SELECT DISTINCT kategoria from public."Slownictwo" where jezyk_id=1;`, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/dodajslownictwoangielski.ejs",  { kategoria:results.rows, user: req.user.imie });           
-            } else {
-                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
-            } 
-        });
-    }
-});
 
 app.post("/admin/dodajslownictwoniemiecki", checkNotAuthenticated, (req, res, next) => {
     let { polski, tlumaczenie, kategoria} = req.body;

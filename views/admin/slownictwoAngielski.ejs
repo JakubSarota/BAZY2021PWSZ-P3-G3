@@ -22,13 +22,12 @@
             <thead class="thead">
                 <tr>
                     <a class = "przycisks" href="/Uzytkownik/stronaGlowna">Powrót</a>   
-                    <a class = "przycisks" href="/admin/slownictwoAngielski/dodajMaterialAngielski">Dodaj </a>
+                    <a class = "przycisks" href="/admin/slownictwoAngielski/dodajMaterialAngielski">Dodaj dział</a>
                 </tr>
             </thead>
            <tbody>
                 <tr>
                     <td class="col1">
-                        <div class="text"><a> </a></div>
                         <form id="RegForm" name="RegForm" action="" method="POST">
                             Wybierz dział: 
                                 <tbody>
@@ -39,22 +38,22 @@
                                             </td>
                 
                                             <td class="col1">
-                                                <a class = "przycisks" href="javascript:history.back()">Edytuj</a>  
+                                                <a class = "przycisks" href="/admin/slownictwoAngielski/dodajSlownictwoAngielski?idM=<%=nazwa_materialu[i].id%>">Dodaj słówka</a>  
                                             </td>
                                             <td class="col1">
-                                                <a class = "przycisks" href="javascript:history.back()">Usuń</a>  
+                                                <a class = "przycisks" href="/admin/slownictwoAngielski?idM=<%=nazwa_materialu[i].id%>">Usuń</a>  
+                                            </td>
+                                                
                                             </td>
                                         </tr>
                                     <% } %>
+                                    
                                 </tbody>
                         </form>
                     </td>
                 </tr>
             </tbody>
         </table>
-</div>
-        
-  
-
+    </div>
 </body>
 </html>

@@ -432,3 +432,26 @@ article{
       padding-top: 10px;
       padding-bottom: 20px;
   }
+
+  .przyciskKasuj{
+    list-style: none;
+    display: inline-block;
+    margin-right: 10px;
+    background-color: #167bbd;    
+    border: 3px solid #167bbd;
+    padding: 2px 10px;
+    font-size: 12px;
+    line-height: 18px;
+    font-family: Poppins,Arial;
+    border-radius: 38px;  
+    text-decoration: none;
+    color: white;
+}
+
+.przyciskKasuj input {
+    outline-style: none;
+    background-color: #167bbd;    
+    border: 0 solid #167bbd;
+    color: #fff;
+    cursor: pointer;
+}

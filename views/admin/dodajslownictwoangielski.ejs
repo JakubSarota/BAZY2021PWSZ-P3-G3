@@ -14,7 +14,6 @@
                 <ul>
 
                     <a style="color: beige;">Witaj <%= user %>!</a>
-                    <li class="przyciskP"><a href="/admin/ustawienia">Ustawienia</a></li>
                     <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
                 </ul>
             </nav>            
@@ -23,62 +22,36 @@
         <table class="table">
             <thead class="thead">
                 <tr>
-                    <a class = "przycisks" href="/admin/uzytkownicy">Lista Użytkowników</a>
-                    <a class = "przycisks" href="/admin/zmianahaslaadmin">Zmiana hasła admina</a>
-        
-                    <div class="angl">
-                    <a class = "przycisks" href="/admin/dodajslownictwoangielski">Dodaj słownictwo angielski</a>
-                    <a class = "przycisks" href="/admin/skasujslownictwoangielskidzial">Skasuj słownictwo angielski</a>
-                    <a class = "przycisks" href="/admin/dodajpytanieangielski">Dodaj pytanie angielski</a>
-                    <a class = "przycisks" href="/admin/skasujpytanieangielskidzial">Skasuj pytanie angielski</a>
-                    <a class = "przycisks" href="/admin/dodajtestangielski">Dodaj test angielski</a>
-                    <a class = "przycisks" href="/admin/skasujtestangielski">Skasuj test angielski</a>
-                    </div>
-                    <div class="niem">
-                    <a class = "przycisks" href="/admin/dodajslownictwoniemiecki">Dodaj słownictwo niemiecki</a>
-                    <a class = "przycisks" href="/admin/skasujslownictwoniemieckidzial">Skasuj słownictwo niemiecki</a>
-                    <a class = "przycisks" href="/admin/dodajpytanieniemiecki">Dodaj pytanie niemeicki</a>
-                    <a class = "przycisks" href="/admin/skasujpytanieniemieckidzial">Skasuj pytanie niemeicki</a>
-                    <a class = "przycisks" href="/admin/dodajtestniemiecki">Dodaj test niemiecki</a>
-                    <a class = "przycisks" href="/admin/skasujtestniemiecki">Skasuj test niemiecki</a>
-                    </div>
-
-                    
-                    </th>
-                    
+                    <a class = "przycisks" href="/admin/slownictwoAngielski">Powrót</a>  
+                    <a class = "przycisks" href="/admin/slownictwoAngielski">Dodaj słówko</a>  
                 </tr>
              </th>
 
 
             </thead>
 
-           <tbody>
-                
+           <tbody>       
                 <tr>
                     <td class="col1">
-                        <div class="text"><a> Dodaj nowe słowo do bazy z języka angielskiego</a></div>
-                    </td>
-
-                    <td class="col1">
-                        <div class="text"><a> </a></div>
+                        <div class="text"><a>Słówka z działu: </a></div>
                         <form id="RegForm" name="RegForm" action="" method="POST">
-                            <p>Polski: <input type="text" class="dane" id="polski" size="65" name="polski" required/></p>
-                            <br />
-                            <p>Tłumaczenie: <input type="text" class="dane" id="tlumaczenie" size="65" name="tlumaczenie" required/></p>
-                            <br />
-                            <p>Wybierz kategorie: 
-                                <select class="dane" name="kategoria" id="kategoria">
-
-                                    <% for(var i=0; i<kategoria.length; i++) {%>
-                                        <option style="color:black;" value="<%= kategoria[i].kategoria%>"><%= kategoria[i].kategoria%></option>
-                                    <% } %>
-
-                              </select></p>
-                         
-
-                            <div class="przyciskForm">            
-                                <input type="submit" value="Dodaj" name="Submit" />
-                            </div>
+                            <% for(var i=0; i< slownictwo.length; i++) {%>
+                                <tr>
+                                    <td class="col1">
+                                        <p>Polski: <input type="text" class="dane" id="polski" size="5" name="polski" value="<%= slownictwo[i].polski%>" required/></p>
+                                        
+                                    </td>
+        
+                                    <td class="col1">
+                                        <p>Angielski: <input type="text" class="dane" id="tlumaczenie" size="5" value="<%= slownictwo[i].tlumaczenie%>" name="tlumaczenie" required/></p>
+                                    </td>
+                                    <td class="col1">
+                                        <a class = "przycisks" href="">Usuń</a>  
+                                    </td>
+                                    <div class="text"><a>  </a></div>
+                                    </td>
+                                </tr>
+                            <% } %>
                         </form>
 
 
