@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <div class="navbar">
-            <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
+            <a><img style="cursor: context-menu;" src="/img/logo.png" class="logo" href=""/></a>
             <nav>
                 <ul>
 
@@ -22,7 +22,7 @@
         <table class="table">
             <thead class="thead">
                 <tr>
-                    <a class = "przycisks" href="/admin/slownictwoAngielski/dodajSlownictwoAngielski">Powrót</a>  
+                    <a class = "przycisks" href="/admin/slownictwoAngielski/dodajSlownictwoAngielski?idM=<%=idM%>">Powrót</a>  
                 </tr>
              </th>
             </thead>
@@ -31,12 +31,11 @@
                     <td class="col1">
                         <form id="RegForm" name="RegForm" action="" method="POST">
                             <p>Wprowadź słówko</p><br/>
-                            <td class="col1">
-                                <p>Polski: <input type="text" class="dane" id="polski" size="5" name="polski" required/></p>                       
-                            </td>
-                            <td class="col1">
+                            <div style="column-count: 2;">
                                 <p>Angielski: <input type="text" class="dane" id="tlumaczenie" size="5" name="tlumaczenie" required/></p>
-                            </td>
+                                <p>Polski: <input type="text" class="dane" id="polski" size="5" name="polski" required/></p>     
+                                                  
+                            </div>
                             <br />
                             <div class="przyciskForm">            
                                 <input style="cursor: pointer;" type="submit" value="Dodaj" name="Submit" />
@@ -47,20 +46,14 @@
                                     <% }) %>
                                 <% } %>
                             </ul>
+                            <br/>
+                            
                         </form>
-
-
-                    </td>
-                    
+                    </td>   
                 </tr>
-                <tr>
-
-                       
-                    
+                <tr>        
             </tr>
             </div>
-            
-
             </tbody>
         </table>
 </div>

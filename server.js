@@ -494,7 +494,7 @@ app.post("/admin/slownictwoAngielski/dodajMaterialAngielski", checkNotAuthentica
             }
             pool.query(`SELECT FROM public."Material" WHERE typ_materialu=1 AND id_jezyk=1 AND nazwa_materialu = $1`, [nazwa_materialu], (err, results) => {
                 if(results.rows.length > 0) {
-                    errors.push({message: "W bazie istnieje słówko"})
+                    errors.push({message: "Już istnieje materiał"})
                     res.render("admin/dodajMaterialAngielski.ejs",  { nazwa_materialu: results.rows, user: req.user.imie, errors });
                 } else {
                     pool.query( `INSERT INTO public."Material" (id_jezyk, nazwa_materialu, typ_materialu)`+" VALUES (1, '"+nazwa_materialu+"', 1);",(err, results) => {
@@ -511,49 +511,77 @@ app.post("/admin/slownictwoAngielski/dodajMaterialAngielski", checkNotAuthentica
 
 /////////////////////////////////////////////////////////////////////////////////////////////////DODAWANIE SŁÓWEK DO MATERIAŁU ANGIELSKI 
 
-app.get("/admin/slownictwoAngielski/dodajSlownictwoAngielski/dodajSlowkoAngielski", checkNotAuthenticated, (req, res, next) => {
-
-    var idM = req.query.idM
-
-    let { tlumaczenie } = req.body;
-    let errors = []
-    console.log("Dodano słówko" + tlumaczenie)
+app.get("/admin/slownictwoAngielski/dodajSLownictwoAngielski", checkNotAuthenticated, (req, res, next) => {
+    let {idM, idS} = req.query
+    
     if(req.user.rola==0) {
-        pool.query(`SELECT DISTINCT tlumaczenie AND polski FROM public."Slownictwo"`+ "WHERE id= '"+idM+"'; ", (err, results) => {
+
+        
+        
+        if(idS>0) {
+            console.log(idS)
+            pool.query(`DELETE FROM public."Slownictwo" WHERE`+" id_material = '"+idM+"' AND id = '"+idS+"';")
+        }
+
+        pool.query(`SELECT * FROM public."Slownictwo"` +"WHERE id_material = '"+idM+"' ORDER BY id ASC;", (err, results) => {
+            
             if (err) {
                 throw err;
             }
-            pool.query(`SELECT FROM public."Slownictwo"` + "WHERE id= '"+idM+"';", [nazwa_materialu], (err, results) => {
+            if(results.rows.length > 0) {
+                res.render("admin/dodajSLownictwoAngielski.ejs",  { slownictwo: results.rows,  user: req.user.imie, idM });           
+            } 
+            else if(results.rows.length == 0) {
+                res.render("admin/dodajSLownictwoAngielski.ejs",  { slownictwo: results.rows,  user: req.user.imie, idM });
+            } 
+        });
+        
+    }
+});
+
+app.get("/admin/slownictwoAngielski/dodajSlowkoAngielski", checkNotAuthenticated, (req, res, next) => {
+    let { idM } = req.query 
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT id, tlumaczenie, polski FROM public."Slownictwo"`+"WHERE id_material ='"+idM+"'", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/dodajSlowkoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie, idM });           
+            } else {
+                res.render("admin/dodajSlowkoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie, idM });  
+            } 
+        });
+    }
+});
+
+app.post("/admin/slownictwoAngielski/dodajSlowkoAngielski", checkNotAuthenticated, (req, res, next) => {
+    let { idM } = req.query
+    let { polski, tlumaczenie } = req.body;
+    let errors = []
+    console.log("Dodano " + tlumaczenie +" "+ polski)
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT polski, tlumaczenie FROM public."Slownictwo"`+"WHERE id_material='"+idM+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            pool.query(`SELECT * FROM public."Slownictwo" WHERE tlumaczenie = $1;`, [tlumaczenie], (err, results) => {
                 if(results.rows.length > 0) {
-                    errors.push({message: "W bazie istnieje słówko"})
-                    res.render("admin/dodajMaterialAngielski.ejs",  { nazwa_materialu: results.rows, user: req.user.imie, errors });
+                    errors.push({message: "Już istnieje to słówko"})
+                    res.render("admin/dodajSlowkoAngielski.ejs",  { tlumaczenie: results.rows, user: req.user.imie, errors, idM });
                 } else {
-                    pool.query( `INSERT INTO public."Material" (id_jezyk, nazwa_materialu, typ_materialu)`+" VALUES (1, '"+nazwa_materialu+"', 1);",(err, results) => {
+                    pool.query( `INSERT INTO public."Slownictwo" (id_material, tlumaczenie, polski)`+" VALUES ('"+idM+"', '"+tlumaczenie+"', '"+polski+"');",(err, results) => {
                         if(err) {
                             throw err
                         } 
-                        res.redirect("/admin/slownictwoAngielski")
+                        errors.push({message: "dodano słówko"})
+                        res.render("admin/dodajSlowkoAngielski.ejs",  { tlumaczenie: results.rows, user: req.user.imie, errors, idM });
+                        
                     });  
                 } 
             });
         });
     }
-});
-
-app.get("/admin/slownictwoAngielski/dodajSlownictwoAngielski/dodajSlowkoAngielski", checkNotAuthenticated, (req, res, next) => {
-
-    var idM=req.query.idM
-
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE`+" id_material = '"+idM+"';" , (err, results) => {
-        if (err) {
-            throw err;
-        }
-        else if(results.rows.length > 0) {
-            res.render("admin/dodajSlownictwoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie});   
-        } else {
-            res.render("admin/dodajSlownictwoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie});
-        } 
-    });
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
