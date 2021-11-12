@@ -1,0 +1,131 @@
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS public."Uzytkownik"
+(
+    id serial NOT NULL,
+    imie character varying(255),
+    nazwisko character varying(255),
+    email character varying(255),
+    haslo character varying(255),
+    rola integer NOT NULL DEFAULT 1,
+    data_ostatniego_logowania character varying(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public."Jezyk"
+(
+    id integer NOT NULL,
+    nazwa character varying(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public."Material"
+(
+    id serial NOT NULL,
+    id_jezyk integer,
+    nazwa_materialu character varying(255),
+    typ_materialu integer,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public."Slownictwo"
+(
+    id serial,
+    id_material integer,
+    tlumaczenie character varying(255),
+    polski character varying(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public."Gramatyka"
+(
+    id serial,
+    id_material integer,
+    zawartosc text,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public."Test"
+(
+    id serial NOT NULL,
+    jezyk_id integer,
+    typ_testu character varying(255),
+    nazwa character varying(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public."Wynik_testu"
+(
+    id serial,
+    uzytkownik_id integer,
+    test_id integer,
+    ilosc_pkt integer
+);
+
+CREATE TABLE IF NOT EXISTS public."Pytania"
+(
+    id serial NOT NULL,
+    tresc character varying(255),
+    poprawna_odp character varying(255),
+    bledna_odp_1 character varying(255),
+    bledna_odp_2 character varying(255),
+    bledna_odp_3 character varying(255),
+    test_id integer,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE public."Wynik_testu"
+    ADD FOREIGN KEY (uzytkownik_id)
+    REFERENCES public."Uzytkownik" (id)
+	ON DELETE CASCADE
+    NOT VALID;
+
+
+ALTER TABLE public."Wynik_testu"
+    ADD FOREIGN KEY (test_id)
+    REFERENCES public."Test" (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE public."Material"
+    ADD FOREIGN KEY (id_jezyk)
+    REFERENCES public."Jezyk" (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE public."Test"
+    ADD FOREIGN KEY (jezyk_id)
+    REFERENCES public."Jezyk" (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE public."Slownictwo"
+    ADD FOREIGN KEY (id_material)
+    REFERENCES public."Material" (id)
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE
+    NOT VALID;
+
+
+ALTER TABLE public."Gramatyka"
+    ADD FOREIGN KEY (id)
+    REFERENCES public."Material" (id)
+	ON UPDATE NO ACTION
+	ON DELETE CASCADE
+    NOT VALID;
+
+
+ALTER TABLE public."Pytania"
+    ADD FOREIGN KEY (test_id)
+    REFERENCES public."Test" (id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+    NOT VALID;
+
+END;

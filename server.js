@@ -372,6 +372,45 @@ app.get("/Uzytkownik/ustawienia/postepa", checkNotAuthenticated, (req, res, next
         }
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////////MATERIAŁY ANGIELSKI
+
+app.get("/Uzytkownik/angielski", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/angielski/angielski.ejs",  { user: req.user.imie });    
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////MATERIAŁY DO SŁÓWEK ANGIELSKI
+
+app.get("/Uzytkownik/angielski/slownictwo/materialAngielski", (req, res)  => {
+    pool.query(`SELECT * FROM public."Material" WHERE typ_materialu = 1 AND id_jezyk=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/angielski/slownictwo/materialAngielskiU.ejs",  {material: results.rows});          
+        } else {
+            res.redirect("/") 
+        }
+    });
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////MATERIAŁY DO SŁÓWEK NIEMIECKI
+
+
+app.get("/Uzytkownik/niemiecki/slownictwo/materialNiemiecki", (req, res)  => {
+    pool.query(`SELECT * FROM public."Material" WHERE typ_materialu = 1 AND id_jezyk=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/materialNiemiecki.ejs",  {material: results.rows});          
+        } else {
+            res.redirect("/") 
+        }
+    });
+});
+
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////PODSTRONY ADMINISTRATOR
 
 /////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA WYŚWIETLANIE UŻYTKOWNIKÓW
@@ -513,29 +552,24 @@ app.post("/admin/slownictwoAngielski/dodajMaterialAngielski", checkNotAuthentica
 
 app.get("/admin/slownictwoAngielski/dodajSLownictwoAngielski", checkNotAuthenticated, (req, res, next) => {
     let {idM, idS} = req.query
-    
-    if(req.user.rola==0) {
 
-        
-        
+    if(req.user.rola==0) {
         if(idS>0) {
             console.log(idS)
             pool.query(`DELETE FROM public."Slownictwo" WHERE`+" id_material = '"+idM+"' AND id = '"+idS+"';")
         }
 
-        pool.query(`SELECT * FROM public."Slownictwo"` +"WHERE id_material = '"+idM+"' ORDER BY id ASC;", (err, results) => {
-            
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/dodajSLownictwoAngielski.ejs",  { slownictwo: results.rows,  user: req.user.imie, idM });           
-            } 
-            else if(results.rows.length == 0) {
-                res.render("admin/dodajSLownictwoAngielski.ejs",  { slownictwo: results.rows,  user: req.user.imie, idM });
-            } 
-        });
-        
+            pool.query(`SELECT * FROM public."Slownictwo"` +"WHERE id_material = '"+idM+"' ORDER BY id ASC;", (err, results) => {
+                if (err) {
+                    throw err;
+                }
+                if(results.rows.length > 0) {
+                    res.render("admin/dodajSLownictwoAngielski.ejs",  {  slownictwo: results.rows, user: req.user.imie, idM });           
+                } 
+                else if(results.rows.length == 0) {
+                    res.render("admin/dodajSLownictwoAngielski.ejs",  {  slownictwo: results.rows,  user: req.user.imie, idM });
+                } 
+            });
     }
 });
 
@@ -576,7 +610,123 @@ app.post("/admin/slownictwoAngielski/dodajSlowkoAngielski", checkNotAuthenticate
                         } 
                         errors.push({message: "dodano słówko"})
                         res.render("admin/dodajSlowkoAngielski.ejs",  { tlumaczenie: results.rows, user: req.user.imie, errors, idM });
-                        
+                    });  
+                } 
+            });
+        });
+    }
+});
+
+app.get("/admin/slownictwoAngielski/edytujSlowkoAngielski", checkNotAuthenticated, (req, res, next) => {
+    let { idM, idS } = req.query 
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT tlumaczenie, polski FROM public."Slownictwo"`+"WHERE id_material ='"+idM+"' AND id='"+idS+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/edytujSlowkoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie, idM, idS });           
+            } else {
+                res.render("admin/dodajSlowkoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie, idM });  
+            } 
+        });
+    }
+});
+
+app.post("/admin/slownictwoAngielski/edytujSlowkoAngielski", checkNotAuthenticated, (req, res, next) => {
+    let { idM, idS } = req.query
+    let { polski, tlumaczenie } = req.body
+    let errors = []
+    console.log("Edytowano " + tlumaczenie +" "+ polski)
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT polski, tlumaczenie FROM public."Slownictwo"`+"WHERE id_material='"+idM+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            pool.query(`SELECT * FROM public."Slownictwo" WHERE tlumaczenie = $1;`, [tlumaczenie], (err, results) => {
+                if(results.rows.length > 0) {
+                    errors.push({message: "Już istnieje to słówko"})
+                    res.render("admin/edytujSlowkoAngielski.ejs",  { tlumaczenie: results.rows, user: req.user.imie, errors, idM });
+                } else {
+                    pool.query( `UPDATE public."Slownictwo"`+"SET tlumaczenie='"+tlumaczenie+"', polski='"+polski+"'WHERE id='"+idS+"' AND id_material='"+idM+"';", (err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        res.render("admin/edytujSlowkoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie, idM, idS });
+                    }); 
+                }
+            });
+        });
+    }
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DZIAŁ GRAMATYKA 
+
+app.get("/admin/gramatykaAngielski", checkNotAuthenticated, (req, res, next) => {
+    var idM = req.query.idM
+
+    if(req.user.rola==0) {
+
+        if(idM>0) {
+            pool.query(`DELETE FROM public."Material"`+"WHERE id= '"+idM+"' ")
+        }
+
+        pool.query(`SELECT * FROM public."Material" WHERE typ_materialu=2 AND id_jezyk=1 ORDER BY id ASC;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/gramatykaAngielski.ejs",  { nazwa_materialu: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/gramatykaAngielski.ejs", { nazwa_materialu: results.rows, user: req.user.imie });  
+            } 
+        });
+    }
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DODAWANIE GRAMATYKI
+
+app.get("/admin/gramatykaAngielski/dodajGramatykeAngielski", checkNotAuthenticated, (req, res, next) => {
+    var idM = req.query.idM
+
+    if(req.user.rola==0) {
+
+        if(idM>0) {
+            pool.query(`DELETE FROM public."Material"`+"WHERE id= '"+idM+"' ")
+        }
+
+        pool.query(`SELECT * FROM public."Material" WHERE typ_materialu=2 AND id_jezyk=1 ORDER BY id ASC;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/dodajGramatykeAngielski.ejs",  { nazwa_materialu: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/dodajGramatykeAngielski.ejs", { nazwa_materialu: results.rows, user: req.user.imie });  
+            } 
+        });
+    }
+});
+
+app.post("/admin/gramatykaAngielski/dodajGramatykeAngielski", checkNotAuthenticated, (req, res, next) => {
+    let { nazwa_materialu } = req.body;
+    let errors = []
+    console.log("Dodano " + nazwa_materialu)
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT nazwa_materialu FROM public."Material" WHERE id_jezyk=1;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            pool.query(`SELECT FROM public."Material" WHERE typ_materialu=2 AND id_jezyk=1 AND nazwa_materialu = $1`, [nazwa_materialu], (err, results) => {
+                if(results.rows.length > 0) {
+                    errors.push({message: "Już istnieje materiał"})
+                    res.render("admin/dodajMaterialAngielski.ejs",  { nazwa_materialu: results.rows, user: req.user.imie, errors });
+                } else {
+                    pool.query( `INSERT INTO public."Material" (id_jezyk, nazwa_materialu, typ_materialu)`+" VALUES (1, '"+nazwa_materialu+"', 2);",(err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        res.redirect("/admin/gramatykaAngielski")
                     });  
                 } 
             });
@@ -606,47 +756,6 @@ app.post("/admin/slownictwoAngielski/dodajSlowkoAngielski", checkNotAuthenticate
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////DODAWANIE SŁOWNICTWA
-
-app.get("/admin/dodajslownictwoniemiecki", checkNotAuthenticated, (req, res, next) => {
-    if(req.user.rola==0) {
-        pool.query(`SELECT DISTINCT kategoria from public."Slownictwo" where jezyk_id=2;`, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/dodajslownictwoniemiecki.ejs",  { kategoria:results.rows, user: req.user.imie });           
-            } else {
-                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
-            } 
-        });
-    }
-});
-
-
-
-app.post("/admin/dodajslownictwoniemiecki", checkNotAuthenticated, (req, res, next) => {
-    let { polski, tlumaczenie, kategoria} = req.body;
-    console.log({
-        polski,
-        tlumaczenie,
-        kategoria,
-    });
-    if(req.user.rola==0) {
-        pool.query( `INSERT INTO public."Slownictwo" (polski, tlumaczenie, jezyk_id, kategoria)`+" VALUES ('"+polski+"','"+tlumaczenie+"',2, '"+kategoria+"' )");
-        pool.query(`SELECT DISTINCT kategoria from public."Slownictwo" where jezyk_id=1;`, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/dodajslownictwoniemiecki.ejs",  { kategoria:results.rows, user: req.user.imie });           
-            } else {
-                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
-            } 
-        });
-}
-});
 
 /////////////////////////////////////////////////////////////////////////////////////////////////KASOWANIE PYTAŃ
 
@@ -840,106 +949,6 @@ app.post("/admin/skasujtestniemiecki", checkNotAuthenticated, (req, res, next) =
         }
     }
 });
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////KASOWANIE SLONICTWA
-
-app.get("/admin/skasujslownictwoangielskidzial", checkNotAuthenticated, (req, res, next) => {
-    if(req.user.rola==0) {
-        pool.query(`SELECT DISTINCT kategoria from public."Slownictwo" where jezyk_id=1;`, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/skasujslownictwoangielskidzial.ejs",  {kategoria:results.rows, user: req.user.imie });       
-            } else {
-                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie }); 
-            } 
-        });
-    }
-});
-
-app.post("/admin/skasujslownictwoangielskislowka", checkNotAuthenticated, (req, res, next) => {
-    let { kategoria, id} = req.body;
-    console.log({
-        kategoria,
-        id,
-    });
-
-    if(req.user.rola==0) {
-        if(id>0) {
-            //pool.query( `DELETE FROM public."Slownictwo" WHERE `+"id= '"+id+"';");
-        }
-        pool.query(`SELECT * from public."Slownictwo" where jezyk_id=1 AND `+"kategoria = '"+kategoria+"' ", (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/skasujslownictwoangielskislowka.ejs",  { slowka:results.rows, user: req.user.imie });           
-            } else {
-                pool.query(`SELECT DISTINCT kategoria from public."Slownictwo" where jezyk_id=1;`, (err, results) => {
-                    if (err) {
-                        throw err;
-                    }
-                    if(results.rows.length > 0) {
-                        res.render("admin/skasujslownictwoangielskidzial.ejs",  {kategoria:results.rows, user: req.user.imie });       
-                    } else {
-                        res.render("admin/ustawieniaAdmin.ejs",  {  user: req.user.imie }); 
-                    } 
-                });
-            } 
-        });
-    }
-});
-
-app.get("/admin/skasujslownictwoniemieckidzial", checkNotAuthenticated, (req, res, next) => {
-    if(req.user.rola==0) {
-        pool.query(`SELECT DISTINCT kategoria from public."Slownictwo" where jezyk_id=2;`, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/skasujslownictwoniemieckidzial.ejs",  {kategoria:results.rows, user: req.user.imie });     
-            } else {
-                res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie }); 
-            } 
-        });
-    }
-});
-app.post("/admin/skasujslownictwoniemieckislowka", checkNotAuthenticated, (req, res, next) => {
-    let { kategoria, id} = req.body;
-    console.log({
-        kategoria,
-        id,
-    });
-
-    if(req.user.rola==0) {
-        if(id>0){
-            pool.query( `DELETE FROM public."Slownictwo" WHERE `+"id= '"+id+"';");
-        }
-        pool.query(`SELECT * from public."Slownictwo" where jezyk_id=2 AND `+"kategoria = '"+kategoria+"' ", (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/skasujslownictwoniemieckislowka.ejs",  { slowka:results.rows, user: req.user.imie });           
-            } else {
-                pool.query(`SELECT DISTINCT kategoria from public."Slownictwo" where jezyk_id=2;`, (err, results) => {
-                    if (err) {
-                        throw err;
-                    }
-                    if(results.rows.length > 0) {
-                        res.render("admin/skasujslownictwoniemieckidzial.ejs",  {kategoria:results.rows, user: req.user.imie });    
-                    } else {
-                        res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie }); 
-                    } 
-                });
-            } 
-        });
-    }
-});
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////DODAWANIE PYTAŃ
 
@@ -1422,7 +1431,6 @@ app.get("/uzytkownik/niemiecki/testniemiecki/wybortestu/trudny/wynik", checkNotA
     });
 });
 
-
 app.get("/koniec", checkNotAuthenticated, (req, res, next) => {
     var idu=req.query.idu;
     console.log(idu);
@@ -1445,13 +1453,7 @@ app.get("/admin/ustawienia", checkNotAuthenticated, (req, res, next) => {
 });
 
 
-/////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-///////zmiana hasła///////////////////////////////////
-///////////////////////////////////////////////////
-////////////////////////////////////////////////
-
-
+/////////////////////////////////////////////////////////////////////////////////////////////////NIEMIECKI WYPEŁNIANIE TESTÓW
 
 ////////zmiana hasla admin/////////////////////
 
@@ -1602,26 +1604,7 @@ app.get("/niemiecki/gramatyka/gramatykaniemiecki/czaszaprzeszlyplusquamperfekt",
 ///////////////////////////////////////////////////////////////////////////
 
 ///angielski i niemiecki
-app.get("/uzytkownik/angielski", checkNotAuthenticated, (req, res, next)  => {
-    res.render("ugs/angielski/angielski.ejs",  { user: req.user.imie });
 
-    
-});
-app.get("/uzytkownik/niemiecki", checkNotAuthenticated, (req, res, next)  => {
-    res.render("ugs/niemiecki/niemiecki.ejs",  { user: req.user.imie });
-    var ide = req.user.id;
-        console.log(ide);
-        pool.query(`INSERT INTO public."Uzytkownik_Jezyk"` + "(uzytkownik_id, jezyk_id) VALUES ('" + ide + "' , 2 ); " ), (err, results) => {
-            if(err) {
-                throw err;
-            }         
-        }
-
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski", checkNotAuthenticated, (req, res, next)  => {
-    res.render("ugs/angielski/slownictwo/slownictwoangielski.ejs",  { user: req.user.imie });
-});
 
 app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/zwierzeta", checkNotAuthenticated, (req, res, next)  => {
     pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=1`, (err, results) => {

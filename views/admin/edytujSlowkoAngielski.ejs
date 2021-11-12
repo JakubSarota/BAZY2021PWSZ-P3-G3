@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Strona Główna</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a><img style="cursor: context-menu;" src="/img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+
+                    <a style="color: beige;">Witaj <%= user %>!</a>
+                    <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
+                </ul>
+            </nav>            
+        </div>
+        <div class="gramatyka">
+        <table class="table">
+            <thead class="thead">
+                <tr>
+                    <a class = "przycisks" href="/admin/slownictwoAngielski/dodajSlownictwoAngielski?idM=<%=idM%>">Powrót</a>  
+                </tr>
+             </th>
+            </thead>
+           <tbody>       
+                <tr>
+                    <td class="col1">
+                        <% for(var i=0; i< slownictwo.length; i++) {%>
+                            <form id="RegForm" name="RegForm" action="" method="POST">
+                                <p>Wprowadź słówko</p><br/>
+                                
+                                <div style="column-count: 2;">
+                                    <p>Angielski: <input type="text" class="dane" id="tlumaczenie" size="5" name="tlumaczenie" value="<%= slownictwo[i].tlumaczenie%>" required/></p>
+                                    <p>Polski: <input type="text" class="dane" id="polski" size="5" name="polski" value="<%= slownictwo[i].polski%>" required/></p>     
+                                                    
+                                </div>
+                                <br />
+                                <div class="przyciskForm">            
+                                    <input style="cursor: pointer;" type="submit" value="Edytuj" name="Submit" />
+                                </div>
+                                <br/>
+                            </form>
+                        <% } %>
+                    </td>   
+                </tr>
+                <tr>        
+            </tr>
+            </div>
+            </tbody>
+        </table>
+</div>
+        
+  
+
+</body>
+</html>

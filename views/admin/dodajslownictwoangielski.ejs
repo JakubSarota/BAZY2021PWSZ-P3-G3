@@ -26,18 +26,13 @@
                     <a class = "przycisks" href="/admin/slownictwoAngielski/dodajSlowkoAngielski?idM=<%=idM%>">Dodaj słówko</a>  
                 </tr>
              </th>
-
-
             </thead>
-
            <tbody>       
                 <tr>
                     <td class="col1">
-                        <div class="text" style="column-count: 2;"><a>Słówka z działu: </a> </div>
-                        
+                            <div class="text" style="column-count: 2;"><a>Słówka z działu: </a> </div>
                         <thead class="thead">
                             <tr>
-                                
                                 <th class="col1" colspan="1">
                                     <br/><br/><br/>
                                     <b>Angielski:</b>
@@ -59,7 +54,7 @@
                             <% for(var i=0; i< slownictwo.length; i++) {%>
                                 <tr>
                                     <td class="col1">
-                                        <p><%= slownictwo[i].tlumaczenie%></p>
+                                        <p id="wymowa"><%= slownictwo[i].tlumaczenie%></p>
                                     </td>
                                     <td class="col1">
                                         <p><%= slownictwo[i].polski%></p>                               
@@ -68,7 +63,7 @@
                                         <a class="przycisks" href="/admin/slownictwoAngielski/dodajSLownictwoAngielski?idM=<%=idM%>&idS=<%=slownictwo[i].id%>">Usuń</a>  
                                     </td>
                                     <td class="col1">
-                                        <a class="przycisks" href="">Edytuj</a>  
+                                        <a class="przycisks" href="/admin/slownictwoAngielski/edytujSlowkoAngielski?idM=<%=idM%>&idS=<%=slownictwo[i].id%>">Edytuj</a>  
                                     </td>
                                     <div class="text"><a></a></div>
                                 </tr>
@@ -82,8 +77,5 @@
             </tbody>
         </table>
 </div>
-        
-  
-
 </body>
 </html>
