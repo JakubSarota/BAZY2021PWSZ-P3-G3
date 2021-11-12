@@ -3,11 +3,11 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Słownictwo</title>
+    <title>Quizy</title>
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-<form action="/Uzytkownik/slownictwo">
+
     <div class="container">
         <div class="navbar">
             <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
@@ -21,29 +21,209 @@
             </nav>            
         </div>
 
-        <div class="gramatyka">
-            Wybierz dział:
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/wszystkie">Połączone działy</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/zwierzeta">Zwierzęta</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/dom">Dom</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/praca">Praca</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/zdrowie">Zdrowie</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/czlowiek">Człowiek</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/jedzenieizywienie">Jedzenie i żywienie</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/podrozeiwakacje">Podróże i wakacje</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/czasownikifrazowe">Czasowniki frazowe</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/edukacjaiszkola">Edukacja i szkoła</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/rosliny">Rośliny</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/czasownikinieregularne">Czasowniki nieregularne</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/rodzina">Rodzina</a>
-            <a class = "przycisks" href="/uzytkownik/angielski/quizy/quizyangielski/sport">Sport</a>
 
-            </table>
+        <div class="tabela">
+            <a style="margin: 20px;" class = "przycisks" href="/Uzytkownik/angielski">Powrót</a>
+            <div class="quiz">
+                
+                <div id="question-container" class="hide">
+                  <center><div style="margin-bottom: 50px;" id="question">Pytania</div></center>
+                  <div id="answer-buttons" class="btn-grid">
+                    <button class="btn">Odpowiedz 1</button>
+                    <button class="btn">Odpowiedz 2</button>
+                    <button class="btn">Odpowiedz 3</button>
+                    <button class="btn">Odpowiedz 4</button>
+                  </div>
+                </div>
+                <div class="controls">                    
+                  <button id="start-btn" class="start-btn btn">Start</button>
+                  <button id="next-btn" class="next-btn btn hide">Dalej</button>
+                </div>
+              </div>     
+             
+              
         </div>
-    </div>
-    <a></a>
-</form>
+
+     
+
+
+
+    <script>
+
+
+        function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+        }
+
+
+            let dodaj;
+                const startButton = document.getElementById('start-btn')
+                const nextButton = document.getElementById('next-btn')
+                const questionContainerElement = document.getElementById('question-container')
+                const questionElement = document.getElementById('question')
+                const answerButtonsElement = document.getElementById('answer-buttons')
+
+            let shuffledQuestions, currentQuestionIndex
+
+            startButton.addEventListener('click', startGame)
+            nextButton.addEventListener('click', () => {
+            currentQuestionIndex++
+            setNextQuestion()
+            })
+
+            function startGame() {
+            startButton.classList.add('hide')
+            shuffledQuestions = questions.sort(() => Math.random() - .5)
+            currentQuestionIndex = 0
+            questionContainerElement.classList.remove('hide')
+            setNextQuestion()
+            }
+
+            function setNextQuestion() {
+            resetState()
+            showQuestion(shuffledQuestions[currentQuestionIndex])
+            }
+
+            function showQuestion(question) {
+            questionElement.innerText = question.question
+            question.answers.forEach(answer => {
+                const button = document.createElement('button')
+                button.innerText = answer.text
+                button.classList.add('btn')
+                if (answer.correct) {
+                button.dataset.correct = answer.correct
+                }
+                button.addEventListener('click', selectAnswer)
+                answerButtonsElement.appendChild(button)
+            })
+            }
+
+            function resetState() {
+            clearStatusClass(document.body)
+            nextButton.classList.add('hide')
+            while (answerButtonsElement.firstChild) {
+                answerButtonsElement.removeChild(answerButtonsElement.firstChild)
+            }
+            }
+
+            function selectAnswer(e) {
+            const selectedButton = e.target
+            const correct = selectedButton.dataset.correct
+            setStatusClass(document.body, correct)
+            Array.from(answerButtonsElement.children).forEach(button => {
+                setStatusClass(button, button.dataset.correct)
+            })
+            if (shuffledQuestions.length > currentQuestionIndex + 1) {
+                nextButton.classList.remove('hide')
+            } else {
+                startButton.innerText = 'Restart'
+                startButton.classList.remove('hide')
+            }
+            }
+
+            function setStatusClass(element, correct) {
+            clearStatusClass(element)
+            if (correct) {
+                element.classList.add('correct')
+            } else {
+                element.classList.add('wrong')
+            }
+            }
+
+            function clearStatusClass(element) {
+            element.classList.remove('correct')
+            element.classList.remove('wrong')
+            }
+
+            var dlugosc = "<%= slowkaquiz.length %>";
+            console.log(dlugosc);
+
+  
+     
+
+            const questions = [
+           
+            {
+                question: "<%= slowkaquiz[0].polski%>",
+                answers: [
+                { text: "<%= slowkaquiz[0].tlumaczenie%>", correct: true },
+                { text: "<%= slowkaquiz[1].tlumaczenie%>", correct: false },
+                { text: "<%= slowkaquiz[2].tlumaczenie%>", correct: false },
+                { text: "<%= slowkaquiz[3].tlumaczenie%>", correct: false }
+                ]
+            },
+            ]
+
+       
+       
+/*
+
+            for(i=1; i<2; i++)
+            {
+                var a = "<";
+                var b = "%= slowkaquiz[";
+                var c = i;
+                var d = "].polski";
+                var e = " %";
+                var f = ">";
+                //var pytanie = a+b+c+d+e+f;
+                //console.log(`${pytanie}`);
+                //var wynik = pytanie.toString();
+                
+
+                let dodaj = { 
+                question: `<%= slowkaquiz[1].polski%>`,
+                answers: [
+                
+                { text: "<%= slowkaquiz[2].tlumaczenie%>", correct: false },
+                { text: "<%= slowkaquiz[1].tlumaczenie%>", correct: true },
+                { text: "<%= slowkaquiz[3].tlumaczenie%>", correct: false },
+                { text: "<%= slowkaquiz[4].tlumaczenie%>", correct: false }
+                ]
+                }
+                questions.push(dodaj);
+
+            }
+
+            <% for (var i =1; i <=10;  i++ ) { %>
+            <br/>  <%= i %> 
+            <%#  will output the numbers 1-10 %>
+            <% } %>
+
+*/
+    </script>
+
+            
+<% for (var i=1; i< slowkaquiz.length-2; i++) {%>
+               
+<script>
+     var a = "<%= slowkaquiz[i].polski %>";
+     var odp = "<%= slowkaquiz[i].tlumaczenie %>";
+     var zla1 = "<%= slowkaquiz[i+1].tlumaczenie %>";
+     var zla2 = "<%= slowkaquiz[i-1].tlumaczenie %>";
+     var zla3 = "<%= slowkaquiz[i+2].tlumaczenie %>";
+
+     dodaj = { 
+                question: a,
+                answers: [
+
+                { text: "<%= slowkaquiz[i+1].tlumaczenie %>", correct: false },
+                { text: "<%= slowkaquiz[i].tlumaczenie %>", correct: true },
+                { text: "<%= slowkaquiz[i-1].tlumaczenie %>", correct: false },
+                { text: "<%= slowkaquiz[i+2].tlumaczenie %>", correct: false }
+                ]
+                }
+                shuffleArray(dodaj.answers);
+                questions.push(dodaj);
+</script>
+<%  } %>
+
+</div>
+
 </body>
 </html>
-
-

@@ -7,10 +7,9 @@
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-
     <div class="container">
         <div class="navbar">
-            <a href="http://localhost:3000"><img src="/img/logo.png" class="logo" href=""/></a>
+            <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
             <nav>
                 <ul>
                     <a style="color: beige;">Witaj <%= user %>!</a>
@@ -23,7 +22,7 @@
         <div class="gramatyka">
             <li>Wybierz dział</li>
                 <% for(var i=0;i< material.length; i++) { %>
-                    <a class = "przycisks" href="/Uzytkownik/angielski/slownictwo/materialAngielski/slowkaAngielski?id=<%= material[i].id%>"><%= material[i].nazwa_materialu%></a>
+                    <a class = "przycisks" href="/Uzytkownik/angielski/slownictwo/materialAngielskiU/slowkaAngielskiU?id=<%=material[i].id%>"><%= material[i].nazwa_materialu%></a>
                 <% } %>
         </div>
     </div>
