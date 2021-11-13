@@ -40,6 +40,41 @@ app.get('/', (req, res) => {
     res.render("index");        
 });
 
+app.get("/Uzytkownik/ustawienia/zmianahasla", checkNotAuthenticated,  (req, res, next) => {
+    res.render("zmianahasla.ejs", { user: req.user.imie});
+});
+
+app.get("/admin/zmianahaslaadmin", checkNotAuthenticated,  (req, res, next) => {
+    if(req.user.rola==0) {
+        res.render("admin/zmianahasla.ejs", { user: req.user.imie});
+    }
+    if(req.user.rola==1) {
+        res.render("stronaGlowna.ejs",  { user: req.user.imie });
+    }
+});
+
+app.post(
+    "/Uzytkownik/login",
+    passport.authenticate("local", {
+      successRedirect: "/Uzytkownik/stronaGlowna",
+      failureRedirect: "/Uzytkownik/login",
+      failureFlash: true
+    })
+);
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return res.redirect("/Uzytkownik/stronaGlowna");
+    }
+    next();
+}
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect("/Uzytkownik/login");
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////REJESTRACJA, LOGOWANIE, WYLOGOWANIE
 
@@ -427,7 +462,7 @@ app.get("/Uzytkownik/niemiecki/slownictwo/materialNiemiecki", checkNotAuthentica
         if(results.rows.length > 0) {
             res.render("ugs/niemiecki/slownictwo/materialNiemiecki.ejs",  {material: results.rows, user: req.user.imie});          
         } else {
-            res.redirect("/", {user: req.user.imie});    
+            res.redirect("/");    
         }
     });
 });
@@ -442,12 +477,91 @@ app.get("/Uzytkownik/angielski/quizyAngielski", checkNotAuthenticated, (req, res
         if(results.rows.length > 4) {
             res.render("ugs/angielski/quizy/quizyAngielski.ejs",  {slowkaquiz: results.rows, user: req.user.imie });     
         } else {
-            res.redirect("/", {user: req.user.imie});   
+            res.render("ugs/angielski/angielski.ejs",  { user: req.user.imie }); 
         }
     });
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////PODSTRONY ADMINISTRATOR
+
+/////////////////////////////////////////////////////////////////////////////////////////////////WYŚWIETLANIE UŻYTKOWNIKÓW
+
+app.get("/admin/ustawienia", checkNotAuthenticated, (req, res, next) => {
+    if(req.user.rola==0) {
+    res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie, nazwisko: req.user.nazwisko, email: req.user.email});
+    }
+    if(req.user.rola==1) {
+        res.render("stronaGlowna.ejs",  { user: req.user.imie });
+    } 
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////ZMIANA HASŁA NA ADMINISTRATORZE
+
+app.post("/admin/zmianahaslaadmin",checkNotAuthenticated, async (req, res,next) => {  
+    if(req.user.rola==0) {
+        let { obecne, haslo, haslo2} = req.body;
+        let errors = [];
+        console.log({
+            obecne,
+            haslo,
+            haslo2,
+    });
+
+    if(!obecne ||!haslo || !haslo2) {
+        errors.push({message: "Wypełnij wszystkie pola!"});
+    }
+
+    if(haslo.length < 6 || haslo2.length < 6 || obecne.length < 6){
+        errors.push({message: "Za krótkie hasło, musi być minimum 6 znaków!"});
+        console.log("krotkie");
+        
+    }
+
+    if(haslo != haslo2) {
+        errors.push({message: "hasła się nie zgadzają!"})
+    }
+
+    if(errors.length > 0) {
+        res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
+    } else {
+        pool.query(
+            `SELECT * FROM public."Uzytkownik" WHERE id =`+"'"+req.user.id+"'",
+            (err, results) => {
+              if (err) {
+                throw err;
+              }
+              console.log(results.rows);
+              
+              if (results.rows.length > 0) {
+                const uzytkownik = results.rows[0];
+                    console.log(results.rows[0]);
+                    bcrypt.compare(obecne, uzytkownik.haslo, (err, isMatch) => {
+                        if (err) {
+                          console.log(err);
+                        }
+                        if (isMatch) {
+                            let nowehaslo =  bcrypt.hashSync(haslo, 10);
+                            console.log(nowehaslo);
+                            pool.query(`UPDATE public."Uzytkownik"`+"SET haslo='"+nowehaslo+"' WHERE id='"+req.user.id+"'");
+                            errors.push({message: "Twoje haslo zostalo zmienione"})
+                            res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
+                            
+                        } else {
+                            console.log("zle haselko");
+                            errors.push({message: "Obecne haslo jest niepoprawne"})
+                            res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
+                        }
+                    });
+                } 
+            }
+        );
+    }
+    }
+
+    if(req.user.rola==1) {
+        res.render("stronaGlowna.ejs",  { user: req.user.imie });
+    }
+})
 
 /////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA WYŚWIETLANIE UŻYTKOWNIKÓW
 
@@ -720,7 +834,7 @@ app.get("/admin/gramatykaAngielski", checkNotAuthenticated, (req, res, next) => 
     }
 });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DODAWANIE GRAMATYKI
+/////////////////////////////////////////////////////////////////////////////////////////////////ADMINISTRATOR DODAWANIE GRAMATYKI ANGIELSKI
 
 app.get("/admin/gramatykaAngielski/dodajGramatykeAngielski", checkNotAuthenticated, (req, res, next) => {
     var idM = req.query.idM
@@ -770,6 +884,62 @@ app.post("/admin/gramatykaAngielski/dodajGramatykeAngielski", checkNotAuthentica
     }
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DODAWANIE TESTÓW
+
+app.get("/admin/testAngielski", checkNotAuthenticated, (req, res, next) => {
+    var idT = req.query.idT
+
+    if(req.user.rola==0) {
+        if(idT>0) {
+            pool.query(`DELETE FROM public."Test"`+"WHERE id= '"+idT+"' ")
+        }
+
+        pool.query(`SELECT * FROM public."Test" WHERE jezyk_id=1;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/testAngielski.ejs",  { test: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/testAngielski.ejs",  { test: results.rows, user: req.user.imie }); 
+            } 
+        });
+    }
+});
+
+app.get("/admin/testAngielski/dodajTestAngielski", checkNotAuthenticated, (req, res, next) => {
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT typ_testu, nazwa FROM public."Test" WHERE jezyk_id=1;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/dodajTestAngielski.ejs",  { typ_testu: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/dodajTestAngielski.ejs",  { typ_testu: results.rows, user: req.user.imie }); 
+            } 
+        });
+    }
+});
+
+app.post("/admin/testAngielski/dodajTestAngielski", checkNotAuthenticated, (req, res, next) => {
+    let { nazwa, typtest} = req.body;
+    let errors = []
+    console.log("Dodano test "+nazwa+" "+" typ: "+typtest)
+    if(req.user.rola==0) {
+        pool.query(`SELECT * FROM public."Test" WHERE jezyk_id=1 AND nazwa = $1 AND typ_testu = $2`, [nazwa, typtest], (err, results) => {
+            if(results.rows.length > 0) {
+                errors.push({message: "Test już istnieje"})
+                res.render("admin/dodajtestangielski.ejs",  {user: req.user.imie, errors }); 
+            } else {
+                errors.push({message: "Dodano test o nazwie: "+nazwa})
+                pool.query( `INSERT INTO public."Test" (nazwa, typ_testu, jezyk_id)`+" VALUES ('"+nazwa+"','"+typtest+"',1);");
+                res.render("admin/dodajtestangielski.ejs",  { user: req.user.imie, errors }); 
+            }
+        })          
+    }
+});
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -797,7 +967,6 @@ app.post("/admin/gramatykaAngielski/dodajGramatykeAngielski", checkNotAuthentica
 
 
 app.get("/admin/skasujpytanieangielskidzial", checkNotAuthenticated, (req, res, next) => {
-
     if(req.user.rola==0) {
         pool.query(`SELECT * from public."Test" where jezyk_id=1;`, (err, results) => {
             if (err) {
@@ -1079,20 +1248,7 @@ app.post("/admin/dodajpytanieniemiecki", checkNotAuthenticated, (req, res, next)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////DODAWANIE TESTÓW
 
-app.get("/admin/dodajtestangielski", checkNotAuthenticated, (req, res, next) => {
-    if(req.user.rola==0) {
-        pool.query(`SELECT DISTINCT kategoria from public."Slownictwo" where jezyk_id=1;`, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if(results.rows.length > 0) {
-                res.render("admin/dodajtestangielski.ejs",  { kategoria:results.rows, user: req.user.imie });           
-            } else {
-                res.render("admin/ustawieniaAdmin.ejs",  { uzytkownik:results.rows, user: req.user.imie }); 
-            } 
-        });
-    }
-});
+
 
 app.get("/admin/dodajtestniemiecki", checkNotAuthenticated, (req, res, next) => {
     if(req.user.rola==0) {
@@ -1109,17 +1265,6 @@ app.get("/admin/dodajtestniemiecki", checkNotAuthenticated, (req, res, next) => 
     }
 });
 
-app.post("/admin/dodajtestangielski", checkNotAuthenticated, (req, res, next) => {
-    let { nazwa, test} = req.body;
-    console.log({
-        nazwa,
-        test,
-    });
-    if(req.user.rola==0) {
-        pool.query( `INSERT INTO public."Test" (nazwa, typ_testu, jezyk_id)`+" VALUES ('"+nazwa+"','"+test+"',1);");
-        res.render("admin/dodajtestangielski.ejs",  {user: req.user.imie });              
-    }
-});
 
 app.post("/admin/dodajtestniemiecki", checkNotAuthenticated, (req, res, next) => {
     let { nazwa, test} = req.body;
@@ -1479,123 +1624,10 @@ app.get("/koniec", checkNotAuthenticated, (req, res, next) => {
     }
 });
 
-app.get("/admin/ustawienia", checkNotAuthenticated, (req, res, next) => {
-    if(req.user.rola==0) {
-    res.render("admin/ustawieniaAdmin.ejs",  { user: req.user.imie, nazwisko: req.user.nazwisko, email: req.user.email});
-    }
-    if(req.user.rola==1) {
-        res.render("stronaGlowna.ejs",  { user: req.user.imie });
-    } 
-});
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////NIEMIECKI WYPEŁNIANIE TESTÓW
-
-////////zmiana hasla admin/////////////////////
-
-
-app.post("/admin/zmianahaslaadmin",checkNotAuthenticated, async (req, res,next) => {  
-    if(req.user.rola==0) {
-        let { obecne, haslo, haslo2} = req.body;
-        let errors = [];
-        console.log({
-            obecne,
-            haslo,
-            haslo2,
-    });
-
-    if(!obecne ||!haslo || !haslo2) {
-        errors.push({message: "Wypełnij wszystkie pola!"});
-    }
-
-    if(haslo.length < 6 || haslo2.length < 6 || obecne.length < 6){
-        errors.push({message: "Za krótkie hasło, musi być minimum 6 znaków!"});
-        console.log("krotkie");
-        
-    }
-
-    if(haslo != haslo2) {
-        errors.push({message: "hasła się nie zgadzają!"})
-    }
-
-    if(errors.length > 0) {
-        res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
-    } else {
-        pool.query(
-            `SELECT * FROM public."Uzytkownik" WHERE id =`+"'"+req.user.id+"'",
-            (err, results) => {
-              if (err) {
-                throw err;
-              }
-              console.log(results.rows);
-              
-              if (results.rows.length > 0) {
-                const uzytkownik = results.rows[0];
-                    console.log(results.rows[0]);
-                    bcrypt.compare(obecne, uzytkownik.haslo, (err, isMatch) => {
-                        if (err) {
-                          console.log(err);
-                        }
-                        if (isMatch) {
-                            let nowehaslo =  bcrypt.hashSync(haslo, 10);
-                            console.log(nowehaslo);
-                            pool.query(`UPDATE public."Uzytkownik"`+"SET haslo='"+nowehaslo+"' WHERE id='"+req.user.id+"'");
-                            errors.push({message: "Twoje haslo zostalo zmienione"})
-                            res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
-                            
-                        } 
-                        else {
-                            console.log("zle haselko");
-                            errors.push({message: "Obecne haslo jest niepoprawne"})
-                            res.render("admin/zmianahasla.ejs", { user: req.user.imie, errors });
-                        }
-                    });
-                } 
-            }
-        );
-    }
-}
-
-if(req.user.rola==1) {
-        res.render("stronaGlowna.ejs",  { user: req.user.imie });
-    }
-});
-
-app.get("/Uzytkownik/ustawienia/zmianahasla", checkNotAuthenticated,  (req, res, next) => {
-    res.render("zmianahasla.ejs", { user: req.user.imie});
-});
-
-app.get("/admin/zmianahaslaadmin", checkNotAuthenticated,  (req, res, next) => {
-    if(req.user.rola==0) {
-        res.render("admin/zmianahasla.ejs", { user: req.user.imie});
-    }
-    if(req.user.rola==1) {
-        res.render("stronaGlowna.ejs",  { user: req.user.imie });
-    }
-});
-
-app.post(
-    "/Uzytkownik/login",
-    passport.authenticate("local", {
-      successRedirect: "/Uzytkownik/stronaGlowna",
-      failureRedirect: "/Uzytkownik/login",
-      failureFlash: true
-    })
-);
-
-function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return res.redirect("/Uzytkownik/stronaGlowna");
-    }
-    next();
-}
-
-function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect("/Uzytkownik/login");
-}
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -1627,199 +1659,11 @@ app.get("/niemiecki/gramatyka/gramatykaniemiecki/czaszaprzeszlyplusquamperfekt",
     res.render("gs/niemiecki/gramatyka/czaszaprzeszlyplusquamperfekt.ejs");
 });
 
-///////////////////////////
-/////////////////////////////////////////////////////////////
-//////////////////////////////////
-////////////////////////////////
-////////////////////////////
-//////////zalogowany//////////////
-///////////////////////////
-/////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////
-//////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-
-///angielski i niemiecki
-
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/zwierzeta", checkNotAuthenticated, (req, res, next)  => {
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
-                
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/dom", checkNotAuthenticated, (req, res, next)  => {
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'dom' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });            
-        } 
-    });
-});
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/praca", checkNotAuthenticated, (req, res, next)  => {
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'praca' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });           
-        } 
-    });
-});
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/zdrowie", checkNotAuthenticated, (req, res, next)  => {
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zdrowie' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
-                
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/czlowiek", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czlowiek' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
-                
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/zwierzeta", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
-                
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/jedzenieizywienie", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'jedzenie i zywienie' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
-                
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/podrozeiwakacje", checkNotAuthenticated, (req, res, next)  => {
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'podroze i wakacje' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/czasownikifrazowe", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czasowniki frazowe' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });            
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/edukacjaiszkola", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'edukacja i szkola' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });          
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/rosliny", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rosliny' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });           
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/czasownikinieregularne", checkNotAuthenticated, (req, res, next)  => {
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'czasowniki nieregularne' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });          
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/rodzina", checkNotAuthenticated, (req, res, next)  => {
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'rodzina' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });          
-        } 
-    });
-});
-
-app.get("/uzytkownik/angielski/slownictwo/slownictwoangielski/sport", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM public."Slownictwo" WHERE kategoria = 'sport' AND jezyk_id=1`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/angielski/slownictwo/slowka.ejs",  {slownictwo:results.rows, user: req.user.imie });     
-                
-        } 
-    });
-});
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////QUIZY
+/////////////////////////////////////////////////////////////////////////////////////////////////QUIZY NIEMIECKI
 
 app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki", checkNotAuthenticated, (req, res, next)  => {
     res.render("ugs/niemiecki/quizy/quizyniemiecki.ejs",  { user: req.user.imie });
 });
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////niemiecki/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/wszystkie", checkNotAuthenticated, (req, res, next)  => {
@@ -1830,136 +1674,6 @@ app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/wszystkie", checkNotAuthenti
         }
         if(results.rows.length > 0) {
             res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });         
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/zwierzeta", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'zwierzeta' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });         
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/dom", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'dom' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });         
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/praca", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'praca' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });         
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/zdrowie", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'zdrowie' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });        
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/czlowiek", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'czlowiek' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });         
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/jedzenieizywienie", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'jedzenie i zywienie' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });           
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/podrozeiwakacje", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'podroze i wakacje' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });           
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/edukacjaiszkola", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'edukacja i szkola' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });           
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/rosliny", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'rosliny' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });           
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/rodzina", checkNotAuthenticated, (req, res, next)  => {
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'rodzina' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });          
-        } 
-    });
-});
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/sport", checkNotAuthenticated, (req, res, next)  => {
-    pool.query(`SELECT * FROM "Slownictwo" WHERE kategoria = 'sport' AND jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });          
         } 
     });
 });
