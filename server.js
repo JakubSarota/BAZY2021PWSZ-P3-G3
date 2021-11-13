@@ -940,6 +940,39 @@ app.post("/admin/testAngielski/dodajTestAngielski", checkNotAuthenticated, (req,
     }
 });
 
+app.get("/admin/testAngielski/dodajTestAngielski/pytaniaAngielski", checkNotAuthenticated, (req, res, next) => {
+    let { idT } = req.query;
+    if(req.user.rola==0) {
+        pool.query(`SELECT * FROM public."Pytania"`+" WHERE test_id='"+idT+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/pytaniaAngielski.ejs",  { pytania: results.rows, user: req.user.imie, idT });           
+            } else {
+                res.render("admin/pytaniaAngielski.ejs",  { pytania: results.rows, user: req.user.imie, idT }); 
+            } 
+        });
+    }
+});
+
+app.get("/admin/testAngielski/dodajTestAngielski/dodajPytanieAngielski", checkNotAuthenticated, (req, res, next) => {
+    let { idT } = req.query;
+    if(req.user.rola==0) {
+        pool.query(`SELECT * FROM public."Pytania"`+" WHERE test_id='"+idT+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/dodajPytanieAngielski.ejs",  { pytania: results.rows, user: req.user.imie, idT });           
+            } else {
+                res.render("admin/dodajPytanieAngielski.ejs",  { pytania: results.rows, user: req.user.imie, idT }); 
+            } 
+        });
+    }
+});
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
