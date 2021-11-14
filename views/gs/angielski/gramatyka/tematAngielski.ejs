@@ -42,11 +42,10 @@
 
     tinymce.init({
       selector: '#editor',
-      height: 800,
       readonly : 1,
       toolbar: false,
       menubar: false,
-      plugins: 'lists, link',
+      plugins: 'lists, link, autoresize',
       end_container_on_empty_block: true,
       setup: function (editor) {
         editor.on('init', function (e) {

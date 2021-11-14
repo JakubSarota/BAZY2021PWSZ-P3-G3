@@ -893,9 +893,9 @@ app.get("/admin/gramatykaAngielski/edytujGramatyke", checkNotAuthenticated, (req
                 throw err;
             }
             if(results.rows.length > 0) {
-                res.render("admin/edytujGramatyke.ejs",  { gramatyka: results.rows, user: req.user.imie });           
+                res.render("admin/edytujGramatyke.ejs",  {nazwa_materialu: results.rows, gramatyka: results.rows, user: req.user.imie });           
             } else {
-                res.render("admin/edytujGramatyke.ejs", { gramatyka: results.rows, user: req.user.imie });  
+                res.render("admin/edytujGramatyke.ejs", {nazwa_materialu: results.rows, gramatyka: results.rows, user: req.user.imie });  
             } 
         });
     }

@@ -32,15 +32,16 @@
                 <tr>
                     <td class="col1">
                         <form id="RegForm" name="RegForm" action="" method="POST">
-                            <textarea name="editor" id="editor" rows="20" cols="150" required>
+                            <textarea name="editor" id="editor" required>
                                 <% for(var i=0; i< gramatyka.length; i++) {%>
                                     <%=gramatyka[i].zawartosc%>
                                 <% } %>
                             </textarea>
 
                             <div class="przyciskForm">            
-                                <input style="cursor: pointer;" type="submit" value="Dodaj" name="Submit" />
+                                <input style="cursor: pointer;"  type="submit" value="Dodaj" name="Submit" />
                             </div>
+
                         </form>
                     </td>   
                 </tr>
@@ -58,10 +59,9 @@
 <script>
     tinymce.init({
       selector: '#editor',
-      height: 400,
       toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist',
       menubar: false,
-      plugins: 'lists, link',
+      plugins: 'lists, link, autoresize',
       end_container_on_empty_block: true,
       setup: function (editor) {
         editor.on('init', function (e) {
@@ -69,4 +69,8 @@
         });
       }
     });
+
+    function refresh() {
+        window.location.reload();
+    }
 </script>
