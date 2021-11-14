@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Strona Główna</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a><img style="cursor: context-menu;" src="/img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+
+                    <a style="color: beige;">Witaj <%= user %>!</a>
+                    <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
+                </ul>
+            </nav>            
+        </div>
+        <div class="gramatyka">
+        <table class="table">
+           <tbody>       
+                <tr>
+                    <td class="col1">
+                        <center><div class="text"><h2>Dane zostały wprowadzone pomyślnie</h2></div></center>
+                        
+                    </td>
+                </tr>
+                <form>
+                    <a class = "przycisks" href="javascript: history.back(-1)">Powrót</a>  
+                </form>
+            
+            </tbody>
+        </table>
+</div>
+</body>
+</html>

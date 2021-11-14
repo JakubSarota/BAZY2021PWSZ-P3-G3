@@ -631,7 +631,7 @@ app.get("/admin/uzytkownicy/postepn", checkNotAuthenticated, (req, res, next) =>
         }
 });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DZIAŁ SŁOWNICTWO 
+/////////////////////////////////////////////////////////////////////////////////////////////////DZIAŁ SŁOWNICTWO ANGIELSKI
 
 app.get("/admin/slownictwoAngielski", checkNotAuthenticated, (req, res, next) => {
     var idM = req.query.idM
@@ -691,6 +691,73 @@ app.post("/admin/slownictwoAngielski/dodajMaterialAngielski", checkNotAuthentica
                             throw err
                         } 
                         res.redirect("/admin/slownictwoAngielski")
+                    });  
+                } 
+            });
+        });
+    }
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////DZIAŁ SŁOWNICTWO NIEMIECKI 
+
+app.get("/admin/slownictwoNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    var idM = req.query.idM
+
+    if(req.user.rola==0) {
+
+        if(idM>0) {
+            pool.query(`DELETE FROM public."Material"`+"WHERE id= '"+idM+"' ")
+        }
+
+        pool.query(`SELECT * FROM public."Material" WHERE typ_materialu=1 AND id_jezyk=2 ORDER BY id ASC;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/slownictwoNiemiecki.ejs",  { nazwa_materialu: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/Niemiecki/slownictwoNiemiecki.ejs", { nazwa_materialu: results.rows, user: req.user.imie });  
+            } 
+        });
+    }
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////DODAWANIE MATERIAŁU NIEMIECKI 
+
+app.get("/admin/slownictwoNiemiecki/dodajMaterialNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT nazwa_materialu from public."Material" where id_jezyk=2;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/dodajMaterialNiemiecki.ejs",  { nazwa_materialu:results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/Niemiecki/dodajMaterialNiemiecki.ejs",  { nazwa_materialu:results.rows, user: req.user.imie });  
+            } 
+        });
+    }
+});
+
+app.post("/admin/slownictwoNiemiecki/dodajMaterialNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { nazwa_materialu } = req.body;
+    let errors = []
+    console.log("Dodano " + nazwa_materialu)
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT nazwa_materialu FROM public."Material" WHERE id_jezyk=2;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            pool.query(`SELECT FROM public."Material" WHERE typ_materialu=1 AND id_jezyk=2 AND nazwa_materialu = $1`, [nazwa_materialu], (err, results) => {
+                if(results.rows.length > 0) {
+                    errors.push({message: "Już istnieje materiał"})
+                    res.render("admin/Niemiecki/dodajMaterialNiemiecki.ejs",  { nazwa_materialu: results.rows, user: req.user.imie, errors });
+                } else {
+                    pool.query( `INSERT INTO public."Material" (id_jezyk, nazwa_materialu, typ_materialu)`+" VALUES (2, '"+nazwa_materialu+"', 1);",(err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        res.redirect("/admin/slownictwoNiemiecki")
                     });  
                 } 
             });
@@ -796,13 +863,13 @@ app.post("/admin/slownictwoAngielski/edytujSlowkoAngielski", checkNotAuthenticat
             pool.query(`SELECT * FROM public."Slownictwo" WHERE tlumaczenie = $1;`, [tlumaczenie], (err, results) => {
                 if(results.rows.length > 0) {
                     errors.push({message: "Już istnieje to słówko"})
-                    res.render("admin/edytujSlowkoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie, errors, idM });
+                    res.render("admin/daneWprowadzone.ejs",  { slownictwo: results.rows, user: req.user.imie, errors, idM });
                 } else {
                     pool.query( `UPDATE public."Slownictwo"`+"SET tlumaczenie='"+tlumaczenie+"', polski='"+polski+"'WHERE id='"+idS+"' AND id_material='"+idM+"';", (err, results) => {
                         if(err) {
                             throw err
                         } 
-                        res.render("admin/edytujSlowkoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie, idM, idS });
+                        res.render("admin/daneWprowadzone.ejs",  { slownictwo: results.rows, user: req.user.imie, idM, idS });
                     }); 
                 }
             });
@@ -810,7 +877,119 @@ app.post("/admin/slownictwoAngielski/edytujSlowkoAngielski", checkNotAuthenticat
     }
 });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DZIAŁ GRAMATYKA 
+/////////////////////////////////////////////////////////////////////////////////////////////////DODAWANIE SŁÓWEK DO MATERIAŁU NIEMIECKI
+
+app.get("/admin/slownictwoNiemiecki/dodajSlownictwoNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let {idM, idS} = req.query
+
+    if(req.user.rola==0) {
+        if(idS>0) {
+            console.log(idS)
+            pool.query(`DELETE FROM public."Slownictwo" WHERE`+" id_material = '"+idM+"' AND id = '"+idS+"';")
+        }
+
+            pool.query(`SELECT * FROM public."Slownictwo"` +"WHERE id_material = '"+idM+"' ORDER BY id ASC;", (err, results) => {
+                if (err) {
+                    throw err;
+                }
+                if(results.rows.length > 0) {
+                    res.render("admin/Niemiecki/dodajSlownictwoNiemiecki.ejs",  {  slownictwo: results.rows, user: req.user.imie, idM });           
+                } 
+                else if(results.rows.length == 0) {
+                    res.render("admin/Niemiecki/dodajSlownictwoNiemiecki.ejs",  {  slownictwo: results.rows,  user: req.user.imie, idM });
+                } 
+            });
+    }
+});
+
+app.get("/admin/slownictwoNiemiecki/dodajSlowkoNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { idM } = req.query 
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT id, tlumaczenie, polski FROM public."Slownictwo"`+"WHERE id_material ='"+idM+"'", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/dodajSlowkoNiemiecki.ejs",  { slownictwo: results.rows, user: req.user.imie, idM });           
+            } else {
+                res.render("admin/Niemiecki/dodajSlowkoNiemiecki.ejs",  { slownictwo: results.rows, user: req.user.imie, idM });  
+            } 
+        });
+    }
+});
+
+app.post("/admin/slownictwoNiemiecki/dodajSlowkoNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { idM } = req.query
+    let { polski, tlumaczenie } = req.body;
+    let errors = []
+    console.log("Dodano " + tlumaczenie +" "+ polski)
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT polski, tlumaczenie FROM public."Slownictwo"`+"WHERE id_material='"+idM+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            pool.query(`SELECT * FROM public."Slownictwo" WHERE tlumaczenie = $1;`, [tlumaczenie], (err, results) => {
+                if(results.rows.length > 0) {
+                    errors.push({message: "Już istnieje to słówko"})
+                    res.render("admin/Niemiecki/dodajSlowkoNiemiecki.ejs",  { tlumaczenie: results.rows, user: req.user.imie, errors, idM });
+                } else {
+                    pool.query( `INSERT INTO public."Slownictwo" (id_material, tlumaczenie, polski)`+" VALUES ('"+idM+"', '"+tlumaczenie+"', '"+polski+"');",(err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        errors.push({message: "dodano słówko"})
+                        res.render("admin/Niemiecki/dodajSlowkoNiemiecki.ejs",  { tlumaczenie: results.rows, user: req.user.imie, errors, idM });
+                    });  
+                } 
+            });
+        });
+    }
+});
+
+app.get("/admin/slownictwoNiemiecki/edytujSlowkoNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { idM, idS } = req.query 
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT tlumaczenie, polski FROM public."Slownictwo"`+"WHERE id_material ='"+idM+"' AND id='"+idS+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/edytujSlowkoNiemiecki.ejs",  { slownictwo: results.rows, user: req.user.imie, idM, idS });           
+            } else {
+                res.render("admin/Niemiecki/dodajSlowkoNiemiecki.ejs",  { slownictwo: results.rows, user: req.user.imie, idM });  
+            } 
+        });
+    }
+});
+
+app.post("/admin/slownictwoNiemiecki/edytujSlowkoNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { idM, idS } = req.query
+    let { polski, tlumaczenie } = req.body
+    let errors = []
+    console.log("Edytowano " + tlumaczenie +" "+ polski)
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT polski, tlumaczenie FROM public."Slownictwo"`+"WHERE id_material='"+idM+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            pool.query(`SELECT * FROM public."Slownictwo" WHERE tlumaczenie = $1;`, [tlumaczenie], (err, results) => {
+                if(results.rows.length > 0) {
+                    errors.push({message: "Już istnieje to słówko"})
+                    res.render("admin/Niemiecki/edytujSlowkoNiemiecki.ejs",  { tlumaczenie: results.rows, user: req.user.imie, errors, idM });
+                } else {
+                    pool.query( `UPDATE public."Slownictwo"`+"SET tlumaczenie='"+tlumaczenie+"', polski='"+polski+"'WHERE id='"+idS+"' AND id_material='"+idM+"';", (err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        res.render("admin/Niemiecki/edytujSlowkoNiemiecki.ejs",  { slownictwo: results.rows, user: req.user.imie, idM, idS });
+                    }); 
+                }
+            });
+        });
+    }
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DZIAŁ GRAMATYKA ANGIELSKI
 
 app.get("/admin/gramatykaAngielski", checkNotAuthenticated, (req, res, next) => {
     var idM = req.query.idM
@@ -829,6 +1008,30 @@ app.get("/admin/gramatykaAngielski", checkNotAuthenticated, (req, res, next) => 
                 res.render("admin/gramatykaAngielski.ejs",  { nazwa_materialu: results.rows, user: req.user.imie });           
             } else {
                 res.render("admin/gramatykaAngielski.ejs", { nazwa_materialu: results.rows, user: req.user.imie });  
+            } 
+        });
+    }
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DZIAŁ GRAMATYKA NIEMIECKI
+
+app.get("/admin/gramatykaNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    var idM = req.query.idM
+
+    if(req.user.rola==0) {
+
+        if(idM>0) {
+            pool.query(`DELETE FROM public."Material"`+"WHERE id= '"+idM+"' ")
+        }
+
+        pool.query(`SELECT * FROM public."Material" WHERE typ_materialu=2 AND id_jezyk=2 ORDER BY id ASC;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/gramatykaNiemiecki.ejs",  { nazwa_materialu: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/Niemiecki/gramatykaNiemiecki.ejs", { nazwa_materialu: results.rows, user: req.user.imie });  
             } 
         });
     }
@@ -915,14 +1118,14 @@ app.post("/admin/gramatykaAngielski/edytujGramatyke", checkNotAuthenticated, (re
                         if(err) {
                             throw err
                         } 
-                        res.render("admin/edytujGramatyke.ejs", { gramatyka: results.rows, user: req.user.imie, idM, editor });
+                        res.render("admin/daneWprowadzone.ejs", { gramatyka: results.rows, user: req.user.imie, idM, editor });
                     });
                 } else {
                     pool.query( `INSERT INTO public."Gramatyka" (id_material, zawartosc)`+" VALUES ('"+idM+"', '"+editor+"');", (err, results) => {
                         if(err) {
                             throw err
                         } 
-                        res.render("admin/edytujGramatyke.ejs", { gramatyka: results.rows, user: req.user.imie, idM, editor });
+                        res.render("admin/daneWprowadzone.ejs", { gramatyka: results.rows, user: req.user.imie, idM, editor });
                     });
                 }
             
@@ -930,7 +1133,57 @@ app.post("/admin/gramatykaAngielski/edytujGramatyke", checkNotAuthenticated, (re
     }
 });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DODAWANIE TESTÓW
+/////////////////////////////////////////////////////////////////////////////////////////////////ADMINISTRATOR DODAWANIE GRAMATYKI NIEMIECKI
+
+app.get("/admin/gramatykaNiemiecki/dodajGramatykeNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    var idM = req.query.idM
+
+    if(req.user.rola==0) {
+
+        if(idM>0) {
+            pool.query(`DELETE FROM public."Material"`+"WHERE id= '"+idM+"' ")
+        }
+
+        pool.query(`SELECT * FROM public."Material" WHERE typ_materialu=2 AND id_jezyk=2 ORDER BY id ASC;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/dodajGramatykeNiemiecki.ejs",  { nazwa_materialu: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/Niemiecki/dodajGramatykeNiemiecki.ejs", { nazwa_materialu: results.rows, user: req.user.imie });  
+            } 
+        });
+    }
+});
+
+app.post("/admin/gramatykaNiemiecki/dodajGramatykeNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { nazwa_materialu } = req.body;
+    let errors = []
+    console.log("Dodano " + nazwa_materialu)
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT nazwa_materialu FROM public."Material" WHERE id_jezyk=2;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            pool.query(`SELECT FROM public."Material" WHERE typ_materialu=2 AND id_jezyk=2 AND nazwa_materialu = $1`, [nazwa_materialu], (err, results) => {
+                if(results.rows.length > 0) {
+                    errors.push({message: "Już istnieje materiał"})
+                    res.render("admin/Niemiecki/dodajMaterialNiemiecki.ejs",  { nazwa_materialu: results.rows, user: req.user.imie, errors });
+                } else {
+                    pool.query( `INSERT INTO public."Material" (id_jezyk, nazwa_materialu, typ_materialu)`+" VALUES (2, '"+nazwa_materialu+"', 2);",(err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        res.redirect("/admin/Niemiecki/gramatykaNiemiecki")
+                    });  
+                } 
+            });
+        });
+    }
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DODAWANIE TESTÓW ANGIELSKI
 
 app.get("/admin/testAngielski", checkNotAuthenticated, (req, res, next) => {
     var idT = req.query.idT
@@ -1050,6 +1303,106 @@ app.post("/admin/testAngielski/dodajTestAngielski/dodajPytanieAngielski", checkN
         });
     }
 });
+
+/////////////////////////////////////////////////////////////////////////////////////////////////PANEL ADMINISTRATORA DODAWANIE TESTÓW NIEMIECKI
+
+app.get("/admin/testNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    var idT = req.query.idT
+
+    if(req.user.rola==0) {
+        if(idT>0) {
+            pool.query(`DELETE FROM public."Test"`+"WHERE id= '"+idT+"' ")
+        }
+
+        pool.query(`SELECT * FROM public."Test" WHERE jezyk_id=2;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/testNiemiecki.ejs",  { test: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/Niemiecki/testNiemiecki.ejs",  { test: results.rows, user: req.user.imie }); 
+            } 
+        });
+    }
+});
+
+app.get("/admin/testNiemiecki/dodajTestNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT typ_testu, nazwa FROM public."Test" WHERE jezyk_id=2;`, (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/dodajTestNiemiecki.ejs",  { typ_testu: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/Niemiecki/dodajTestNiemiecki.ejs",  { typ_testu: results.rows, user: req.user.imie }); 
+            } 
+        });
+    }
+});
+
+app.post("/admin/testNiemiecki/dodajTestNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { nazwa, typtest} = req.body;
+    let errors = []
+    console.log("Dodano test "+nazwa+" "+" typ: "+typtest)
+    if(req.user.rola==0) {
+        pool.query(`SELECT * FROM public."Test" WHERE jezyk_id=2 AND nazwa = $1 AND typ_testu = $2`, [nazwa, typtest], (err, results) => {
+            if(results.rows.length > 0) {
+                errors.push({message: "Test już istnieje"})
+                res.render("admin/Niemiecki/dodajtestNiemiecki.ejs",  {user: req.user.imie, errors }); 
+            } else {
+                errors.push({message: "Dodano test o nazwie: "+nazwa})
+                pool.query( `INSERT INTO public."Test" (nazwa, typ_testu, jezyk_id)`+" VALUES ('"+nazwa+"','"+typtest+"',2);");
+                res.render("admin/Niemiecki/dodajtestNiemiecki.ejs",  { user: req.user.imie, errors }); 
+            }
+        })          
+    }
+});
+
+app.get("/admin/testNiemiecki/dodajTestNiemiecki/pytaniaNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { idT } = req.query;
+    if(req.user.rola==0) {
+        pool.query(`SELECT * FROM public."Pytania"`+" WHERE test_id='"+idT+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/pytaniaNiemiecki.ejs",  { pytania: results.rows, user: req.user.imie, idT });           
+            } else {
+                res.render("admin/Niemiecki/pytaniaNiemiecki.ejs",  { pytania: results.rows, user: req.user.imie, idT }); 
+            } 
+        });
+    }
+});
+
+app.get("/admin/testNiemiecki/dodajTestNiemiecki/dodajPytanieNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { idT } = req.query;
+    if(req.user.rola==0) {
+        pool.query(`SELECT * FROM public."Pytania"`+" WHERE test_id='"+idT+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/dodajPytanieNiemiecki.ejs",  { pytania: results.rows, user: req.user.imie, idT });           
+            } else {
+                res.render("admin/Niemiecki/dodajPytanieNiemiecki.ejs",  { pytania: results.rows, user: req.user.imie, idT }); 
+            } 
+        });
+    }
+});
+
+
+app.get("/admin/danePomyslnieWprowadzone", checkNotAuthenticated, (req, res, next) => {
+    if(req.user.rola==0) {
+        if(err) {
+            throw err
+        }
+        res.render("admin/daneWprowadzone.ejs",  { user: req.user.imie });
+    }
+});
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1735,40 +2088,6 @@ app.get("/koniec", checkNotAuthenticated, (req, res, next) => {
     }
 });
 
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////NIEMIECKI WYPEŁNIANIE TESTÓW
-
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-//STRONA Z SLOWKAMI bez zalogowania jezyk angielski
-
-///angielski i niemiecki
-
-app.get("/niemiecki/gramatyka/gramatykaniemiecki/czasprzeszlyperfekt", (req, res)  => {
-    res.render("gs/niemiecki/gramatyka/czasprzeszlyperfekt.ejs");
-});
-
-app.get("/niemiecki/gramatyka/gramatykaniemiecki/czasprzeszlyprosty", (req, res)  => {
-    res.render("gs/niemiecki/gramatyka/czasprzeszlyprosty.ejs");
-});
-
-app.get("/niemiecki/gramatyka/gramatykaniemiecki/czasprzyszlyfuturi", (req, res)  => {
-    res.render("gs/niemiecki/gramatyka/czasprzyszlyfuturi.ejs");
-});
-
-app.get("/niemiecki/gramatyka/gramatykaniemiecki/czasprzyszlyfuturii", (req, res)  => {
-    res.render("gs/niemiecki/gramatyka/czasprzyszlyfuturii.ejs");
-});
-
-app.get("/niemiecki/gramatyka/gramatykaniemiecki/czaszaprzeszlyplusquamperfekt", (req, res)  => {
-    res.render("gs/niemiecki/gramatyka/czaszaprzeszlyplusquamperfekt.ejs");
-});
 
 /////////////////////////////////////////////////////////////////////////////////////////////////QUIZY NIEMIECKI
 

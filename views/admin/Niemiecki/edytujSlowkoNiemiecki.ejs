@@ -22,7 +22,7 @@
         <table class="table">
             <thead class="thead">
                 <tr>
-                    <a class = "przycisks" href="/admin/slownictwoAngielski/dodajSlownictwoAngielski?idM=<%=idM%>">Powrót</a>  
+                    <a class = "przycisks" href="/admin/slownictwoNiemiecki/dodajSlownictwoNiemiecki?idM=<%=idM%>">Powrót</a>  
                 </tr>
              </th>
             </thead>
@@ -34,13 +34,13 @@
                                 <p>Wprowadź słówko</p><br/>
                                 
                                 <div style="column-count: 2;">
-                                    <p>Angielski: <input type="text" class="dane" id="tlumaczenie" size="5" name="tlumaczenie" value="<%= slownictwo[i].tlumaczenie%>" required/></p>
+                                    <p>Niemiecki: <input type="text" class="dane" id="tlumaczenie" size="5" name="tlumaczenie" value="<%= slownictwo[i].tlumaczenie%>" required/></p>
                                     <p>Polski: <input type="text" class="dane" id="polski" size="5" name="polski" value="<%= slownictwo[i].polski%>" required/></p>     
                                                     
                                 </div>
                                 <br />
                                 <div class="przyciskForm">            
-                                    <a onclick=""><input style="cursor: pointer;" type="submit" value="Edytuj" name="Submit" /></a>
+                                    <input style="cursor: pointer;" type="submit" value="Edytuj" name="Submit" />
                                 </div>
                                 <br/>
                             </form>
