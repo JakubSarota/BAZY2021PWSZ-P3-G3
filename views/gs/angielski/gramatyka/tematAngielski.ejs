@@ -5,7 +5,8 @@
     <meta charset="utf-8" />
     <title>Gramatyka</title>
     <link rel="stylesheet" href="/css/style.css" />
-    <script src="ckeditor/ckeditor.js"></script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
 <form action="/Uzytkownik/gramatyka">
@@ -22,24 +23,40 @@
         </div>
 
         <div class="gramatyka">
-            <a class = "przycisks" href="javascript:history.back(">Powrót</a>
+            <a class = "przycisks" href="javascript:history.back()">Powrót</a>
             
             <br><br><br>
 
-            <% for(var i=0;i< gramatyka.length; i++) { %>
-                <a><%= gramatyka[i].zawartosc%></a>
-            <% } %>
-            <a></a>
-            
+                <textarea style="margin-top: 100px;" readonly id="editor">
+                    <% for(var i=0; i< gramatyka.length; i++) {%>
+                        <%=gramatyka[i].zawartosc%>
+                    <% } %>
+                </textarea>
         </div>
         
     </div>
 </form>
 </body>
+
 <script>
-    function htmlDecode(value){
-        return $('<a/>').html(value).text();
-    }
+
+    tinymce.init({
+      selector: '#editor',
+      height: 800,
+      readonly : 1,
+      toolbar: false,
+      menubar: false,
+      plugins: 'lists, link',
+      end_container_on_empty_block: true,
+      setup: function (editor) {
+        editor.on('init', function (e) {
+          editor.setcontent(localStorage.getItem("myContent"));
+        });
+      }
+    });
+    
 </script>
+
 </html>
+
 

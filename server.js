@@ -796,7 +796,7 @@ app.post("/admin/slownictwoAngielski/edytujSlowkoAngielski", checkNotAuthenticat
             pool.query(`SELECT * FROM public."Slownictwo" WHERE tlumaczenie = $1;`, [tlumaczenie], (err, results) => {
                 if(results.rows.length > 0) {
                     errors.push({message: "Już istnieje to słówko"})
-                    res.render("admin/edytujSlowkoAngielski.ejs",  { tlumaczenie: results.rows, user: req.user.imie, errors, idM });
+                    res.render("admin/edytujSlowkoAngielski.ejs",  { slownictwo: results.rows, user: req.user.imie, errors, idM });
                 } else {
                     pool.query( `UPDATE public."Slownictwo"`+"SET tlumaczenie='"+tlumaczenie+"', polski='"+polski+"'WHERE id='"+idS+"' AND id_material='"+idM+"';", (err, results) => {
                         if(err) {
@@ -876,10 +876,56 @@ app.post("/admin/gramatykaAngielski/dodajGramatykeAngielski", checkNotAuthentica
                         if(err) {
                             throw err
                         } 
-                        res.redirect("/admin/gramatykaAngielski")
+                        res.render("admin/gramatykaAngielski.ejs",  { nazwa_materialu: results.rows, user: req.user.imie });  
                     });  
                 } 
             });
+        });
+    }
+});
+
+app.get("/admin/gramatykaAngielski/edytujGramatyke", checkNotAuthenticated, (req, res, next) => {
+    var idM = req.query.idM
+
+    if(req.user.rola==0) {
+        pool.query(`SELECT * FROM public."Gramatyka"`+"WHERE id_material= '"+idM+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/edytujGramatyke.ejs",  { gramatyka: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/edytujGramatyke.ejs", { gramatyka: results.rows, user: req.user.imie });  
+            } 
+        });
+    }
+});
+
+app.post("/admin/gramatykaAngielski/edytujGramatyke", checkNotAuthenticated, (req, res, next) => {
+    let { editor } = req.body
+    var  idM  = req.query.idM
+
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT zawartosc FROM public."Gramatyka"`+" WHERE id_material = '"+idM+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+                if(results.rows.length > 0) {
+                    pool.query( `UPDATE public."Gramatyka"`+"SET zawartosc='"+editor+"'WHERE id_material ='"+idM+"';", (err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        res.render("admin/edytujGramatyke.ejs", { gramatyka: results.rows, user: req.user.imie, idM, editor });
+                    });
+                } else {
+                    pool.query( `INSERT INTO public."Gramatyka" (id_material, zawartosc)`+" VALUES ('"+idM+"', '"+editor+"');", (err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        res.render("admin/edytujGramatyke.ejs", { gramatyka: results.rows, user: req.user.imie, idM, editor });
+                    });
+                }
+            
         });
     }
 });
@@ -941,9 +987,14 @@ app.post("/admin/testAngielski/dodajTestAngielski", checkNotAuthenticated, (req,
 });
 
 app.get("/admin/testAngielski/dodajTestAngielski/pytaniaAngielski", checkNotAuthenticated, (req, res, next) => {
-    let { idT } = req.query;
+    let { idT, idP } = req.query;
     if(req.user.rola==0) {
-        pool.query(`SELECT * FROM public."Pytania"`+" WHERE test_id='"+idT+"';", (err, results) => {
+        if(idP>0) {
+            console.log(idP)
+            pool.query(`DELETE FROM public."Pytania"`+"WHERE test_id='"+idT+"'AND id='"+idP+"';")
+        }
+
+        pool.query(`SELECT * FROM public."Pytania"`+" WHERE test_id='"+idT+"' ORDER BY id ASC;", (err, results) => {
             if (err) {
                 throw err;
             }
@@ -972,6 +1023,33 @@ app.get("/admin/testAngielski/dodajTestAngielski/dodajPytanieAngielski", checkNo
     }
 });
 
+app.post("/admin/testAngielski/dodajTestAngielski/dodajPytanieAngielski", checkNotAuthenticated, (req, res, next) => {
+    let { idT } = req.query
+    let { tresc, poprawna, bledna1, bledna2, bledna3, test } = req.body;
+    let errors = []
+    console.log("Dodano " + tresc)
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT tresc, poprawna_odp, bledna_odp_1, bledna_odp_2, bledna_odp_3 FROM public."Pytania"`+"WHERE test_id='"+idT+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            pool.query(`SELECT * FROM public."Pytania" WHERE tresc = $1;`, [tresc], (err, results) => {
+                if(results.rows.length > 0) {
+                    errors.push({message: "Już istnieje to pytanie"})
+                    res.render("admin/dodajPytanieAngielski.ejs",  { tresc: results.rows, user: req.user.imie, errors, idT });
+                } else {
+                    pool.query(`INSERT INTO public."Pytania" (tresc, poprawna_odp, bledna_odp_1, bledna_odp_2, bledna_odp_3, test_id )`+" VALUES ('"+tresc+"'  ,'"+poprawna+"','"+bledna1+"','"+bledna2+"','"+bledna3+"', "+idT+");",(err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        errors.push({message: "dodano pytanie"})
+                        res.render("admin/dodajPytanieAngielski.ejs",  { tresc: results.rows, user: req.user.imie, errors, idT });
+                    });  
+                } 
+            });
+        });
+    }
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -27,7 +27,7 @@
            <tbody>
                 <tr>
                     <td class="col1">
-                        <div class="text"><a> Dodaj Jezyk Angielski</a></div>
+                        <div class="text"><a> Dodaj pytanie z Jezyka Angielski</a></div>
                     </td>
 
                     <td class="col1">
@@ -46,9 +46,14 @@
                             <br />
                             
                             <div class="przyciskForm">            
-                                <input type="submit" value="Dodaj" name="Submit" />
+                                <input style="cursor: pointer;" type="submit" value="Dodaj" name="Submit" />
                             </div>
-
+                            <ul>
+                                <% if(typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
+                                    <li><%= error.message %></li>
+                                    <% }) %>
+                                <% } %>
+                            </ul>
                         </form>
                     </td>  
                 </tr>

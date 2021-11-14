@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Strona Główna</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <a><img style="cursor: context-menu;" src="/img/logo.png" class="logo" href=""/></a>
+            <nav>
+                <ul>
+
+                    <a style="color: beige;">Witaj <%= user %>!</a>
+                    <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
+                </ul>
+            </nav>            
+        </div>
+        <div class="gramatyka">
+        <table class="table">
+            <thead class="thead">
+                <tr>
+                    <a class = "przycisks" href="/admin/gramatykaAngielski">Powrót</a>  
+                </tr>
+             </th>
+            </thead>
+           <tbody>       
+                <tr>
+                    <td class="col1">
+                        <form id="RegForm" name="RegForm" action="" method="POST">
+                            <textarea name="editor" id="editor" rows="20" cols="150" required>
+                                <% for(var i=0; i< gramatyka.length; i++) {%>
+                                    <%=gramatyka[i].zawartosc%>
+                                <% } %>
+                            </textarea>
+
+                            <div class="przyciskForm">            
+                                <input style="cursor: pointer;" type="submit" value="Dodaj" name="Submit" />
+                            </div>
+                        </form>
+                    </td>   
+                </tr>
+                <tr>        
+            </tr>
+            </div>
+            </tbody>
+        </table>
+</div>
+        
+
+</body>
+</html>
+
+<script>
+    tinymce.init({
+      selector: '#editor',
+      height: 400,
+      toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist',
+      menubar: false,
+      plugins: 'lists, link',
+      end_container_on_empty_block: true,
+      setup: function (editor) {
+        editor.on('init', function (e) {
+          editor.setcontent(localStorage.getItem("myContent"));
+        });
+      }
+    });
+</script>
