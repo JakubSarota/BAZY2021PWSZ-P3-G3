@@ -477,7 +477,7 @@ app.get("/Uzytkownik/angielski/slownictwo/materialAngielskiU", checkNotAuthentic
         if(results.rows.length > 0) {
             res.render("ugs/angielski/slownictwo/materialAngielskiU.ejs",  {material: results.rows, user: req.user.imie});          
         } else {
-            res.redirect("/") 
+            res.render("ugs/angielski/angielski.ejs",  { user: req.user.imie });
         }
     });
 });
@@ -494,7 +494,7 @@ app.get("/Uzytkownik/angielski/slownictwo/materialAngielskiU/slowkaAngielskiU", 
             res.render("ugs/angielski/slownictwo/slowkaAngielskiU.ejs",  { slownictwo: results.rows, user: req.user.imie});   
         } 
         else if(results.rows.length == 0) {
-            res.redirect("/")
+            res.render("ugs/angielski/angielski.ejs",  { user: req.user.imie });
         } 
     });
 });
@@ -509,7 +509,7 @@ app.get("/Uzytkownik/niemiecki/slownictwo/materialNiemieckiU", checkNotAuthentic
         if(results.rows.length > 0) {
             res.render("ugs/niemiecki/slownictwo/materialNiemieckiU.ejs",  {material: results.rows, user: req.user.imie});          
         } else {
-            res.redirect("/") 
+            res.render("ugs/niemiecki/niemiecki.ejs",  { user: req.user.imie }); 
         }
     });
 });
@@ -526,7 +526,7 @@ app.get("/Uzytkownik/niemiecki/slownictwo/materialNiemieckiU/slowkaNiemieckiU", 
             res.render("ugs/niemiecki/slownictwo/slowkaNiemieckiU.ejs",  { slownictwo: results.rows, user: req.user.imie});   
         } 
         else if(results.rows.length == 0) {
-            res.redirect("/")
+            res.render("ugs/niemiecki/niemiecki.ejs",  { user: req.user.imie });
         } 
     });
 });
@@ -542,7 +542,7 @@ app.get("/Uzytkownik/angielski/gramatyka/gramatykaAngielskiU", checkNotAuthentic
             res.render("ugs/angielski/gramatyka/gramatykaAngielskiU.ejs",  {material: results.rows, user: req.user.imie});          
         } 
         else if(results.rows.length == 0) {
-            res.redirect("/")
+            res.render("ugs/angielski/angielski.ejs",  { user: req.user.imie });
         }
     });
 });
@@ -559,7 +559,7 @@ app.get("/Uzytkownik/angielski/gramatyka/tematAngielskiU", checkNotAuthenticated
             res.render("ugs/angielski/gramatyka/tematAngielskiU.ejs",  {gramatyka: results.rows, user: req.user.imie});    
         } 
         else if(results.rows.length == 0) {
-            res.redirect("/")
+            res.render("ugs/angielski/angielski.ejs",  { user: req.user.imie });
         }
     });
     
@@ -576,7 +576,7 @@ app.get("/Uzytkownik/niemiecki/gramatyka/gramatykaNiemieckiU", checkNotAuthentic
             res.render("ugs/niemiecki/gramatyka/gramatykaNiemieckiU.ejs",  {material: results.rows, user: req.user.imie});          
         } 
         else if(results.rows.length == 0) {
-            res.redirect("/")
+            res.render("ugs/niemiecki/niemiecki.ejs",  { user: req.user.imie });
         }
     });
 });
@@ -593,7 +593,7 @@ app.get("/Uzytkownik/niemiecki/gramatyka/tematNiemieckiU", checkNotAuthenticated
             res.render("ugs/niemiecki/gramatyka/tematNiemieckiU.ejs",  {gramatyka: results.rows, user: req.user.imie});    
         } 
         else if(results.rows.length == 0) {
-            res.redirect("/")
+            res.render("ugs/niemiecki/niemiecki.ejs",  { user: req.user.imie });
         }
     });
     
@@ -1226,7 +1226,7 @@ app.post("/admin/gramatykaAngielski/dodajGramatykeAngielski", checkNotAuthentica
                         if(err) {
                             throw err
                         } 
-                        res.render("admin/gramatykaAngielski.ejs",  { nazwa_materialu: results.rows, user: req.user.imie });  
+                        res.redirect("/admin/gramatykaAngielski")
                     });  
                 } 
             });
@@ -1554,8 +1554,13 @@ app.post("/admin/testNiemiecki/dodajTestNiemiecki", checkNotAuthenticated, (req,
 });
 
 app.get("/admin/testNiemiecki/dodajTestNiemiecki/pytaniaNiemiecki", checkNotAuthenticated, (req, res, next) => {
-    let { idT } = req.query;
+    let { idT, idP } = req.query;
+
     if(req.user.rola==0) {
+        if(idP>0) {
+            console.log(idP)
+            pool.query(`DELETE FROM public."Pytania"`+"WHERE test_id='"+idT+"'AND id='"+idP+"';")
+        }
         pool.query(`SELECT * FROM public."Pytania"`+" WHERE test_id='"+idT+"';", (err, results) => {
             if (err) {
                 throw err;
