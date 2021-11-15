@@ -3,11 +3,11 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Słownictwo</title>
+    <title>Gramatyka</title>
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-
+<form action="/Uzytkownik/gramatyka">
     <div class="container">
         <div class="navbar">
             <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
@@ -23,13 +23,13 @@
         <div class="gramatyka">
             <li>Wybierz dział</li>
                 <% for(var i=0;i< material.length; i++) { %>
-                    <a class = "przycisks" href="/Uzytkownik/niemiecki/slownictwo/materialNiemieckiU/slowkaNiemieckiU?id=<%=material[i].id%>""><%= material[i].nazwa_materialu%></a>
+                    <a class = "przycisks" href="/Uzytkownik/niemiecki/gramatyka/tematNiemieckiU?id=<%= material[i].id%>"><%= material[i].nazwa_materialu%></a>
                 <% } %>
+            <br><br><br><br>
+
         </div>
     </div>
-    <a></a>
-
+</form>
 </body>
 </html>
-
 

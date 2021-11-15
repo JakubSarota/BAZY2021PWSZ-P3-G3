@@ -264,11 +264,65 @@ app.get("/angielski/gramatyka/tematAngielski", (req, res)  => {
     
 });
 
+/////////////////////////////////////////////////////////////////////////////////////////////////MATERIAŁY NIEMIECKI
+
+app.get("/Uzytkownik/Niemiecki", checkNotAuthenticated, (req, res, next)  => {
+    res.render("ugs/niemiecki/niemiecki.ejs",  { user: req.user.imie });    
+});
+
 //////////////////////////////////////////////////////////////////////////////////////////////////GRAMATYKA NIEMIECKI
 
 app.get("/niemiecki/gramatyka/gramatykaniemiecki", (req, res)  => {
-    res.render("gs/niemiecki/gramatyka/gramatykaniemiecki.ejs");
+    pool.query(`SELECT * FROM public."Material" WHERE typ_materialu = 2 AND id_jezyk=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        else if(results.rows.length > 0) {
+            res.render("gs/niemiecki/gramatyka/gramatykaniemiecki.ejs",  {material: results.rows});          
+        } 
+        else if(results.rows.length == 0) {
+            res.redirect("/")
+        }
+    });
+    
 });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////GRAMATYKA TEMATY NIEMIECKI
+
+app.get("/angielski/gramatyka/tematNiemiecki", (req, res)  => {
+    var id = req.query.id
+    pool.query(`SELECT * FROM public."Gramatyka" WHERE`+" id_material ='"+id+"' ;", (err, results) => {
+        if (err) {
+            throw err;
+        }
+        else if(results.rows.length > 0) {
+            res.render("gs/niemiecki/gramatyka/tematNiemiecki.ejs",  {gramatyka: results.rows});    
+        } 
+        else if(results.rows.length == 0) {
+            res.redirect("/")
+        }
+    });
+    
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////MATERIAŁY DO SŁÓWEK NIEMIECKI
+
+app.get("/Uzytkownik/niemiecki/slownictwo/materialNiemiecki", checkNotAuthenticated, (req, res, next)  => {
+    pool.query(`SELECT * FROM public."Material" WHERE typ_materialu = 1 AND id_jezyk=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/materialNiemiecki.ejs",  {material: results.rows, user: req.user.imie});          
+        } else {
+            res.redirect("/");    
+        }
+    });
+});
+
+
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////PODSTRONY ZALOGOWANY
 
@@ -445,26 +499,104 @@ app.get("/Uzytkownik/angielski/slownictwo/materialAngielskiU/slowkaAngielskiU", 
     });
 });
 
-/////////////////////////////////////////////////////////////////////////////////////////////////MATERIAŁY NIEMIECKI
-
-app.get("/Uzytkownik/Niemiecki", checkNotAuthenticated, (req, res, next)  => {
-    res.render("ugs/niemiecki/niemiecki.ejs",  { user: req.user.imie });    
-});
-
 //////////////////////////////////////////////////////////////////////////////////////////////////MATERIAŁY DO SŁÓWEK NIEMIECKI
 
-
-app.get("/Uzytkownik/niemiecki/slownictwo/materialNiemiecki", checkNotAuthenticated, (req, res, next)  => {
+app.get("/Uzytkownik/niemiecki/slownictwo/materialNiemieckiU", checkNotAuthenticated, (req, res, next)  => {
     pool.query(`SELECT * FROM public."Material" WHERE typ_materialu = 1 AND id_jezyk=2`, (err, results) => {
         if (err) {
             throw err;
         }
         if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/slownictwo/materialNiemiecki.ejs",  {material: results.rows, user: req.user.imie});          
+            res.render("ugs/niemiecki/slownictwo/materialNiemieckiU.ejs",  {material: results.rows, user: req.user.imie});          
         } else {
-            res.redirect("/");    
+            res.redirect("/") 
         }
     });
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////SŁÓWKA NIEMIECKI
+
+app.get("/Uzytkownik/niemiecki/slownictwo/materialNiemieckiU/slowkaNiemieckiU", checkNotAuthenticated, (req, res, next) => {
+    var id=req.query.id;
+    pool.query(`SELECT * FROM public."Slownictwo" WHERE`+" id_material ='"+id+"' ;" , (err, results) => {
+        if (err) {
+            throw err;
+        }
+        else if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/slownictwo/slowkaNiemieckiU.ejs",  { slownictwo: results.rows, user: req.user.imie});   
+        } 
+        else if(results.rows.length == 0) {
+            res.redirect("/")
+        } 
+    });
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////GRAMATYKA ANGIELSKI
+
+app.get("/Uzytkownik/angielski/gramatyka/gramatykaAngielskiU", checkNotAuthenticated, (req, res, next) => {
+    pool.query(`SELECT * FROM public."Material" WHERE typ_materialu = 2 AND id_jezyk=1`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        else if(results.rows.length > 0) {
+            res.render("ugs/angielski/gramatyka/gramatykaAngielskiU.ejs",  {material: results.rows, user: req.user.imie});          
+        } 
+        else if(results.rows.length == 0) {
+            res.redirect("/")
+        }
+    });
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////GRAMATYKA TEMATY ANGIELSKI
+
+app.get("/Uzytkownik/angielski/gramatyka/tematAngielskiU", checkNotAuthenticated, (req, res, next) => {
+    var id = req.query.id
+    pool.query(`SELECT * FROM public."Gramatyka" WHERE`+" id_material ='"+id+"' ;", (err, results) => {
+        if (err) {
+            throw err;
+        }
+        else if(results.rows.length > 0) {
+            res.render("ugs/angielski/gramatyka/tematAngielskiU.ejs",  {gramatyka: results.rows, user: req.user.imie});    
+        } 
+        else if(results.rows.length == 0) {
+            res.redirect("/")
+        }
+    });
+    
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////GRAMATYKA NIEMIECKI
+
+app.get("/Uzytkownik/niemiecki/gramatyka/gramatykaNiemieckiU", checkNotAuthenticated, (req, res, next) => {
+    pool.query(`SELECT * FROM public."Material" WHERE typ_materialu = 2 AND id_jezyk=2`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        else if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/gramatyka/gramatykaNiemieckiU.ejs",  {material: results.rows, user: req.user.imie});          
+        } 
+        else if(results.rows.length == 0) {
+            res.redirect("/")
+        }
+    });
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////GRAMATYKA TEMATY NIEMIECKI
+
+app.get("/Uzytkownik/niemiecki/gramatyka/tematNiemieckiU", checkNotAuthenticated, (req, res, next) => {
+    var id = req.query.id
+    pool.query(`SELECT * FROM public."Gramatyka" WHERE`+" id_material ='"+id+"' ;", (err, results) => {
+        if (err) {
+            throw err;
+        }
+        else if(results.rows.length > 0) {
+            res.render("ugs/niemiecki/gramatyka/tematNiemieckiU.ejs",  {gramatyka: results.rows, user: req.user.imie});    
+        } 
+        else if(results.rows.length == 0) {
+            res.redirect("/")
+        }
+    });
+    
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////QUIZY ANGIELSKI
@@ -478,6 +610,21 @@ app.get("/Uzytkownik/angielski/quizyAngielski", checkNotAuthenticated, (req, res
             res.render("ugs/angielski/quizy/quizyAngielski.ejs",  {slowkaquiz: results.rows, user: req.user.imie });     
         } else {
             res.render("ugs/angielski/angielski.ejs",  { user: req.user.imie }); 
+        }
+    });
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////QUIZY NIEMIECKI
+
+app.get("/Uzytkownik/niemiecki/quizyNiemiecki", checkNotAuthenticated, (req, res, next)  => {
+    pool.query(`SELECT public."Material".id_jezyk AS id_jezyk, public."Slownictwo".tlumaczenie AS tlumaczenie, public."Slownictwo".polski AS polski FROM public."Material" INNER JOIN public."Slownictwo" ON public."Material".id=public."Slownictwo".id_material WHERE id_jezyk=2 AND typ_materialu=1 ORDER BY random();`, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        if(results.rows.length > 4) {
+            res.render("ugs/niemiecki/quizy/quizyNiemiecki.ejs",  {slowkaquiz: results.rows, user: req.user.imie });     
+        } else {
+            res.render("ugs/niemiecki/niemiecki.ejs",  { user: req.user.imie }); 
         }
     });
 });
@@ -975,13 +1122,13 @@ app.post("/admin/slownictwoNiemiecki/edytujSlowkoNiemiecki", checkNotAuthenticat
             pool.query(`SELECT * FROM public."Slownictwo" WHERE tlumaczenie = $1;`, [tlumaczenie], (err, results) => {
                 if(results.rows.length > 0) {
                     errors.push({message: "Już istnieje to słówko"})
-                    res.render("admin/Niemiecki/edytujSlowkoNiemiecki.ejs",  { tlumaczenie: results.rows, user: req.user.imie, errors, idM });
+                    res.render("admin/daneWprowadzone.ejs",  { tlumaczenie: results.rows, user: req.user.imie, errors, idM });
                 } else {
                     pool.query( `UPDATE public."Slownictwo"`+"SET tlumaczenie='"+tlumaczenie+"', polski='"+polski+"'WHERE id='"+idS+"' AND id_material='"+idM+"';", (err, results) => {
                         if(err) {
                             throw err
                         } 
-                        res.render("admin/Niemiecki/edytujSlowkoNiemiecki.ejs",  { slownictwo: results.rows, user: req.user.imie, idM, idS });
+                        res.render("admin/daneWprowadzone.ejs",  { slownictwo: results.rows, user: req.user.imie, idM, idS });
                     }); 
                 }
             });
@@ -1175,10 +1322,56 @@ app.post("/admin/gramatykaNiemiecki/dodajGramatykeNiemiecki", checkNotAuthentica
                         if(err) {
                             throw err
                         } 
-                        res.redirect("/admin/Niemiecki/gramatykaNiemiecki")
+                        res.redirect("/admin/gramatykaNiemiecki")
                     });  
                 } 
             });
+        });
+    }
+});
+
+app.get("/admin/gramatykaNiemiecki/edytujGramatykeNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    var idM = req.query.idM
+
+    if(req.user.rola==0) {
+        pool.query(`SELECT * FROM public."Gramatyka"`+"WHERE id_material= '"+idM+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if(results.rows.length > 0) {
+                res.render("admin/Niemiecki/edytujGramatykeNiemiecki.ejs",  {nazwa_materialu: results.rows, gramatyka: results.rows, user: req.user.imie });           
+            } else {
+                res.render("admin/Niemiecki/edytujGramatykeNiemiecki.ejs", {nazwa_materialu: results.rows, gramatyka: results.rows, user: req.user.imie });  
+            } 
+        });
+    }
+});
+
+app.post("/admin/gramatykaNiemiecki/edytujGramatykeNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { editor } = req.body
+    var  idM  = req.query.idM
+
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT zawartosc FROM public."Gramatyka"`+" WHERE id_material = '"+idM+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+                if(results.rows.length > 0) {
+                    pool.query( `UPDATE public."Gramatyka"`+"SET zawartosc='"+editor+"'WHERE id_material ='"+idM+"';", (err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        res.render("admin/daneWprowadzone.ejs", { gramatyka: results.rows, user: req.user.imie, idM, editor });
+                    });
+                } else {
+                    pool.query( `INSERT INTO public."Gramatyka" (id_material, zawartosc)`+" VALUES ('"+idM+"', '"+editor+"');", (err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        res.render("admin/daneWprowadzone.ejs", { gramatyka: results.rows, user: req.user.imie, idM, editor });
+                    });
+                }
+            
         });
     }
 });
@@ -1392,6 +1585,34 @@ app.get("/admin/testNiemiecki/dodajTestNiemiecki/dodajPytanieNiemiecki", checkNo
     }
 });
 
+app.post("/admin/testNiemiecki/dodajTestNiemiecki/dodajPytanieNiemiecki", checkNotAuthenticated, (req, res, next) => {
+    let { idT } = req.query
+    let { tresc, poprawna, bledna1, bledna2, bledna3, test } = req.body;
+    let errors = []
+    console.log("Dodano " + tresc)
+    if(req.user.rola==0) {
+        pool.query(`SELECT DISTINCT tresc, poprawna_odp, bledna_odp_1, bledna_odp_2, bledna_odp_3 FROM public."Pytania"`+"WHERE test_id='"+idT+"';", (err, results) => {
+            if (err) {
+                throw err;
+            }
+            pool.query(`SELECT * FROM public."Pytania" WHERE tresc = $1;`, [tresc], (err, results) => {
+                if(results.rows.length > 0) {
+                    errors.push({message: "Już istnieje to pytanie"})
+                    res.render("admin/Niemiecki/dodajPytanieNiemiecki.ejs",  { tresc: results.rows, user: req.user.imie, errors, idT });
+                } else {
+                    pool.query(`INSERT INTO public."Pytania" (tresc, poprawna_odp, bledna_odp_1, bledna_odp_2, bledna_odp_3, test_id )`+" VALUES ('"+tresc+"'  ,'"+poprawna+"','"+bledna1+"','"+bledna2+"','"+bledna3+"', "+idT+");",(err, results) => {
+                        if(err) {
+                            throw err
+                        } 
+                        errors.push({message: "dodano pytanie"})
+                        res.render("admin/Niemiecki/dodajPytanieNiemiecki.ejs",  { tresc: results.rows, user: req.user.imie, errors, idT });
+                    });  
+                } 
+            });
+        });
+    }
+});
+
 
 app.get("/admin/danePomyslnieWprowadzone", checkNotAuthenticated, (req, res, next) => {
     if(req.user.rola==0) {
@@ -1406,26 +1627,7 @@ app.get("/admin/danePomyslnieWprowadzone", checkNotAuthenticated, (req, res, nex
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////KASOWANIE PYTAŃ
 
@@ -2088,22 +2290,3 @@ app.get("/koniec", checkNotAuthenticated, (req, res, next) => {
     }
 });
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////QUIZY NIEMIECKI
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki", checkNotAuthenticated, (req, res, next)  => {
-    res.render("ugs/niemiecki/quizy/quizyniemiecki.ejs",  { user: req.user.imie });
-});
-
-
-app.get("/uzytkownik/niemiecki/quizy/quizyniemiecki/wszystkie", checkNotAuthenticated, (req, res, next)  => {
-
-    pool.query(`SELECT * FROM "Slownictwo" WHERE jezyk_id=2 ORDER BY random();`, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        if(results.rows.length > 0) {
-            res.render("ugs/niemiecki/quizy/quizy.ejs",  {slowkaquiz:results.rows, user: req.user.imie });         
-        } 
-    });
-});

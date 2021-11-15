@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -13,26 +13,20 @@
             <a href="/Uzytkownik/stronaGlowna"><img src="/img/logo.png" class="logo" href=""/></a>
             <nav>
                 <ul>
-
                     <a style="color: beige;">Witaj <%= user %>!</a>
                     <li class="przyciskP"><a href="/Uzytkownik/ustawienia">Ustawienia</a></li>
                     <li class="przyciskP"><a href="/Uzytkownik/wyloguj">Wyloguj się</a></li>
                 </ul>
-            </nav>            
+            </nav>
         </div>
 
         <div class="gramatyka">
-            <a class = "przycisks"href="/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czasprzeszlyprosty">Czas przeszły prosty</a>
-            <a class = "przycisks"href="/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czasprzeszlyperfekt">Czas przeszły Perfekt</a>
-            <a class = "przycisks"href="/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czaszaprzeszlyplusquamperfekt">Czas zaprzeszły Plusquamperfekt</a>
-            <a class = "przycisks"href="/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czasprzyszlyfuturi">Czas przyszły Futur I</a>
-            <a class = "przycisks"href="/uzytkownik/niemiecki/gramatyka/gramatykaniemiecki/czasprzyszlyfuturii">Czas przyszły Futur II</a>
- 
+            <li>Wybierz dział</li>
+                <% for(var i=0;i< material.length; i++) { %>
+                    <a class = "przycisks" href="/Uzytkownik/angielski/gramatyka/tematAngielskiU?id=<%= material[i].id%>"><%= material[i].nazwa_materialu%></a>
+                <% } %>
             <br><br><br><br>
 
-
-
-            
         </div>
     </div>
 </form>
