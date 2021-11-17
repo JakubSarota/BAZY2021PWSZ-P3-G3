@@ -58,6 +58,11 @@ nav{
     font-size: 20px;
 }
 
+li {
+    list-style-type: none;
+    margin: 5px;
+}
+
 .hamburger :focus{
     outline: none;
 }
